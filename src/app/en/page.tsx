@@ -13,6 +13,56 @@ import { DNAHelixShowcase } from '@/components/DNAHelixShowcase'
 
 import faculHeroLogo from '@/images/hero_option_a_mosaic.png'
 import imageStationery from '@/images/hero_option_c_blocks.png'
+import { Border } from '@/components/Border'
+
+// Partner logos - all 18 from slide 42
+import logoDeloitte from '@/images/partners/image50.png'
+import logoUFRGS from '@/images/partners/image49.png'
+import logoLisboa from '@/images/partners/image89.jpg'
+import logoUCAV from '@/images/partners/image90.png'
+import logoNOVA from '@/images/partners/image91.png'
+import logoUNILAB from '@/images/partners/image92.jpg'
+import logoNovaLisboa from '@/images/partners/image93.jpg'
+import logoOrdemSolicitadores from '@/images/partners/image94.jpg'
+import logoPartner95 from '@/images/partners/image95.jpeg'
+import logoPartner96 from '@/images/partners/image96.png'
+import logoPartner97 from '@/images/partners/image97.png'
+import logoPartner98 from '@/images/partners/image98.png'
+import logoPartner99 from '@/images/partners/image99.jpeg'
+import logoPartner101 from '@/images/partners/image101.png'
+import logoPartner102 from '@/images/partners/image102.png'
+import logoPartner104 from '@/images/partners/image104.jpeg'
+import logoHiperdist from '@/images/partners/hiperdist.png'
+import logoNork from '@/images/partners/nork.png'
+import logoNetspace from '@/images/partners/netspace.png'
+import logoRumos from '@/images/partners/rumos.png'
+import logoBaft from '@/images/partners/baft.png'
+
+const partners = [
+    // International Partners
+    { name: 'Deloitte', logo: logoDeloitte },
+    { name: 'UFRGS', logo: logoUFRGS },
+    { name: 'University of Lisbon', logo: logoLisboa },
+    { name: 'UCAV', logo: logoUCAV },
+    { name: 'NOVA School of Law', logo: logoNOVA },
+    { name: 'UNILAB', logo: logoUNILAB },
+    { name: 'Universidade Nova de Lisboa', logo: logoNovaLisboa },
+    { name: 'Order of Solicitors', logo: logoOrdemSolicitadores },
+    // National Partners
+    { name: 'Kunoka Academy', logo: logoPartner95 },
+    { name: 'Braincom', logo: logoPartner96 },
+    { name: 'Ethos Consultoria', logo: logoPartner97 },
+    { name: 'Imagem Podcast', logo: logoPartner98 },
+    { name: 'Instituto Sapiens', logo: logoPartner99 },
+    { name: 'FLUL - Faculty of Letters', logo: logoPartner101 },
+    { name: 'Sciences ULisbon', logo: logoPartner102 },
+    { name: 'Quid Iuris', logo: logoPartner104 },
+    { name: 'Hiperdist', logo: logoHiperdist },
+    { name: 'Nork', logo: logoNork },
+    { name: 'Netspace', logo: logoNetspace },
+    { name: 'Rumos', logo: logoRumos },
+    { name: 'BAFT', logo: logoBaft },
+]
 
 // Company logos
 import logoCad from '@/images/companies/cad-metallic.png'
@@ -171,6 +221,148 @@ function Services() {
     )
 }
 
+function Partners() {
+    return (
+        <div className="mt-24 sm:mt-32 lg:mt-40 overflow-hidden">
+            <Container>
+                <FadeIn className="flex flex-col items-start gap-2">
+                    <p className="text-xs font-medium uppercase tracking-widest text-[#FFB606]">
+                        Partners
+                    </p>
+                    <h2 className="font-display text-xl font-medium text-neutral-950 sm:text-2xl">
+                        Network of leading institutions
+                    </h2>
+                </FadeIn>
+            </Container>
+            <div className="relative mt-8">
+                {/* Gradient overlays for smooth edges */}
+                <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-32 bg-gradient-to-r from-white to-transparent" />
+                <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-32 bg-gradient-to-l from-white to-transparent" />
+
+                {/* Marquee container */}
+                <div className="flex animate-marquee">
+                    {/* First set */}
+                    <div className="flex shrink-0 items-center gap-6 px-4">
+                        {partners.map((partner, idx) => (
+                            <div
+                                key={`a-${idx}`}
+                                className="flex h-24 w-48 shrink-0 items-center justify-center rounded-2xl border border-neutral-100 bg-white p-5 shadow-sm"
+                            >
+                                <Image
+                                    src={partner.logo}
+                                    alt={partner.name}
+                                    className="max-h-16 w-auto object-contain"
+                                    unoptimized
+                                />
+                            </div>
+                        ))}
+                    </div>
+                    {/* Duplicate for seamless loop */}
+                    <div className="flex shrink-0 items-center gap-6 px-4">
+                        {partners.map((partner, idx) => (
+                            <div
+                                key={`b-${idx}`}
+                                className="flex h-24 w-48 shrink-0 items-center justify-center rounded-2xl border border-neutral-100 bg-white p-5 shadow-sm"
+                            >
+                                <Image
+                                    src={partner.logo}
+                                    alt={partner.name}
+                                    className="max-h-16 w-auto object-contain"
+                                    unoptimized
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+// Forbes Africa Lusófona news articles
+const newsArticles = [
+    {
+        title: 'Venceslau Andrade launches "4 Cycles for Building Global Businesses" in Luanda',
+        url: 'https://forbesafricalusofona.com/venceslau-andrade-lanca-em-luanda-4-ciclos-para-a-construcao-de-negocios-globais/',
+        source: 'Forbes Africa Lusophone',
+        image: 'https://forbesafricalusofona.com/wp-content/uploads/746283c1-f253-43a0-9a2a-3072f5a662fc-e1765468552259.jpg',
+    },
+    {
+        title: 'LIDE announces opening of unit in Angola and reinforces international expansion',
+        url: 'https://forbesafricalusofona.com/lide-anuncia-abertura-de-unidade-em-angola-e-reforca-expansao-internacional-do-grupo/',
+        source: 'Forbes Africa Lusophone',
+        image: 'https://forbesafricalusofona.com/wp-content/uploads/Captura-de-ecra-2026-01-31-093609.png',
+    },
+    {
+        title: 'Angolan author launches leadership school and book "Code V" in Portugal',
+        url: 'https://forbesafricalusofona.com/escritor-angolano-lanca-escola-de-lideranca-e-livro-codigo-v-em-portugal/',
+        source: 'Forbes Africa Lusophone',
+        image: 'https://forbesafricalusofona.com/wp-content/uploads/WhatsApp-Image-2025-06-29-at-18.06.28-e1751372737671.jpeg',
+    },
+    {
+        title: 'FACUL and Order of Solicitors and Enforcement Agents sign agreement',
+        url: 'https://forbesafricalusofona.com/facul-e-ordem-dos-solicitadores-e-agentes-de-execucao-celebram-acordo/',
+        source: 'Forbes Africa Lusophone',
+        image: 'https://forbesafricalusofona.com/wp-content/uploads/venceslau-scaled_750x540_acf_cropped.jpg',
+    },
+]
+
+function News() {
+    return (
+        <Container className="mt-24 sm:mt-32 lg:mt-40">
+            <FadeInStagger>
+                <Border as={FadeIn} />
+                <div className="pt-12 sm:pt-16">
+                    <FadeIn>
+                        <h2 className="font-display text-2xl font-semibold text-neutral-950">
+                            In the Press
+                        </h2>
+                        <p className="mt-4 max-w-2xl text-base text-neutral-600">
+                            News and articles about Grupo FACUL published in Forbes Africa Lusophone.
+                        </p>
+                    </FadeIn>
+                    <ul role="list" className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-2">
+                        {newsArticles.map((article) => (
+                            <FadeIn key={article.url}>
+                                <li>
+                                    <a
+                                        href={article.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="group block overflow-hidden rounded-2xl border border-neutral-200 transition hover:border-neutral-950"
+                                    >
+                                        <div className="relative aspect-[16/9] w-full overflow-hidden bg-neutral-100">
+                                            <Image
+                                                src={article.image}
+                                                alt={article.title}
+                                                fill
+                                                className="object-cover transition duration-300 group-hover:scale-105"
+                                                unoptimized
+                                            />
+                                        </div>
+                                        <div className="p-6">
+                                            <p className="text-sm font-medium text-neutral-500">
+                                                {article.source}
+                                            </p>
+                                            <p className="mt-2 font-display text-base font-semibold text-neutral-950 group-hover:text-neutral-700">
+                                                {article.title}
+                                            </p>
+                                            <p className="mt-4 inline-flex items-center text-sm font-semibold text-neutral-950">
+                                                Read article
+                                                <span className="ml-2 transition group-hover:translate-x-1" aria-hidden="true">→</span>
+                                            </p>
+                                        </div>
+                                    </a>
+                                </li>
+                            </FadeIn>
+                        ))}
+                    </ul>
+                </div>
+            </FadeInStagger>
+        </Container>
+    )
+}
+
 export const metadata: Metadata = {
     title: 'Grupo Facul | Angolan Business Holding',
     description:
@@ -187,9 +379,8 @@ export default async function Home() {
                             Grupo <span className="text-[#FFB606]">Facul</span>, leading business development in Angola.
                         </h1>
                         <p className="mt-6 text-xl text-neutral-600">
-                            An Angolan business holding comprising national heterogeneous
-                            and multifaceted companies, with over two decades of
-                            experience, offering innovative solutions of excellence.
+                            An Angolan business holding with over two decades of experience
+                            in professional training, strategic consultancy, and editorial publishing.
                         </p>
                     </FadeIn>
                     <FadeIn className="relative aspect-square lg:aspect-auto lg:h-[40rem]">
@@ -204,9 +395,13 @@ export default async function Home() {
 
             <Clients />
 
+            <Partners />
+
             <Subsidiaries />
 
             <Services />
+
+            <News />
 
             <ContactSection />
         </RootLayout>
