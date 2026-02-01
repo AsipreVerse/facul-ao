@@ -183,6 +183,18 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (expanded) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [expanded])
+
   return (
     <MotionConfig
       transition={

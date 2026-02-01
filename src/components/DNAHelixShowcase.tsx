@@ -69,6 +69,18 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
         setIsDragging(false)
     }, [])
 
+    // Arrow navigation for mobile
+    const anglePerItem = 360 / companies.length
+    const navigatePrev = useCallback(() => {
+        setRotation(prev => prev - anglePerItem)
+        setShowHint(false)
+    }, [anglePerItem])
+
+    const navigateNext = useCallback(() => {
+        setRotation(prev => prev + anglePerItem)
+        setShowHint(false)
+    }, [anglePerItem])
+
     // Mouse events
     const handleMouseDown = (e: React.MouseEvent) => {
         e.preventDefault()
@@ -241,6 +253,30 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
                         )
                     })}
                 </div>
+
+                {/* Mobile Arrow Navigation */}
+                {isMobile && (
+                    <>
+                        <button
+                            onClick={navigatePrev}
+                            className="absolute left-2 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 shadow-lg border border-neutral-200 transition-all hover:bg-white active:scale-95"
+                            aria-label="Empresa anterior"
+                        >
+                            <svg className="h-5 w-5 text-neutral-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button
+                            onClick={navigateNext}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 shadow-lg border border-neutral-200 transition-all hover:bg-white active:scale-95"
+                            aria-label="Próxima empresa"
+                        >
+                            <svg className="h-5 w-5 text-neutral-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </>
+                )}
             </div>
 
             {/* Elegant placeholder showing current front company name */}
