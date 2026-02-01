@@ -4,6 +4,29 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import clsx from 'clsx'
 
+// Route mappings between Portuguese and English
+// Key = PT route, Value = EN route (without /en prefix)
+const routeMap: Record<string, string> = {
+    '/empresas': '/companies',
+    '/presidente': '/president',
+    '/quem-somos': '/about',
+    '/contacto': '/contact',
+    '/privacidade': '/privacy',
+    '/termos': '/terms',
+    '/cookies': '/cookies',
+    // Company sub-pages (no EN equivalent, stay on PT)
+    '/editora': '/editora',
+    '/bayside': '/bayside',
+    '/viseba': '/viseba',
+    '/sunburst': '/sunburst',
+    '/imagem-do-futuro': '/imagem-do-futuro',
+}
+
+// Create reverse map (EN -> PT)
+const reverseRouteMap: Record<string, string> = Object.fromEntries(
+    Object.entries(routeMap).map(([pt, en]) => [en, pt])
+)
+
 export function LanguageSwitcher({ invert = false }: { invert?: boolean }) {
     const pathname = usePathname()
     const isEnglish = pathname.startsWith('/en')
@@ -11,12 +34,14 @@ export function LanguageSwitcher({ invert = false }: { invert?: boolean }) {
     // Calculate the target path for the opposite language
     const getTargetPath = () => {
         if (isEnglish) {
-            // Remove /en prefix to go to Portuguese
-            const ptPath = pathname.replace(/^\/en/, '') || '/'
-            return ptPath
+            // EN -> PT: Remove /en prefix and map route
+            const enPath = pathname.replace(/^\/en/, '') || '/'
+            const ptPath = reverseRouteMap[enPath] || enPath
+            return ptPath || '/'
         } else {
-            // Add /en prefix to go to English
-            return `/en${pathname === '/' ? '' : pathname}`
+            // PT -> EN: Map route and add /en prefix
+            const enPath = routeMap[pathname] || pathname
+            return `/en${enPath === '/' ? '' : enPath}`
         }
     }
 
