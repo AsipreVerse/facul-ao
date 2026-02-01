@@ -2,8 +2,10 @@ import Link from 'next/link'
 
 import { Container } from '@/components/Container'
 import { FadeIn } from '@/components/FadeIn'
-import { Logo } from '@/components/Logo'
-import { socialMediaProfiles } from '@/components/SocialMedia'
+import { SocialMedia } from '@/components/SocialMedia'
+import { ManageCookies } from '@/components/CookieBanner'
+import Image from 'next/image'
+import goldLogo from '@/images/facul/FACUL_GRUPO_from_dark_lockup_gold.png'
 
 const navigation = [
   {
@@ -11,21 +13,21 @@ const navigation = [
     links: [
       { title: 'Quem Somos', href: '/quem-somos' },
       { title: 'Empresas do Grupo', href: '/empresas' },
-      { title: 'Participações', href: '/participacoes' },
       { title: 'Presidente', href: '/presidente' },
     ],
   },
   {
     title: 'Subsidiárias',
     links: [
-      { title: 'Centro Académico Digital', href: '/centro-academico' },
-      { title: 'Editora', href: '/editora' },
-      { title: 'Contacto', href: '/contacto' },
+      { title: 'Facul Academia Digital', href: '/centro-academico' },
+      { title: 'Sidon Tecnologias', href: '/sidon' },
+      { title: 'Facul Editora', href: '/editora' },
+      { title: 'Viseba Transportes', href: '/viseba' },
+      { title: 'Imagem do Futuro', href: '/imagem-futuro' },
+      { title: 'Sunburst', href: '/sunburst' },
+      { title: 'BaySide Technology', href: '/bayside' },
+      { title: 'Associação Ana Elisa', href: '/ana-elisa' },
     ],
-  },
-  {
-    title: 'Redes Sociais',
-    links: socialMediaProfiles,
   },
 ]
 
@@ -52,52 +54,17 @@ function Navigation() {
             </ul>
           </li>
         ))}
+        {/* Social Media Icons */}
+        <li>
+          <div className="font-display text-sm font-semibold tracking-wider text-neutral-950">
+            Siga-nos
+          </div>
+          <div className="mt-4">
+            <SocialMedia />
+          </div>
+        </li>
       </ul>
     </nav>
-  )
-}
-
-function ArrowIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
-  return (
-    <svg viewBox="0 0 16 6" aria-hidden="true" {...props}>
-      <path
-        fill="currentColor"
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M16 3 10 .5v2H0v1h10v2L16 3Z"
-      />
-    </svg>
-  )
-}
-
-function NewsletterForm() {
-  return (
-    <form className="max-w-sm">
-      <h2 className="font-display text-sm font-semibold tracking-wider text-neutral-950">
-        Subscreva a nossa newsletter
-      </h2>
-      <p className="mt-4 text-sm text-neutral-700">
-        Receba as últimas notícias, artigos e recursos sobre o Grupo Facul.
-      </p>
-      <div className="relative mt-6">
-        <input
-          type="email"
-          placeholder="Endereço de email"
-          autoComplete="email"
-          aria-label="Endereço de email"
-          className="block w-full rounded-2xl border border-neutral-300 bg-transparent py-4 pr-20 pl-6 text-base/6 text-neutral-950 ring-4 ring-transparent transition placeholder:text-neutral-500 focus:border-neutral-950 focus:ring-neutral-950/5 focus:outline-hidden"
-        />
-        <div className="absolute inset-y-1 right-1 flex justify-end">
-          <button
-            type="submit"
-            aria-label="Subscrever"
-            className="flex aspect-square h-full items-center justify-center rounded-xl bg-neutral-950 text-white transition hover:bg-neutral-800"
-          >
-            <ArrowIcon className="w-4" />
-          </button>
-        </div>
-      </div>
-    </form>
   )
 }
 
@@ -107,13 +74,16 @@ export function Footer() {
       <FadeIn>
         <div className="grid grid-cols-1 gap-x-8 gap-y-16 lg:grid-cols-2">
           <Navigation />
-          <div className="flex lg:justify-end">
-            <NewsletterForm />
-          </div>
         </div>
         <div className="mt-24 mb-20 flex flex-wrap items-end justify-between gap-x-6 gap-y-4 border-t border-neutral-950/10 pt-12">
           <Link href="/" aria-label="Início">
-            <Logo className="h-8" fillOnHover />
+            <Image
+              src={goldLogo}
+              alt="Grupo Facul"
+              className="h-12 w-auto"
+              quality={100}
+              priority
+            />
           </Link>
           <div className="text-sm text-neutral-700">
             <p>© Grupo Facul {new Date().getFullYear()}. Todos os direitos reservados.</p>
@@ -121,6 +91,16 @@ export function Footer() {
               <Link href="/privacidade" className="hover:text-neutral-950">Política de Privacidade</Link>
               {' · '}
               <Link href="/termos" className="hover:text-neutral-950">Termos e Condições</Link>
+              {' · '}
+              <Link href="/cookies" className="hover:text-neutral-950">Cookies</Link>
+              {' · '}
+              <ManageCookies />
+            </p>
+            <p className="mt-2 text-neutral-500">
+              Desenvolvido por{' '}
+              <a href="https://aspireverse.co.uk" target="_blank" rel="noopener noreferrer" className="hover:text-neutral-950 transition">
+                AspireVerse™
+              </a>
             </p>
           </div>
         </div>

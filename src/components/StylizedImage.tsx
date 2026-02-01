@@ -34,7 +34,7 @@ export function StylizedImage({
     <div
       className={clsx(
         className,
-        'relative flex aspect-719/680 w-full grayscale',
+        'relative flex aspect-719/680 w-full',
       )}
     >
       <svg viewBox={`0 0 ${width} ${height}`} fill="none" className="h-full">
@@ -45,6 +45,8 @@ export function StylizedImage({
                 alt=""
                 className="w-full bg-neutral-100 object-cover"
                 style={{ aspectRatio: `${width} / ${height}` }}
+                quality={100}
+                priority
                 {...props}
               />
             </foreignObject>

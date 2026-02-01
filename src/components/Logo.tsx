@@ -16,13 +16,11 @@ export function Logomark({
   variant?: 'grupo' | 'centro'
 }) {
   const id = useId()
-  
-  // Colour based on variant
-  const primaryColor = invert 
-    ? '#ffffff' 
-    : variant === 'grupo' 
-      ? '#192E4D'  // Dark Navy for GRUPO
-      : '#1B476B'  // Deep Blue for Centro
+
+  // Gold colour based on rebrand
+  const primaryColor = invert
+    ? '#ffffff'
+    : '#FFB606'  // Gold for all variants
 
   return (
     <svg viewBox="0 0 48 32" aria-hidden="true" {...props}>
@@ -69,14 +67,12 @@ export function Logo({
   fillOnHover?: boolean
   variant?: 'grupo' | 'centro'
 }) {
-  const primaryColor = invert 
-    ? '#ffffff' 
-    : variant === 'grupo' 
-      ? '#192E4D'  // Dark Navy for GRUPO
-      : '#1B476B'  // Deep Blue for Centro
-  
-  const secondaryColor = invert 
-    ? 'rgba(255,255,255,0.7)' 
+  const primaryColor = invert
+    ? '#ffffff'
+    : '#FFB606'  // Gold rebrand colour
+
+  const secondaryColor = invert
+    ? 'rgba(255,255,255,0.7)'
     : '#6b7280'  // Grey for subtitles
 
   return (
@@ -109,7 +105,7 @@ export function Logo({
           F
         </text>
       </g>
-      
+
       {/* FACUL wordmark */}
       <text
         x="48"
@@ -122,7 +118,7 @@ export function Logo({
       >
         FACUL
       </text>
-      
+
       {/* Subtitle based on variant */}
       <text
         x="48"

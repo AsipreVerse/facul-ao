@@ -10,41 +10,100 @@ import { SectionIntro } from '@/components/SectionIntro'
 import { StylizedImage } from '@/components/StylizedImage'
 import { RootLayout } from '@/components/RootLayout'
 import { Border } from '@/components/Border'
+import { DNAHelixShowcase } from '@/components/DNAHelixShowcase'
 
-// FACUL Images
-import faculHeroLogo from '@/images/facul-hero-logo.jpg'
-import imageStationery from '@/images/facul/stationery-suite.jpg'
+import faculHeroLogo from '@/images/hero_option_a_mosaic.png'
+import imageStationery from '@/images/hero_option_c_blocks.png'
 
-// Placeholder for client logos - to be replaced with actual client logos
+// Partner logos - all 18 from slide 42
+import logoDeloitte from '@/images/partners/image50.png'
+import logoUFRGS from '@/images/partners/image49.png'
+import logoLisboa from '@/images/partners/image89.jpg'
+import logoUCAV from '@/images/partners/image90.png'
+import logoNOVA from '@/images/partners/image91.png'
+import logoUNILAB from '@/images/partners/image92.jpg'
+import logoNovaLisboa from '@/images/partners/image93.jpg'
+import logoOrdemSolicitadores from '@/images/partners/image94.jpg'
+import logoPartner95 from '@/images/partners/image95.jpeg'
+import logoPartner96 from '@/images/partners/image96.png'
+import logoPartner97 from '@/images/partners/image97.png'
+import logoPartner98 from '@/images/partners/image98.png'
+import logoPartner99 from '@/images/partners/image99.jpeg'
+import logoPartner101 from '@/images/partners/image101.png'
+import logoPartner102 from '@/images/partners/image102.png'
+import logoPartner104 from '@/images/partners/image104.jpeg'
+import logoHiperdist from '@/images/partners/hiperdist.png'
+import logoNork from '@/images/partners/nork.png'
+import logoNetspace from '@/images/partners/netspace.png'
+import logoRumos from '@/images/partners/rumos.png'
+import logoBaft from '@/images/partners/baft.png'
+
+const partners = [
+  // International Partners
+  { name: 'Deloitte', logo: logoDeloitte },
+  { name: 'UFRGS', logo: logoUFRGS },
+  { name: 'Universidade de Lisboa', logo: logoLisboa },
+  { name: 'UCAV', logo: logoUCAV },
+  { name: 'NOVA School of Law', logo: logoNOVA },
+  { name: 'UNILAB', logo: logoUNILAB },
+  { name: 'Universidade Nova de Lisboa', logo: logoNovaLisboa },
+  { name: 'Ordem dos Solicitadores', logo: logoOrdemSolicitadores },
+  // National Partners
+  { name: 'Kunoka Academy', logo: logoPartner95 },
+  { name: 'Braincom', logo: logoPartner96 },
+  { name: 'Ethos Consultoria', logo: logoPartner97 },
+  { name: 'Imagem Podcast', logo: logoPartner98 },
+  { name: 'Instituto Sapiens', logo: logoPartner99 },
+  { name: 'FLUL - Letras Lisboa', logo: logoPartner101 },
+  { name: 'Ciências ULisboa', logo: logoPartner102 },
+  { name: 'Quid Iuris', logo: logoPartner104 },
+  { name: 'Hiperdist', logo: logoHiperdist },
+  { name: 'Nork', logo: logoNork },
+  { name: 'Netspace', logo: logoNetspace },
+  { name: 'Rumos', logo: logoRumos },
+  { name: 'BAFT', logo: logoBaft },
+]
+
+// Client logos
+import logoSonangol from '@/images/clients/sonangol.svg'
+import logoPortoLuanda from '@/images/clients/porto-luanda.avif'
+import logoMinfin from '@/images/clients/minfin.png'
+import logoBodiva from '@/images/clients/bodiva.png'
+
 const clients = [
-  { name: 'Sonangol', placeholder: true },
-  { name: 'Porto de Luanda', placeholder: true },
-  { name: 'Ministério das Finanças', placeholder: true },
-  { name: 'Bodiva', placeholder: true },
+  { name: 'Sonangol', logo: logoSonangol },
+  { name: 'Porto de Luanda', logo: logoPortoLuanda },
+  { name: 'Ministério das Finanças', logo: logoMinfin },
+  { name: 'Bodiva', logo: logoBodiva },
 ]
 
 function Clients() {
   return (
-    <div className="mt-24 rounded-4xl bg-neutral-950 py-20 sm:mt-32 sm:py-32 lg:mt-56">
+    <div className="mt-24 rounded-4xl bg-[#1B3044] py-16 sm:mt-32 sm:py-20 lg:mt-56">
       <Container>
-        <FadeIn className="flex items-center gap-x-8">
-          <h2 className="text-center font-display text-sm font-semibold tracking-wider text-white sm:text-left">
-            Clientes que confiam no Grupo Facul
+        <FadeIn className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-x-8">
+          <p className="text-xs font-medium uppercase tracking-widest text-[#FFB606]">
+            Clientes
+          </p>
+          <h2 className="font-display text-lg font-medium text-white sm:text-xl">
+            Instituições que confiam no Grupo Facul
           </h2>
-          <div className="h-px flex-auto bg-neutral-800" />
         </FadeIn>
         <FadeInStagger faster>
           <ul
             role="list"
-            className="mt-10 grid grid-cols-2 gap-x-8 gap-y-10 lg:grid-cols-4"
+            className="mt-8 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4"
           >
             {clients.map((client) => (
               <li key={client.name}>
                 <FadeIn>
-                  <div className="flex h-16 items-center justify-center rounded-lg bg-neutral-800/50 px-4">
-                    <span className="font-display text-sm font-semibold text-white">
-                      {client.name}
-                    </span>
+                  <div className="flex h-20 items-center justify-center rounded-xl bg-white p-4 transition hover:scale-105">
+                    <Image
+                      src={client.logo}
+                      alt={client.name}
+                      className="max-h-12 w-auto object-contain"
+                      unoptimized
+                    />
                   </div>
                 </FadeIn>
               </li>
@@ -56,58 +115,104 @@ function Clients() {
   )
 }
 
-function Subsidiaries() {
-  const subsidiaries = [
-    {
-      title: 'Centro Académico Digital',
-      description: 'Formação profissional digital e cursos especializados para o mercado angolano.',
-      href: '/centro-academico',
-    },
-    {
-      title: 'Editora Facul',
-      description: 'Publicação de livros e conteúdo editorial de autores angolanos.',
-      href: '/editora',
-    },
-    {
-      title: 'Consultoria Empresarial',
-      description: 'Serviços de consultoria para empresas e instituições governamentais.',
-      href: '/empresas',
-    },
-  ]
-
+function Partners() {
   return (
-    <>
-      <SectionIntro
-        title="Empresas do Grupo Facul"
-        className="mt-24 sm:mt-32 lg:mt-40"
-      >
-        <p>
-          O Grupo Facul é composto por várias empresas que actuam em diferentes
-          sectores da economia angolana, contribuindo para o desenvolvimento do país.
-        </p>
-      </SectionIntro>
-      <Container className="mt-16">
-        <FadeInStagger className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-          {subsidiaries.map((subsidiary) => (
-            <FadeIn key={subsidiary.href} className="flex">
-              <article className="relative flex w-full flex-col rounded-3xl p-6 ring-1 ring-neutral-950/5 transition hover:bg-neutral-50 sm:p-8">
-                <h3>
-                  <Link href={subsidiary.href}>
-                    <span className="absolute inset-0 rounded-3xl" />
-                    <span className="font-display text-2xl font-semibold text-neutral-950">
-                      {subsidiary.title}
-                    </span>
-                  </Link>
-                </h3>
-                <p className="mt-4 text-base text-neutral-600">
-                  {subsidiary.description}
-                </p>
-              </article>
-            </FadeIn>
-          ))}
-        </FadeInStagger>
+    <div className="mt-24 sm:mt-32 lg:mt-40 overflow-hidden">
+      <Container>
+        <FadeIn className="flex flex-col items-start gap-2">
+          <p className="text-xs font-medium uppercase tracking-widest text-[#FFB606]">
+            Parceiros
+          </p>
+          <h2 className="font-display text-xl font-medium text-neutral-950 sm:text-2xl">
+            Rede de instituições de referência
+          </h2>
+        </FadeIn>
       </Container>
-    </>
+      <div className="relative mt-8">
+        {/* Gradient overlays for smooth edges */}
+        <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-32 bg-gradient-to-r from-white to-transparent" />
+        <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-32 bg-gradient-to-l from-white to-transparent" />
+
+        {/* Marquee container - BIGGER */}
+        <div className="flex animate-marquee">
+          {/* First set */}
+          <div className="flex shrink-0 items-center gap-6 px-4">
+            {partners.map((partner, idx) => (
+              <div
+                key={`a-${idx}`}
+                className="flex h-24 w-48 shrink-0 items-center justify-center rounded-2xl border border-neutral-100 bg-white p-5 shadow-sm"
+              >
+                <Image
+                  src={partner.logo}
+                  alt={partner.name}
+                  className="max-h-16 w-auto object-contain"
+                  unoptimized
+                />
+              </div>
+            ))}
+          </div>
+          {/* Duplicate for seamless loop */}
+          <div className="flex shrink-0 items-center gap-6 px-4">
+            {partners.map((partner, idx) => (
+              <div
+                key={`b-${idx}`}
+                className="flex h-24 w-48 shrink-0 items-center justify-center rounded-2xl border border-neutral-100 bg-white p-5 shadow-sm"
+              >
+                <Image
+                  src={partner.logo}
+                  alt={partner.name}
+                  className="max-h-16 w-auto object-contain"
+                  unoptimized
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Company logos
+import logoCad from '@/images/companies/cad-metallic.png'
+import logoEditoraFacul from '@/images/companies/editora-facul.png'
+import logoSidon from '@/images/companies/sidon.png'
+import logoImagemDoFuturo from '@/images/companies/imagem-do-futuro.png'
+import logoBayside from '@/images/companies/bayside.png'
+import logoBt from '@/images/companies/bt.png'
+import logoIseba from '@/images/companies/iseba.png'
+import logoAnaElisa from '@/images/companies/ana-elisa.png'
+import logoSunburst from '@/images/companies/sunburst.png'
+
+const companies = [
+  { name: 'Facul Academia Digital', logo: logoCad, url: 'https://facul.ao' },
+  { name: 'Sidon Tecnologias', logo: logoSidon, url: 'https://sidon.ao' },
+  { name: 'Viseba', logo: logoIseba, url: '/viseba' },
+  { name: 'Imagem do Futuro', logo: logoImagemDoFuturo, url: '/imagem-do-futuro' },
+  { name: 'Sunburst', logo: logoSunburst, url: '/sunburst' },
+  { name: 'Facul Editora', logo: logoEditoraFacul, url: '/editora' },
+  { name: 'BaySide Technology', logo: logoBt, url: '/bayside' },
+  { name: 'Associação Ana Elisa', logo: logoAnaElisa, url: 'https://aae.ao' },
+]
+
+function Subsidiaries() {
+  return (
+    <div className="mt-24 sm:mt-32 lg:mt-40">
+      <DNAHelixShowcase
+        companies={companies}
+        title="Empresas do Grupo Facul"
+        description="O Grupo Facul é composto por várias empresas que actuam em diferentes sectores da economia angolana, contribuindo para o desenvolvimento do país."
+      />
+      <FadeIn className="mt-4 flex justify-center">
+        <Link
+          href="/empresas"
+          className="inline-flex items-center gap-2 rounded-full bg-neutral-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-neutral-800"
+        >
+          Ver todas as empresas
+          <span aria-hidden="true">&rarr;</span>
+        </Link>
+      </FadeIn>
+    </div>
   )
 }
 
@@ -116,12 +221,12 @@ function Services() {
     <>
       <SectionIntro
         eyebrow="Os Nossos Serviços"
-        title="Soluções integradas para o desenvolvimento empresarial"
+        title="Oito sectores. Uma visão."
         className="mt-24 sm:mt-32 lg:mt-40"
       >
         <p>
-          Oferecemos uma gama completa de serviços para apoiar empresas e
-          instituições no seu crescimento e transformação digital.
+          Através das nossas empresas, actuamos em toda a cadeia de valor do
+          desenvolvimento empresarial angolano.
         </p>
       </SectionIntro>
       <Container className="mt-16">
@@ -136,21 +241,37 @@ function Services() {
             </FadeIn>
           </div>
           <List className="mt-16 lg:mt-0 lg:w-1/2 lg:min-w-132 lg:pl-4">
-            <ListItem title="Formação Profissional">
-              Cursos e programas de capacitação para profissionais angolanos,
-              com certificação reconhecida.
+            <ListItem title="Educação">
+              Transformação da sociedade através da educação digital.
+              <span className="mt-2 block text-sm text-[#FFB606]">Facul Academia Digital</span>
             </ListItem>
-            <ListItem title="Consultoria Estratégica">
-              Apoio a empresas e instituições na definição de estratégias
-              de crescimento e transformação.
+            <ListItem title="Tecnologia">
+              Soluções tecnológicas disruptivas — a maior empresa do grupo.
+              <span className="mt-2 block text-sm text-[#FFB606]">Sidon Tecnologias</span>
+            </ListItem>
+            <ListItem title="Transportes">
+              Transportes, logística e fornecimento de equipamentos.
+              <span className="mt-2 block text-sm text-[#FFB606]">Viseba</span>
+            </ListItem>
+            <ListItem title="Eventos">
+              Organização de eventos desportivos, didácticos e de entretenimento.
+              <span className="mt-2 block text-sm text-[#FFB606]">Imagem do Futuro</span>
+            </ListItem>
+            <ListItem title="Limpeza e Reciclagem">
+              Serviços de limpeza e reciclagem ambiental.
+              <span className="mt-2 block text-sm text-[#FFB606]">Sunburst</span>
             </ListItem>
             <ListItem title="Publicações">
-              Edição e publicação de livros e conteúdo editorial de autores
-              angolanos e internacionais.
+              Produções científicas e culturais da lusofonia. Sede em Portugal.
+              <span className="mt-2 block text-sm text-[#FFB606]">Facul Editora</span>
             </ListItem>
-            <ListItem title="Seminários e Eventos">
-              Organização de eventos corporativos, seminários e conferências
-              de alto nível.
+            <ListItem title="Negócios Internacionais">
+              Trading, TI e negócios internacionais. Sede no Dubai.
+              <span className="mt-2 block text-sm text-[#FFB606]">BaySide Technology</span>
+            </ListItem>
+            <ListItem title="Social">
+              Combate à pobreza extrema na comunidade Mayombe, Cacuaco.
+              <span className="mt-2 block text-sm text-[#FFB606]">Associação Ana Elisa</span>
             </ListItem>
           </List>
         </div>
@@ -256,7 +377,7 @@ export default async function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <FadeIn className="max-w-3xl">
             <h1 className="font-display text-5xl font-medium tracking-tight text-balance text-neutral-950 sm:text-7xl">
-              Grupo Facul, liderando o desenvolvimento empresarial em Angola.
+              Grupo <span className="text-[#FFB606]">Facul</span>, liderando o desenvolvimento empresarial em Angola.
             </h1>
             <p className="mt-6 text-xl text-neutral-600">
               Uma holding empresarial angolana com mais de duas décadas de
@@ -275,6 +396,8 @@ export default async function Home() {
       </Container>
 
       <Clients />
+
+      <Partners />
 
       <Subsidiaries />
 

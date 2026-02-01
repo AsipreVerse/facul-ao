@@ -17,9 +17,12 @@ import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
 import { Footer } from '@/components/Footer'
 import { GridPattern } from '@/components/GridPattern'
-import { Logo, Logomark } from '@/components/Logo'
 import { Offices } from '@/components/Offices'
 import { SocialMedia } from '@/components/SocialMedia'
+import { CookieBanner } from '@/components/CookieBanner'
+import { LanguageSwitcher } from '@/components/LanguageSwitcher'
+import Image from 'next/image'
+import goldLogo from '@/images/facul/FACUL_GRUPO_lockup_gold.png'
 
 const RootLayoutContext = createContext<{
   logoHovered: boolean
@@ -69,18 +72,16 @@ function Header({
           onMouseEnter={() => setLogoHovered(true)}
           onMouseLeave={() => setLogoHovered(false)}
         >
-          <Logomark
-            className="h-8 sm:hidden"
-            invert={invert}
-            filled={logoHovered}
-          />
-          <Logo
-            className="hidden h-8 sm:block"
-            invert={invert}
-            filled={logoHovered}
+          <Image
+            src={goldLogo}
+            alt="Grupo Facul"
+            className={`h-10 w-auto transition ${invert ? 'brightness-0 invert' : ''}`}
+            quality={100}
+            priority
           />
         </Link>
         <div className="flex items-center gap-x-8">
+          <LanguageSwitcher invert={invert} />
           <Button href="/contacto" invert={invert}>
             Contacto
           </Button>
@@ -277,6 +278,7 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
           <main className="w-full flex-auto">{children}</main>
 
           <Footer />
+          <CookieBanner />
         </motion.div>
       </motion.div>
     </MotionConfig>

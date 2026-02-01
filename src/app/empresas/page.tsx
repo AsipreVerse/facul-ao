@@ -10,22 +10,78 @@ import { RootLayout } from '@/components/RootLayout'
 
 import cadLogo from '@/images/facul/FACUL_CAD_from_dark_lockup_gold.png'
 import editoraLogo from '@/images/facul/FACUL_GRUPO_from_dark_lockup_gold.png'
+import sidonLogo from '@/images/companies/sidon.png'
+import imagemDoFuturoLogo from '@/images/companies/imagem-do-futuro.png'
+import btLogo from '@/images/companies/bt.png'
+import visebaLogo from '@/images/companies/iseba.png'
+import anaElisaLogo from '@/images/companies/ana-elisa.png'
+import sunburstLogo from '@/images/companies/sunburst.png'
 
 // Group companies data
 const companies = [
     {
-        name: 'Centro Académico Digital',
-        description: 'Formação profissional digital e cursos especializados para o mercado angolano.',
+        name: 'Facul Academia Digital',
+        description: 'A entidade de rosto do Grupo Facul. Transforma a sociedade através da educação digital, criando estratégias, serviços e produtos educacionais.',
         sector: 'Educação',
-        href: '/centro-academico',
+        href: 'https://facul.ao',
         logo: cadLogo,
+        external: true,
     },
     {
-        name: 'Editora Facul',
-        description: 'Publicação de livros e conteúdo editorial de autores angolanos.',
+        name: 'Sidon Tecnologias',
+        description: 'A maior empresa do grupo em volume de negócios. Dedicada à criação e desenvolvimento de soluções tecnológicas disruptivas.',
+        sector: 'Tecnologia',
+        href: 'https://sidon.ao',
+        logo: sidonLogo,
+        external: true,
+    },
+    {
+        name: 'Viseba',
+        description: 'Transportes, logística e fornecimento de equipamentos diversos.',
+        sector: 'Transportes',
+        href: '/viseba',
+        logo: visebaLogo,
+        external: false,
+    },
+    {
+        name: 'Imagem do Futuro',
+        description: 'Organização de eventos desportivos, didácticos e de entretenimento.',
+        sector: 'Eventos',
+        href: '/imagem-do-futuro',
+        logo: imagemDoFuturoLogo,
+        external: false,
+    },
+    {
+        name: 'Sunburst',
+        description: 'Serviços de limpeza e reciclagem ambiental.',
+        sector: 'Limpeza e Reciclagem',
+        href: '/sunburst',
+        logo: sunburstLogo,
+        external: false,
+    },
+    {
+        name: 'Facul Editora',
+        description: 'Incentiva a criação, revisão e divulgação de produções científicas e culturais da lusofonia. Sede em Portugal.',
         sector: 'Publicações',
         href: '/editora',
         logo: editoraLogo,
+        external: false,
+    },
+    {
+        name: 'BaySide Technology',
+        description: 'Trading, tecnologias da informação e negócios internacionais. Sede no Dubai.',
+        sector: 'Negócios Internacionais',
+        href: '/bayside',
+        logo: btLogo,
+        external: false,
+    },
+    {
+        name: 'Associação Ana Elisa',
+        description: 'Combate à pobreza extrema na comunidade Mayombe, Cacuaco. Alimenta centenas de crianças diariamente, oferecendo educação, cozinha comunitária e assistência médica.',
+        sector: 'Social',
+        href: 'https://aae.ao',
+        logo: anaElisaLogo,
+        external: true,
     },
 ]
 
@@ -38,29 +94,37 @@ function CompanyCard({
         sector: string
         href: string
         logo: typeof cadLogo
+        external?: boolean
     }
 }) {
+    const LinkWrapper = company.external ? 'a' : Link
+    const linkProps = company.external
+        ? { href: company.href, target: '_blank', rel: 'noopener noreferrer' }
+        : { href: company.href }
+
     return (
         <FadeIn className="flex">
             <article className="relative flex w-full flex-col rounded-3xl bg-neutral-950 p-6 transition hover:bg-neutral-900 sm:p-8">
-                <div className="mb-6">
-                    <Image
-                        src={company.logo}
-                        alt={company.name}
-                        className="h-12 w-auto"
-                        unoptimized
-                    />
+                <div className="mb-6 flex h-16 items-center">
+                    <div className="flex h-14 items-center justify-center rounded-xl bg-white px-4 py-2">
+                        <Image
+                            src={company.logo}
+                            alt={company.name}
+                            className="h-10 w-auto object-contain"
+                            quality={100}
+                        />
+                    </div>
                 </div>
                 <p className="text-sm font-medium text-[#FFB606]">
                     {company.sector}
                 </p>
                 <h3 className="mt-4">
-                    <Link href={company.href}>
+                    <LinkWrapper {...linkProps}>
                         <span className="absolute inset-0 rounded-3xl" />
                         <span className="font-display text-2xl font-semibold text-white">
                             {company.name}
                         </span>
-                    </Link>
+                    </LinkWrapper>
                 </h3>
                 <p className="mt-4 text-base text-neutral-400">
                     {company.description}
@@ -70,25 +134,7 @@ function CompanyCard({
     )
 }
 
-function PlatformPlaceholder() {
-    return (
-        <FadeIn className="flex">
-            <article className="relative flex w-full flex-col items-center justify-center rounded-3xl border-2 border-dashed border-neutral-300 bg-neutral-50 p-6 sm:p-8">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#FFB606]/10">
-                    <svg className="h-8 w-8 text-[#FFB606]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
-                </div>
-                <h3 className="mt-4 font-display text-lg font-semibold text-neutral-600">
-                    Plataforma Digital
-                </h3>
-                <p className="mt-2 text-center text-sm text-neutral-500">
-                    Em desenvolvimento
-                </p>
-            </article>
-        </FadeIn>
-    )
-}
+
 
 export const metadata: Metadata = {
     title: 'Empresas do Grupo | Grupo Facul',
@@ -115,7 +161,6 @@ export default function Empresas() {
                     {companies.map((company) => (
                         <CompanyCard key={company.name} company={company} />
                     ))}
-                    <PlatformPlaceholder />
                 </FadeInStagger>
             </Container>
 

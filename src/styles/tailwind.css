@@ -4,10 +4,14 @@
 
 @theme {
   /* FACUL Brand Colours - from FACUL REBRANDING 2026 */
-  --color-facul-navy: #192E4D;      /* Dark Navy - GRUPO primary */
-  --color-facul-deep: #1B476B;      /* Deep Blue - Corporate secondary */
-  --color-facul-medium: #447AAE;    /* Medium Blue - Centro primary */
-  --color-facul-light: #A4CFEF;     /* Light Blue - Accent */
+  --color-facul-navy: #192E4D;
+  /* Dark Navy - GRUPO primary */
+  --color-facul-deep: #1B476B;
+  /* Deep Blue - Corporate secondary */
+  --color-facul-medium: #447AAE;
+  /* Medium Blue - Centro primary */
+  --color-facul-light: #A4CFEF;
+  /* Light Blue - Accent */
   --color-facul-white: #ffffff;
   --color-facul-surface: #f8fafc;
   --color-facul-text: #1a1a1a;
@@ -50,4 +54,26 @@
   --font-display--font-variation-settings: 'wdth' 125;
 
   --font-display-length: 2;
+
+  /* Custom animations */
+  --animate-marquee: marquee 60s linear infinite;
+}
+
+/* Marquee animation for partner logos */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 60s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
 }

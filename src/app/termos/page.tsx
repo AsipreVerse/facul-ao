@@ -41,43 +41,86 @@ export default function Termos() {
 
                         <h2>2. Serviços</h2>
                         <p>
-                            O Grupo Facul oferece serviços de formação profissional,
-                            consultoria empresarial e publicações editoriais. Os detalhes
-                            específicos de cada serviço são definidos em acordos
-                            separados.
+                            O Grupo Facul é uma holding empresarial angolana que opera
+                            em múltiplos sectores através das suas subsidiárias, incluindo
+                            educação digital, tecnologia, transportes, eventos, publicações,
+                            limpeza e reciclagem, negócios internacionais e acção social.
+                            Os detalhes específicos de cada serviço são definidos em acordos
+                            separados com as respectivas empresas do grupo.
                         </p>
 
                         <h2>3. Propriedade Intelectual</h2>
                         <p>
                             Todo o conteúdo apresentado neste website, incluindo textos,
-                            imagens, logos e materiais de formação, é propriedade do
-                            Grupo Facul e está protegido por direitos de autor.
+                            imagens, logos, marcas registadas e materiais promocionais, é
+                            propriedade do Grupo Facul ou das suas subsidiárias e está
+                            protegido por direitos de autor e legislação de propriedade
+                            industrial aplicável.
                         </p>
 
-                        <h2>4. Limitação de Responsabilidade</h2>
+                        <h2>4. Utilização do Website</h2>
+                        <p>
+                            Compromete-se a utilizar este website apenas para fins legais e
+                            de forma que não infrinja os direitos de terceiros nem restrinja
+                            ou iniba a utilização do website por outros utilizadores.
+                        </p>
+
+                        <h2>5. Limitação de Responsabilidade</h2>
                         <p>
                             O Grupo Facul não será responsável por quaisquer danos
-                            indirectos, incidentais ou consequentes resultantes da
-                            utilização dos nossos serviços.
+                            indirectos, incidentais, especiais ou consequentes resultantes
+                            da utilização ou impossibilidade de utilização dos nossos
+                            serviços, mesmo que tenhamos sido informados da possibilidade
+                            de tais danos.
                         </p>
 
-                        <h2>5. Modificações</h2>
+                        <h2>6. Força Maior</h2>
+                        <p>
+                            O Grupo Facul não será responsável por atrasos ou falhas no
+                            cumprimento das suas obrigações resultantes de causas fora do
+                            seu controlo razoável, incluindo mas não limitado a desastres
+                            naturais, guerras, pandemias, greves, falhas de sistemas ou
+                            actos governamentais.
+                        </p>
+
+                        <h2>7. Modificações</h2>
                         <p>
                             Reservamo-nos o direito de modificar estes termos a qualquer
                             momento. As alterações entram em vigor imediatamente após a
-                            publicação no website.
+                            publicação no website. A continuação da utilização após
+                            alterações constitui aceitação dos novos termos.
                         </p>
 
-                        <h2>6. Lei Aplicável</h2>
+                        <h2>8. Lei Aplicável e Jurisdição</h2>
                         <p>
                             Estes termos são regidos pelas leis da República de Angola.
-                            Qualquer litígio será submetido à jurisdição exclusiva dos
-                            tribunais angolanos.
+                            Para utilizadores internacionais:
+                        </p>
+                        <ul>
+                            <li>Utilizadores na União Europeia podem invocar a protecção da legislação europeia aplicável</li>
+                            <li>Utilizadores nos Emirados Árabes Unidos estão sujeitos à jurisdição relevante do UAE</li>
+                        </ul>
+
+                        <h2>9. Resolução de Litígios</h2>
+                        <p>
+                            Qualquer litígio decorrente destes termos será, em primeiro
+                            lugar, submetido a mediação de boa-fé. Se a mediação não
+                            resolver o litígio no prazo de 30 dias, qualquer das partes
+                            pode submeter o caso à jurisdição exclusiva dos tribunais
+                            angolanos competentes.
                         </p>
 
-                        <h2>7. Contacto</h2>
+                        <h2>10. Disposições Gerais</h2>
                         <p>
-                            Para questões relacionadas com estes termos, contacte-nos:
+                            Se qualquer disposição destes termos for considerada inválida
+                            ou inexequível, as restantes disposições permanecerão em pleno
+                            vigor e efeito. A falha em exercer qualquer direito não
+                            constitui renúncia a esse direito.
+                        </p>
+
+                        <h2>11. Contacto</h2>
+                        <p>
+                            Para questões relacionadas com estes termos:
                         </p>
                         <p>
                             <strong>Grupo Facul</strong><br />

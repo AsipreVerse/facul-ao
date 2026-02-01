@@ -14,34 +14,73 @@ import imageVenceslau from '@/images/venceslau-profile.png'
 import imageMauroPaim from '@/images/team/mauro-paim.png'
 import imageEvarstoTone from '@/images/team/evaristo-tone.png'
 
-
+function MissionVision() {
+    return (
+        <Container className="mt-24 sm:mt-32 lg:mt-40">
+            <FadeInStagger>
+                <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+                    <FadeIn>
+                        <div className="rounded-3xl border border-neutral-200 p-8 lg:p-12">
+                            <p className="font-display text-sm font-semibold text-[#FFB606]">Missão</p>
+                            <h3 className="mt-4 font-display text-2xl font-medium text-neutral-950">
+                                Contribuir para o desenvolvimento socioeconómico de Angola
+                            </h3>
+                            <p className="mt-6 text-base text-neutral-600">
+                                Actuamos através da formação profissional, inovação tecnológica
+                                e empreendedorismo, criando oportunidades que transformam vidas
+                                e impulsionam o progresso do país.
+                            </p>
+                        </div>
+                    </FadeIn>
+                    <FadeIn>
+                        <div className="rounded-3xl border border-neutral-200 p-8 lg:p-12">
+                            <p className="font-display text-sm font-semibold text-[#FFB606]">Visão</p>
+                            <h3 className="mt-4 font-display text-2xl font-medium text-neutral-950">
+                                Ser referência empresarial em Angola e na diáspora
+                            </h3>
+                            <p className="mt-6 text-base text-neutral-600">
+                                Aspiramos a consolidar-nos como uma holding diversificada e
+                                inovadora, com presença em sectores estratégicos que catalisam
+                                o desenvolvimento sustentável de Angola.
+                            </p>
+                        </div>
+                    </FadeIn>
+                </div>
+            </FadeInStagger>
+        </Container>
+    )
+}
 
 function Values() {
     return (
         <div className="mt-24 rounded-4xl bg-neutral-950 py-24 sm:mt-32 lg:mt-40 lg:py-32">
             <SectionIntro
                 eyebrow="Os Nossos Valores"
-                title="Compromisso com a excelência e o desenvolvimento de Angola"
+                title="Princípios que orientam as nossas decisões"
                 invert
             >
                 <p>
-                    Os valores do Grupo Facul orientam todas as nossas acções e decisões
-                    empresariais.
+                    Os valores do Grupo Facul são o alicerce de todas as nossas
+                    acções empresariais e relações institucionais.
                 </p>
             </SectionIntro>
             <Container className="mt-16">
                 <GridList>
                     <GridListItem title="Integridade" invert>
-                        Actuamos com transparência e honestidade em todas as nossas
-                        relações comerciais e institucionais.
+                        Transparência e honestidade em todas as relações comerciais
+                        e institucionais, construindo confiança duradoura.
                     </GridListItem>
                     <GridListItem title="Excelência" invert>
-                        Procuramos a excelência em tudo o que fazemos, desde a formação
-                        profissional até às publicações editoriais.
+                        Compromisso com os mais altos padrões em tudo o que fazemos,
+                        desde a formação profissional às publicações editoriais.
                     </GridListItem>
                     <GridListItem title="Inovação" invert>
-                        Abraçamos a inovação e a transformação digital como motores
-                        do progresso empresarial.
+                        A transformação digital como motor do progresso, abraçando
+                        novas tecnologias e metodologias de trabalho.
+                    </GridListItem>
+                    <GridListItem title="Responsabilidade Social" invert>
+                        Contribuição activa para o desenvolvimento das comunidades
+                        onde operamos, através de iniciativas de impacto social.
                     </GridListItem>
                 </GridList>
             </Container>
@@ -52,7 +91,7 @@ function Values() {
 // President - Featured separately
 const presidente = {
     name: 'Venceslau Andrade',
-    role: 'Presidente do Conselho de Administração',
+    role: 'Fundador e Presidente do Conselho de Administração',
     bio: 'Empresário, jurista e docente universitário angolano. Fundador do FACUL e Presidente do LIDE Angola.',
     image: { src: imageVenceslau },
 }
@@ -78,6 +117,27 @@ const board = [
             },
         ],
     },
+    {
+        title: 'Direcções',
+        people: [
+            {
+                name: 'Director Financeiro',
+                role: 'Direcção de Finanças',
+            },
+            {
+                name: 'Director de Recursos Humanos',
+                role: 'Direcção de RH',
+            },
+            {
+                name: 'Director Comercial',
+                role: 'Direcção Comercial',
+            },
+            {
+                name: 'Director de Operações',
+                role: 'Direcção de Operações',
+            },
+        ],
+    },
 ]
 
 function Board() {
@@ -93,14 +153,14 @@ function Board() {
                         </h2>
                     </FadeIn>
                     <FadeIn className="mt-8">
-                        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+                        <div className="grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-3">
                             {/* President Photo */}
-                            <div className="group relative h-[28rem] overflow-hidden rounded-3xl bg-neutral-100">
+                            <div className="group relative aspect-[3/4] sm:h-[28rem] lg:h-[32rem] overflow-hidden rounded-3xl bg-neutral-100">
                                 <Image
                                     alt={presidente.name}
                                     src={presidente.image.src}
                                     fill
-                                    className="object-cover transition duration-500 motion-safe:group-hover:scale-105"
+                                    className="object-cover object-top transition duration-500 motion-safe:group-hover:scale-105"
                                 />
                                 <div className="absolute inset-0 flex flex-col justify-end bg-linear-to-t from-black to-black/0 to-40% p-6">
                                     <p className="font-display text-xl font-semibold tracking-wide text-white">
@@ -148,16 +208,16 @@ function Board() {
                                     {group.people.map((person) => (
                                         <li key={person.name}>
                                             <FadeIn>
-                                                <div className="group relative h-96 overflow-hidden rounded-3xl bg-neutral-100">
+                                                <div className="group relative aspect-[3/4] sm:h-96 overflow-hidden rounded-3xl bg-neutral-100">
                                                     {'image' in person && typeof (person as { image?: { src: typeof imageVenceslau } }).image?.src !== 'undefined' ? (
                                                         <Image
                                                             alt={person.name}
                                                             src={(person as { image: { src: typeof imageVenceslau } }).image.src}
                                                             fill
-                                                            className="object-cover transition duration-500 motion-safe:group-hover:scale-105"
+                                                            className="object-cover object-top transition duration-500 motion-safe:group-hover:scale-105"
                                                         />
                                                     ) : (
-                                                        <div className="flex h-96 w-full items-center justify-center bg-gradient-to-br from-neutral-200 to-neutral-300">
+                                                        <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-neutral-200 to-neutral-300">
                                                             <span className="font-display text-6xl font-bold text-neutral-400">
                                                                 {person.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
                                                             </span>
@@ -185,71 +245,42 @@ function Board() {
     )
 }
 
-// Forbes Africa Lusófona news articles
-const newsArticles = [
-    {
-        title: 'Venceslau Andrade lança em Luanda "4 Ciclos para a Construção de Negócios Globais"',
-        url: 'https://forbesafricalusofona.com/venceslau-andrade-lanca-em-luanda-4-ciclos-para-a-construcao-de-negocios-globais/',
-        source: 'Forbes África Lusófona',
-    },
-    {
-        title: 'LIDE anuncia abertura de unidade em Angola e reforça expansão internacional do grupo',
-        url: 'https://forbesafricalusofona.com/lide-anuncia-abertura-de-unidade-em-angola-e-reforca-expansao-internacional-do-grupo/',
-        source: 'Forbes África Lusófona',
-    },
-    {
-        title: 'Escritor angolano lança escola de liderança e livro "Código V" em Portugal',
-        url: 'https://forbesafricalusofona.com/escritor-angolano-lanca-escola-de-lideranca-e-livro-codigo-v-em-portugal/',
-        source: 'Forbes África Lusófona',
-    },
-    {
-        title: 'FACUL e Ordem dos Solicitadores e Agentes de Execução celebram acordo',
-        url: 'https://forbesafricalusofona.com/facul-e-ordem-dos-solicitadores-e-agentes-de-execucao-celebram-acordo/',
-        source: 'Forbes África Lusófona',
-    },
+// 8 Sectors from PPT
+const sectors = [
+    'Formação Profissional',
+    'Tecnologias de Informação',
+    'Transportes',
+    'Edição e Publicações',
+    'Eventos e Catering',
+    'Limpeza e Reciclagem',
+    'Negócios Internacionais',
+    'Acção Social',
 ]
 
-function News() {
+function Sectors() {
     return (
         <Container className="mt-24 sm:mt-32 lg:mt-40">
-            <FadeInStagger>
-                <Border as={FadeIn} />
-                <div className="pt-12 sm:pt-16">
-                    <FadeIn>
-                        <h2 className="font-display text-2xl font-semibold text-neutral-950">
-                            Na Imprensa
-                        </h2>
-                        <p className="mt-4 text-base text-neutral-600">
-                            Artigos sobre o Grupo FACUL e Venceslau Andrade publicados na Forbes África Lusófona.
-                        </p>
-                    </FadeIn>
-                    <ul role="list" className="mt-10 grid grid-cols-1 gap-4 lg:grid-cols-2">
-                        {newsArticles.map((article) => (
-                            <FadeIn key={article.url}>
-                                <li>
-                                    <a
-                                        href={article.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="group block rounded-2xl border border-neutral-200 p-6 transition hover:border-neutral-950 hover:bg-neutral-50"
-                                    >
-                                        <p className="text-sm font-medium text-neutral-500">
-                                            {article.source}
-                                        </p>
-                                        <p className="mt-2 font-display text-base font-semibold text-neutral-950 group-hover:text-neutral-700">
-                                            {article.title}
-                                        </p>
-                                        <p className="mt-4 inline-flex items-center text-sm font-semibold text-neutral-950">
-                                            Ler artigo
-                                            <span className="ml-2 transition group-hover:translate-x-1" aria-hidden="true">→</span>
-                                        </p>
-                                    </a>
-                                </li>
-                            </FadeIn>
+            <FadeIn>
+                <div className="rounded-3xl bg-[#1B3044] px-6 py-12 sm:px-12 sm:py-16">
+                    <h2 className="font-display text-2xl font-semibold text-white">
+                        8 Sectores Estratégicos
+                    </h2>
+                    <p className="mt-4 text-base text-neutral-300">
+                        O Grupo Facul actua em áreas complementares que impulsionam
+                        o desenvolvimento de Angola.
+                    </p>
+                    <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+                        {sectors.map((sector) => (
+                            <div
+                                key={sector}
+                                className="rounded-xl bg-white/10 px-4 py-3 text-center"
+                            >
+                                <p className="text-sm font-medium text-white">{sector}</p>
+                            </div>
                         ))}
-                    </ul>
+                    </div>
                 </div>
-            </FadeInStagger>
+            </FadeIn>
         </Container>
     )
 }
@@ -258,13 +289,13 @@ function News() {
 export const metadata: Metadata = {
     title: 'Quem Somos | Grupo Facul',
     description:
-        'Conheça o Grupo Facul, a nossa história, valores e equipa de liderança.',
+        'Conheça o Grupo Facul, holding empresarial angolana com mais de 20 anos de experiência em 8 sectores estratégicos.',
 }
 
 export default async function QuemSomos() {
     return (
         <RootLayout>
-            <PageIntro eyebrow="Quem Somos" title="A nossa força é a colaboração">
+            <PageIntro eyebrow="Quem Somos" title="Uma holding ao serviço de Angola">
                 <p>
                     O Grupo Facul é uma holding empresarial angolana fundada há mais de
                     duas décadas, com um compromisso firme com o desenvolvimento
@@ -272,9 +303,10 @@ export default async function QuemSomos() {
                 </p>
                 <div className="mt-10 max-w-2xl space-y-6 text-base">
                     <p>
-                        Actuamos em diversos sectores estratégicos, incluindo formação
-                        profissional, consultoria empresarial e publicações editoriais,
-                        sempre com foco na qualidade e na inovação.
+                        Com presença em 8 sectores estratégicos — desde a formação
+                        profissional e tecnologia até transportes e acção social —
+                        construímos um ecossistema empresarial diversificado que
+                        gera oportunidades e impulsiona o progresso nacional.
                     </p>
                     <p>
                         A nossa equipa é composta por profissionais experientes e
@@ -286,10 +318,14 @@ export default async function QuemSomos() {
             <Container className="mt-16">
                 <StatList>
                     <StatListItem value="20+" label="Anos de experiência" />
-                    <StatListItem value="500+" label="Profissionais formados" />
+                    <StatListItem value="8" label="Sectores estratégicos" />
                     <StatListItem value="50+" label="Livros publicados" />
                 </StatList>
             </Container>
+
+            <MissionVision />
+
+            <Sectors />
 
             <Values />
 

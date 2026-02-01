@@ -12,14 +12,16 @@ function Office({
   return (
     <address
       className={clsx(
-        'text-sm not-italic',
+        'text-sm not-italic leading-relaxed',
         invert ? 'text-neutral-300' : 'text-neutral-600',
       )}
     >
-      <strong className={invert ? 'text-white' : 'text-neutral-950'}>
+      <strong className={clsx(
+        'block text-xs font-medium uppercase tracking-wider mb-2',
+        invert ? 'text-[#FFB606]' : 'text-[#1B3044]'
+      )}>
         {name}
       </strong>
-      <br />
       {children}
     </address>
   )
@@ -30,7 +32,11 @@ export function Offices({
   ...props
 }: React.ComponentPropsWithoutRef<'ul'> & { invert?: boolean }) {
   return (
-    <ul role="list" {...props}>
+    <ul
+      role="list"
+      className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8"
+      {...props}
+    >
       <li>
         <Office name="Luanda" invert={invert}>
           Rua Major Kanhangulo
@@ -40,9 +46,25 @@ export function Offices({
       </li>
       <li>
         <Office name="Contacto" invert={invert}>
-          info@facul.ao
+          <a
+            href="mailto:info@facul.ao"
+            className={clsx(
+              'transition hover:underline',
+              invert ? 'hover:text-white' : 'hover:text-neutral-950'
+            )}
+          >
+            info@facul.ao
+          </a>
           <br />
-          +244 987 654 334
+          <a
+            href="tel:+244987654334"
+            className={clsx(
+              'transition hover:underline',
+              invert ? 'hover:text-white' : 'hover:text-neutral-950'
+            )}
+          >
+            +244 987 654 334
+          </a>
         </Office>
       </li>
     </ul>
