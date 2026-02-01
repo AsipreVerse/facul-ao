@@ -181,7 +181,17 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
     }
 
     return (
-        <div className="relative overflow-hidden py-16">
+        // CRITICAL: Do NOT use overflow-hidden here - it breaks preserve-3d on Safari iOS
+        <div
+            className="relative py-16"
+            style={{
+                // Force hardware acceleration for Safari
+                transform: 'translateZ(0)',
+                WebkitTransform: 'translateZ(0)',
+                transformStyle: 'preserve-3d',
+                WebkitTransformStyle: 'preserve-3d',
+            }}
+        >
             {/* Background */}
             <div className="absolute inset-0 bg-gradient-to-b from-white via-neutral-50 to-white" />
 
@@ -209,10 +219,13 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
                     height: containerHeight,
                     width: containerWidth,
                     maxWidth: '100%',
+                    // Safari iOS requires perspective on parent AND preserve-3d chain
                     perspective: '1200px',
                     WebkitPerspective: '1200px',
                     perspectiveOrigin: 'center center',
                     WebkitPerspectiveOrigin: 'center center',
+                    transformStyle: 'preserve-3d',
+                    WebkitTransformStyle: 'preserve-3d',
                 }}
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
