@@ -20,6 +20,7 @@ import { GridPattern } from '@/components/GridPattern'
 import { Offices } from '@/components/Offices'
 import { SocialMedia } from '@/components/SocialMedia'
 import { CookieBanner } from '@/components/CookieBanner'
+import { VercelAnalyticsWrapper } from '@/components/VercelAnalytics'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import Image from 'next/image'
 import goldLogo from '@/images/facul/FACUL_GRUPO_lockup_gold.png'
@@ -279,6 +280,7 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
 
           <Footer />
           <CookieBanner />
+          <VercelAnalyticsWrapper />
         </motion.div>
       </motion.div>
     </MotionConfig>

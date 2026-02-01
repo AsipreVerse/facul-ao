@@ -190,7 +190,9 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
                     width: containerWidth,
                     maxWidth: '100%',
                     perspective: '1200px',
-                    perspectiveOrigin: 'center center'
+                    WebkitPerspective: '1200px',
+                    perspectiveOrigin: 'center center',
+                    WebkitPerspectiveOrigin: 'center center',
                 }}
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
@@ -203,7 +205,10 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
                 {/* 3D Scene */}
                 <div
                     className="absolute inset-0 flex items-center justify-center"
-                    style={{ transformStyle: 'preserve-3d' }}
+                    style={{
+                        transformStyle: 'preserve-3d',
+                        WebkitTransformStyle: 'preserve-3d',
+                    }}
                 >
                     {/* Logo nodes in orbital positions */}
                     {companies.map((company, index) => {

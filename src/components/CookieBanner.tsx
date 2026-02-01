@@ -46,12 +46,14 @@ export function CookieBanner() {
     const acceptCookies = () => {
         saveConsent('accepted')
         posthog.opt_in_capturing()
+        window.dispatchEvent(new Event('consent-changed'))
         setShowBanner(false)
     }
 
     const declineCookies = () => {
         saveConsent('declined')
         posthog.opt_out_capturing()
+        window.dispatchEvent(new Event('consent-changed'))
         setShowBanner(false)
     }
 
