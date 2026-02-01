@@ -23,6 +23,13 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
     const [startX, setStartX] = useState(0)
     const [startRotation, setStartRotation] = useState(0)
     const [isMobile, setIsMobile] = useState(false)
+    const [showHint, setShowHint] = useState(true)
+
+    // Hide hint after 4 seconds
+    useEffect(() => {
+        const timer = setTimeout(() => setShowHint(false), 4000)
+        return () => clearTimeout(timer)
+    }, [])
 
     // Check for mobile
     useEffect(() => {
@@ -48,6 +55,7 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
         setIsDragging(true)
         setStartX(clientX)
         setStartRotation(rotation)
+        setShowHint(false) // Hide hint on first interaction
     }, [rotation])
 
     const handleDragMove = useCallback((clientX: number) => {
@@ -221,7 +229,9 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
                                 style={{
                                     left: '50%',
                                     top: '50%',
-                                    transform: `translate(-50%, -50%) translateX(${pos.x}px) translateZ(${pos.z}px) scale(${pos.scale})`,
+                                    // Use translate3d for Safari iOS compatibility
+                                    transform: `translate(-50%, -50%) translate3d(${pos.x}px, 0, ${pos.z}px) scale(${pos.scale})`,
+                                    WebkitTransform: `translate(-50%, -50%) translate3d(${pos.x}px, 0, ${pos.z}px) scale(${pos.scale})`,
                                     zIndex: pos.zIndex,
                                     opacity: pos.opacity,
                                 }}
@@ -248,6 +258,13 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
                 ) : (
                     <p className="text-lg font-semibold text-neutral-950 transition-opacity duration-300">
                         {frontCompany?.name}
+                    </p>
+                )}
+
+                {/* Interaction hint */}
+                {showHint && (
+                    <p className="mt-3 text-sm text-neutral-400 animate-pulse">
+                        {isMobile ? '← Deslize para explorar →' : 'Arraste para explorar'}
                     </p>
                 )}
             </div>
