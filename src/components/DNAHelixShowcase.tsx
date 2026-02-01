@@ -61,25 +61,14 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
     const handleDragMove = useCallback((clientX: number) => {
         if (!isDragging) return
         const deltaX = clientX - startX
-        const sensitivity = 0.5
+        // Increased sensitivity for better touch responsiveness
+        const sensitivity = isMobile ? 0.8 : 0.5
         setRotation(startRotation + deltaX * sensitivity)
-    }, [isDragging, startX, startRotation])
+    }, [isDragging, startX, startRotation, isMobile])
 
     const handleDragEnd = useCallback(() => {
         setIsDragging(false)
     }, [])
-
-    // Arrow navigation for mobile
-    const anglePerItem = 360 / companies.length
-    const navigatePrev = useCallback(() => {
-        setRotation(prev => prev - anglePerItem)
-        setShowHint(false)
-    }, [anglePerItem])
-
-    const navigateNext = useCallback(() => {
-        setRotation(prev => prev + anglePerItem)
-        setShowHint(false)
-    }, [anglePerItem])
 
     // Mouse events
     const handleMouseDown = (e: React.MouseEvent) => {
@@ -106,17 +95,20 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
         const itemAngle = index * anglePerItem + rotation
         const angleRad = (itemAngle * Math.PI) / 180
 
-        // Elliptical orbit - wider than tall for depth effect
-        const radiusX = isMobile ? 140 : 350
-        const radiusZ = isMobile ? 90 : 200
+        // Elliptical orbit - increased mobile radius for proper spacing
+        const radiusX = isMobile ? 120 : 350
+        const radiusZ = isMobile ? 80 : 200
 
         const x = Math.sin(angleRad) * radiusX
         const z = Math.cos(angleRad) * radiusZ
 
         // Scale and opacity based on depth (items in back are smaller and dimmer)
+        // Mobile: more dramatic scale difference for clearer 3D effect
         const normalizedZ = (z + radiusZ) / (2 * radiusZ) // 0 (back) to 1 (front)
-        const scale = 0.5 + normalizedZ * 0.5 // 0.5 at back, 1.0 at front
-        const opacity = 0.4 + normalizedZ * 0.6 // 0.4 at back, 1.0 at front
+        const scale = isMobile
+            ? 0.4 + normalizedZ * 0.6  // 0.4 at back, 1.0 at front (mobile: more dramatic)
+            : 0.5 + normalizedZ * 0.5  // 0.5 at back, 1.0 at front (desktop)
+        const opacity = 0.3 + normalizedZ * 0.7 // 0.3 at back, 1.0 at front
         const zIndex = Math.round(normalizedZ * 100)
 
         return { x, z, scale, opacity, zIndex, normalizedZ }
@@ -145,9 +137,10 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
             <div
                 className={`relative flex items-center justify-center rounded-2xl border border-neutral-200 bg-white shadow-lg transition-all duration-300 ${company.url ? 'hover:shadow-xl hover:scale-105 hover:border-neutral-300' : ''}`}
                 style={{
-                    width: isMobile ? 110 : 160,
-                    height: isMobile ? 110 : 160,
-                    padding: isMobile ? 16 : 28,
+                    // Smaller tiles on mobile to prevent overlap
+                    width: isMobile ? 80 : 160,
+                    height: isMobile ? 80 : 160,
+                    padding: isMobile ? 12 : 28,
                 }}
             >
                 <Image
@@ -266,30 +259,6 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
                         )
                     })}
                 </div>
-
-                {/* Mobile Arrow Navigation */}
-                {isMobile && (
-                    <>
-                        <button
-                            onClick={navigatePrev}
-                            className="absolute left-2 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 shadow-lg border border-neutral-200 transition-all hover:bg-white active:scale-95"
-                            aria-label="Empresa anterior"
-                        >
-                            <svg className="h-5 w-5 text-neutral-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                            </svg>
-                        </button>
-                        <button
-                            onClick={navigateNext}
-                            className="absolute right-2 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 shadow-lg border border-neutral-200 transition-all hover:bg-white active:scale-95"
-                            aria-label="Próxima empresa"
-                        >
-                            <svg className="h-5 w-5 text-neutral-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                            </svg>
-                        </button>
-                    </>
-                )}
             </div>
 
             {/* Elegant placeholder showing current front company name */}
