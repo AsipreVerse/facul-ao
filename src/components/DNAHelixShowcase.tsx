@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import Image, { StaticImageData } from 'next/image'
-import Link from 'next/link'
 
 interface Company {
     name: string
@@ -80,13 +79,19 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
         handleDragMove(e.clientX)
     }
 
-    // Touch events
+    // Touch events - ensure carousel resumes after any touch interaction
     const handleTouchStart = (e: React.TouchEvent) => {
+        e.preventDefault() // Prevent default to avoid scroll interference
         handleDragStart(e.touches[0].clientX)
     }
 
     const handleTouchMove = (e: React.TouchEvent) => {
+        e.preventDefault()
         handleDragMove(e.touches[0].clientX)
+    }
+
+    const handleTouchEnd = () => {
+        setIsDragging(false) // Ensure auto-rotation resumes
     }
 
     // 3D Orbital Carousel - logos orbit in a horizontal circle
@@ -131,11 +136,11 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
     const containerWidth = isMobile ? 340 : 900
     const containerHeight = isMobile ? 220 : 300
 
-    // Logo tile component - wraps in link if URL provided
+    // Logo tile component - no links, just display
     const LogoTile = ({ company, isMobile }: { company: Company; isMobile: boolean }) => {
-        const tile = (
+        return (
             <div
-                className={`relative flex items-center justify-center rounded-2xl border border-neutral-200 bg-white shadow-lg transition-all duration-300 ${company.url ? 'hover:shadow-xl hover:scale-105 hover:border-neutral-300' : ''}`}
+                className="relative flex items-center justify-center rounded-2xl border border-neutral-200 bg-white shadow-lg transition-all duration-300"
                 style={{
                     // Smaller tiles on mobile to prevent overlap
                     width: isMobile ? 80 : 160,
@@ -153,24 +158,6 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
                 />
             </div>
         )
-
-        if (company.url) {
-            const isExternal = company.url.startsWith('http')
-            if (isExternal) {
-                return (
-                    <a href={company.url} target="_blank" rel="noopener noreferrer" className="block" onClick={(e) => e.stopPropagation()}>
-                        {tile}
-                    </a>
-                )
-            }
-            return (
-                <Link href={company.url} className="block" onClick={(e) => e.stopPropagation()}>
-                    {tile}
-                </Link>
-            )
-        }
-
-        return tile
     }
 
     return (
@@ -226,7 +213,8 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
                 onMouseLeave={() => isDragging && handleDragEnd()}
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
-                onTouchEnd={handleDragEnd}
+                onTouchEnd={handleTouchEnd}
+                onTouchCancel={handleTouchEnd}
             >
                 {/* 3D Scene */}
                 <div
