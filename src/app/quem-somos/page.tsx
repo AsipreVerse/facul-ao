@@ -11,6 +11,8 @@ import { SectionIntro } from '@/components/SectionIntro'
 import { StatList, StatListItem } from '@/components/StatList'
 import { RootLayout } from '@/components/RootLayout'
 import imageVenceslau from '@/images/venceslau-profile.png'
+import imageMauroPaim from '@/images/team/mauro-paim.png'
+import imageEvarstoTone from '@/images/team/evaristo-tone.png'
 
 
 
@@ -62,38 +64,17 @@ const board = [
         people: [
             {
                 name: 'Mauro Daniel Pedro de Sousa Paim',
-                role: 'Administrador',
-                // Signed FACUL/Instituto Sapiens partnership June 2023
+                role: 'Administrador Executivo',
+                image: { src: imageMauroPaim },
             },
             {
                 name: 'Evaristo Toné',
-                role: 'Administrador',
-                // Digital Transformation Consultant, author of "Governança e Administração de TI"
+                role: 'Administrador Executivo',
+                image: { src: imageEvarstoTone },
             },
             {
                 name: 'Tomé Batista Cardoso',
                 role: 'Administrador',
-            },
-        ],
-    },
-    {
-        title: 'Direcções',
-        people: [
-            {
-                name: 'Director Financeiro',
-                role: 'Direcção de Finanças',
-            },
-            {
-                name: 'Director de Recursos Humanos',
-                role: 'Direcção de RH',
-            },
-            {
-                name: 'Director Comercial',
-                role: 'Direcção Comercial',
-            },
-            {
-                name: 'Director de Operações',
-                role: 'Direcção de Operações',
             },
         ],
     },
