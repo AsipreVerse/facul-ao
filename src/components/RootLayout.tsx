@@ -81,9 +81,9 @@ function Header({
             priority
           />
         </Link>
-        <div className="flex items-center gap-x-8">
+        <div className="flex items-center gap-x-4 sm:gap-x-8">
           <LanguageSwitcher invert={invert} />
-          <Button href="/contacto" invert={invert}>
+          <Button href="/contacto" invert={invert} className="hidden sm:inline-flex">
             Contacto
           </Button>
           <button
