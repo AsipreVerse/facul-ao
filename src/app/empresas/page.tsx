@@ -150,7 +150,7 @@ export default function Empresas() {
                 title="Um ecossistema empresarial diversificado"
             >
                 <p>
-                    O Grupo Facul é composto por várias empresas que actuam em
+                    O Grupo Facul é composto por oito empresas que actuam em
                     diferentes sectores estratégicos da economia angolana, criando
                     sinergias e valor para os nossos clientes e parceiros.
                 </p>

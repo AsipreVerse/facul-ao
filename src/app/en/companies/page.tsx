@@ -148,7 +148,7 @@ export default function Companies() {
                 title="A diversified business ecosystem"
             >
                 <p>
-                    Grupo Facul comprises several companies operating in
+                    Grupo Facul comprises eight companies operating in
                     different strategic sectors of the Angolan economy, creating
                     synergies and value for our clients and partners.
                 </p>

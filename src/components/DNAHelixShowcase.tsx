@@ -251,21 +251,9 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
 
             {/* Elegant placeholder showing current front company name */}
             <div className="relative z-10 mt-8 text-center">
-                {frontCompany?.url ? (
-                    frontCompany.url.startsWith('http') ? (
-                        <a href={frontCompany.url} target="_blank" rel="noopener noreferrer" className="text-lg font-semibold text-neutral-950 transition-colors duration-300 hover:text-neutral-700">
-                            {frontCompany.name}
-                        </a>
-                    ) : (
-                        <Link href={frontCompany.url} className="text-lg font-semibold text-neutral-950 transition-colors duration-300 hover:text-neutral-700">
-                            {frontCompany.name}
-                        </Link>
-                    )
-                ) : (
-                    <p className="text-lg font-semibold text-neutral-950 transition-opacity duration-300">
-                        {frontCompany?.name}
-                    </p>
-                )}
+                <p className="text-lg font-semibold text-neutral-950 transition-opacity duration-300">
+                    {frontCompany?.name}
+                </p>
 
                 {/* Interaction hint */}
                 {showHint && (

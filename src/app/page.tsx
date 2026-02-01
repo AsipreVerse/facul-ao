@@ -201,7 +201,7 @@ function Subsidiaries() {
       <DNAHelixShowcase
         companies={companies}
         title="Empresas do Grupo Facul"
-        description="O Grupo Facul é composto por várias empresas que actuam em diferentes sectores da economia angolana, contribuindo para o desenvolvimento do país."
+        description="O Grupo Facul é composto por oito empresas que actuam em diferentes sectores da economia angolana, contribuindo para o desenvolvimento do país."
       />
       <FadeIn className="mt-4 flex justify-center">
         <Link
