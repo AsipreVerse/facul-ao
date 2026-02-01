@@ -133,7 +133,7 @@ function NavigationItem({
   return (
     <Link
       href={href}
-      className="group relative isolate -mx-6 bg-neutral-950 px-6 py-5 even:mt-px sm:mx-0 sm:px-0 sm:py-16 sm:odd:pr-16 sm:even:mt-0 sm:even:border-l sm:even:border-neutral-800 sm:even:pl-16"
+      className="group relative isolate -mx-6 bg-neutral-950 px-6 py-4 even:mt-px sm:mx-0 sm:px-0 sm:py-16 sm:odd:pr-16 sm:even:mt-0 sm:even:border-l sm:even:border-neutral-800 sm:even:pl-16"
     >
       {children}
       <span className="absolute inset-y-0 -z-10 w-screen bg-neutral-900 opacity-0 transition group-odd:right-0 group-even:left-0 group-hover:opacity-100" />
@@ -143,7 +143,7 @@ function NavigationItem({
 
 function Navigation() {
   return (
-    <nav className="mt-px font-display text-3xl sm:text-5xl font-medium tracking-tight text-white">
+    <nav className="mt-px font-display text-2xl sm:text-5xl font-medium tracking-tight text-white">
       <NavigationRow>
         <NavigationItem href="/quem-somos">Quem Somos</NavigationItem>
         <NavigationItem href="/empresas">Empresas</NavigationItem>
@@ -250,8 +250,9 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
             <Navigation />
             <div className="relative bg-neutral-950 before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-neutral-800">
               <Container>
-                <div className="grid grid-cols-1 gap-y-6 pt-6 pb-10 sm:grid-cols-2 sm:gap-y-10 sm:pt-16 sm:pb-16">
-                  <div>
+                <div className="grid grid-cols-2 gap-x-4 gap-y-4 pt-4 pb-6 sm:grid-cols-2 sm:gap-y-10 sm:pt-16 sm:pb-16">
+                  {/* Hide offices section on mobile, show inline contact */}
+                  <div className="hidden sm:block">
                     <h2 className="font-display text-base font-semibold text-white">
                       Escritórios
                     </h2>
@@ -260,11 +261,11 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
                       className="mt-6 grid grid-cols-1 gap-8 sm:grid-cols-2"
                     />
                   </div>
-                  <div className="sm:border-l sm:border-transparent sm:pl-16">
-                    <h2 className="font-display text-base font-semibold text-white">
+                  <div className="col-span-2 sm:col-span-1 sm:border-l sm:border-transparent sm:pl-16">
+                    <h2 className="font-display text-sm sm:text-base font-semibold text-white">
                       Redes Sociais
                     </h2>
-                    <SocialMedia className="mt-6" invert />
+                    <SocialMedia className="mt-4 sm:mt-6" invert />
                   </div>
                 </div>
               </Container>
