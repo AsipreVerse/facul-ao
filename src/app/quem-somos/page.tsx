@@ -12,7 +12,7 @@ import { StatList, StatListItem } from '@/components/StatList'
 import { RootLayout } from '@/components/RootLayout'
 import imageVenceslau from '@/images/venceslau-profile.png'
 import imageMauroPaim from '@/images/team/mauro-paim.png'
-import imageEvarstoTone from '@/images/team/evaristo-tone.png'
+import imageEvaristoTone from '@/images/team/evaristo-tone.png'
 
 function MissionVision() {
     return (
@@ -109,7 +109,7 @@ const board = [
             {
                 name: 'Evaristo Toné',
                 role: 'Administrador Executivo',
-                image: { src: imageEvarstoTone },
+                image: { src: imageEvaristoTone },
             },
             {
                 name: 'Tomé Batista Cardoso',

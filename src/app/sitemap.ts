@@ -14,6 +14,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
         '/privacidade',
         '/termos',
         '/cookies',
+        '/presidente',
+        '/centro-academico',
         // Subsidiaries
         '/bayside',
         '/viseba',
@@ -30,6 +32,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
         '/en/privacy',
         '/en/terms',
         '/en/cookies',
+        '/en/president',
+        '/en/academic-center',
     ]
 
     const routes: MetadataRoute.Sitemap = []
