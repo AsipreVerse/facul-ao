@@ -191,77 +191,91 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
                 </div>
             )}
 
-            {/* 3D Orbital Carousel Container */}
-            <div
-                ref={containerRef}
-                className={`relative mx-auto select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
-                style={{
-                    height: containerHeight,
-                    width: containerWidth,
-                    maxWidth: '100%',
-                    // Safari iOS requires perspective on parent AND preserve-3d chain
-                    perspective: '1200px',
-                    WebkitPerspective: '1200px',
-                    perspectiveOrigin: 'center center',
-                    WebkitPerspectiveOrigin: 'center center',
-                    transformStyle: 'preserve-3d',
-                    WebkitTransformStyle: 'preserve-3d',
-                }}
-                onMouseDown={handleMouseDown}
-                onMouseMove={handleMouseMove}
-                onMouseUp={handleDragEnd}
-                onMouseLeave={() => isDragging && handleDragEnd()}
-                onTouchStart={handleTouchStart}
-                onTouchMove={handleTouchMove}
-                onTouchEnd={handleTouchEnd}
-                onTouchCancel={handleTouchEnd}
-            >
-                {/* 3D Scene */}
-                <div
-                    className="absolute inset-0 flex items-center justify-center"
-                    style={{
-                        transformStyle: 'preserve-3d',
-                        WebkitTransformStyle: 'preserve-3d',
-                    }}
-                >
-                    {/* Logo nodes in orbital positions */}
-                    {companies.map((company, index) => {
-                        const pos = getOrbitalPosition(index, companies.length)
-
-                        return (
+            {/* Mobile: Simple grid of 8 logos */}
+            {isMobile ? (
+                <div className="relative z-10 mx-auto max-w-sm px-4">
+                    <div className="grid grid-cols-4 gap-3">
+                        {companies.map((company) => (
                             <div
                                 key={company.name}
-                                className="absolute transition-all duration-150 ease-out"
-                                style={{
-                                    left: '50%',
-                                    top: '50%',
-                                    // Use translate3d for Safari iOS compatibility
-                                    transform: `translate(-50%, -50%) translate3d(${pos.x}px, 0, ${pos.z}px) scale(${pos.scale})`,
-                                    WebkitTransform: `translate(-50%, -50%) translate3d(${pos.x}px, 0, ${pos.z}px) scale(${pos.scale})`,
-                                    zIndex: pos.zIndex,
-                                    opacity: pos.opacity,
-                                }}
+                                className="flex items-center justify-center rounded-xl border border-neutral-200 bg-white p-3 shadow-sm"
+                                style={{ aspectRatio: '1' }}
                             >
-                                <LogoTile company={company} isMobile={isMobile} />
+                                <Image
+                                    src={company.logo}
+                                    alt={company.name}
+                                    className="max-h-full w-auto object-contain"
+                                    quality={100}
+                                />
                             </div>
-                        )
-                    })}
+                        ))}
+                    </div>
                 </div>
-            </div>
+            ) : (
+                /* Desktop: 3D Orbital Carousel */
+                <>
+                    <div
+                        ref={containerRef}
+                        className={`relative mx-auto select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+                        style={{
+                            height: containerHeight,
+                            width: containerWidth,
+                            maxWidth: '100%',
+                            perspective: '1200px',
+                            WebkitPerspective: '1200px',
+                            perspectiveOrigin: 'center center',
+                            WebkitPerspectiveOrigin: 'center center',
+                            transformStyle: 'preserve-3d',
+                            WebkitTransformStyle: 'preserve-3d',
+                        }}
+                        onMouseDown={handleMouseDown}
+                        onMouseMove={handleMouseMove}
+                        onMouseUp={handleDragEnd}
+                        onMouseLeave={() => isDragging && handleDragEnd()}
+                    >
+                        {/* 3D Scene */}
+                        <div
+                            className="absolute inset-0 flex items-center justify-center"
+                            style={{
+                                transformStyle: 'preserve-3d',
+                                WebkitTransformStyle: 'preserve-3d',
+                            }}
+                        >
+                            {companies.map((company, index) => {
+                                const pos = getOrbitalPosition(index, companies.length)
+                                return (
+                                    <div
+                                        key={company.name}
+                                        className="absolute transition-all duration-150 ease-out"
+                                        style={{
+                                            left: '50%',
+                                            top: '50%',
+                                            transform: `translate(-50%, -50%) translate3d(${pos.x}px, 0, ${pos.z}px) scale(${pos.scale})`,
+                                            WebkitTransform: `translate(-50%, -50%) translate3d(${pos.x}px, 0, ${pos.z}px) scale(${pos.scale})`,
+                                            zIndex: pos.zIndex,
+                                            opacity: pos.opacity,
+                                        }}
+                                    >
+                                        <LogoTile company={company} isMobile={isMobile} />
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </div>
 
-            {/* Elegant placeholder showing current front company name */}
-            <div className="relative z-10 mt-8 text-center">
-                <p className="text-lg font-semibold text-neutral-950 transition-opacity duration-300">
-                    {frontCompany?.name}
-                </p>
-
-                {/* Interaction hint */}
-                {showHint && (
-                    <p className="mt-3 text-sm text-neutral-400 animate-pulse">
-                        {isMobile ? '← Deslize para explorar →' : 'Arraste para explorar'}
-                    </p>
-                )}
-            </div>
+                    {/* Desktop: Show front company name */}
+                    <div className="relative z-10 mt-8 text-center">
+                        <p className="text-lg font-semibold text-neutral-950 transition-opacity duration-300">
+                            {frontCompany?.name}
+                        </p>
+                        {showHint && (
+                            <p className="mt-3 text-sm text-neutral-400 animate-pulse">
+                                Arraste para explorar
+                            </p>
+                        )}
+                    </div>
+                </>
+            )}
         </div>
     )
 }
