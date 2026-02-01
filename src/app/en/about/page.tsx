@@ -146,11 +146,20 @@ const presidente = {
 // Board of Directors
 const board = [
     {
-        title: 'Executive Board',
+        title: 'Board of Directors',
         people: [
-            { name: 'Mauro Paim', role: 'Executive Director', image: { src: imageMauroPaim } },
+            { name: 'Mauro Daniel Pedro de Sousa Paim', role: 'Executive Director', image: { src: imageMauroPaim } },
             { name: 'Evaristo Toné', role: 'Executive Director', image: { src: imageEvaristoTone } },
-            { name: 'Tomé Cardoso', role: 'Executive Director' },
+            { name: 'Tomé Batista Cardoso', role: 'Director' },
+        ],
+    },
+    {
+        title: 'Directorates',
+        people: [
+            { name: 'Chief Financial Officer', role: 'Finance Directorate' },
+            { name: 'Human Resources Director', role: 'HR Directorate' },
+            { name: 'Commercial Director', role: 'Commercial Directorate' },
+            { name: 'Operations Director', role: 'Operations Directorate' },
         ],
     },
 ]
