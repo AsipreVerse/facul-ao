@@ -64,12 +64,15 @@ function Header({
 }) {
   let { logoHovered, setLogoHovered } = useContext(RootLayoutContext)!
 
+  const pathname = usePathname()
+  const isEnglish = pathname.startsWith('/en')
+
   return (
     <Container>
       <div className="flex items-center justify-between">
         <Link
-          href="/"
-          aria-label="Início"
+          href={isEnglish ? '/en' : '/'}
+          aria-label={isEnglish ? 'Home' : 'Início'}
           onMouseEnter={() => setLogoHovered(true)}
           onMouseLeave={() => setLogoHovered(false)}
         >
@@ -83,8 +86,12 @@ function Header({
         </Link>
         <div className="flex items-center gap-x-4 sm:gap-x-8">
           <LanguageSwitcher invert={invert} />
-          <Button href="/contacto" invert={invert} className="hidden sm:inline-flex">
-            Contacto
+          <Button
+            href={isEnglish ? '/en/contact' : '/contacto'}
+            invert={invert}
+            className="hidden sm:inline-flex"
+          >
+            {isEnglish ? 'Contact' : 'Contacto'}
           </Button>
           <button
             ref={toggleRef}
@@ -96,7 +103,7 @@ function Header({
               'group -m-2.5 rounded-full p-2.5 transition',
               invert ? 'hover:bg-white/10' : 'hover:bg-neutral-950/10',
             )}
-            aria-label="Alternar navegação"
+            aria-label={isEnglish ? 'Toggle navigation' : 'Alternar navegação'}
           >
             <Icon
               className={clsx(
@@ -142,15 +149,37 @@ function NavigationItem({
 }
 
 function Navigation() {
+  const pathname = usePathname()
+  const isEnglish = pathname.startsWith('/en')
+
+  const links = {
+    about: {
+      href: isEnglish ? '/en/about' : '/quem-somos',
+      label: isEnglish ? 'About Us' : 'Quem Somos',
+    },
+    companies: {
+      href: isEnglish ? '/en/companies' : '/empresas',
+      label: isEnglish ? 'Companies' : 'Empresas',
+    },
+    president: {
+      href: isEnglish ? '/en/president' : '/presidente',
+      label: isEnglish ? 'President' : 'Presidente',
+    },
+    contact: {
+      href: isEnglish ? '/en/contact' : '/contacto',
+      label: isEnglish ? 'Contact' : 'Contacto',
+    },
+  }
+
   return (
     <nav className="mt-px font-display text-2xl sm:text-5xl font-medium tracking-tight text-white">
       <NavigationRow>
-        <NavigationItem href="/quem-somos">Quem Somos</NavigationItem>
-        <NavigationItem href="/empresas">Empresas</NavigationItem>
+        <NavigationItem href={links.about.href}>{links.about.label}</NavigationItem>
+        <NavigationItem href={links.companies.href}>{links.companies.label}</NavigationItem>
       </NavigationRow>
       <NavigationRow>
-        <NavigationItem href="/presidente">Presidente</NavigationItem>
-        <NavigationItem href="/contacto">Contacto</NavigationItem>
+        <NavigationItem href={links.president.href}>{links.president.label}</NavigationItem>
+        <NavigationItem href={links.contact.href}>{links.contact.label}</NavigationItem>
       </NavigationRow>
     </nav>
   )
@@ -194,6 +223,9 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
       document.body.style.overflow = 'unset'
     }
   }, [expanded])
+
+  const pathname = usePathname()
+  const isEnglish = pathname.startsWith('/en')
 
   return (
     <MotionConfig
@@ -254,7 +286,7 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
                   {/* Hide offices section on mobile, show inline contact */}
                   <div className="hidden sm:block">
                     <h2 className="font-display text-base font-semibold text-white">
-                      Escritórios
+                      {isEnglish ? 'Offices' : 'Escritórios'}
                     </h2>
                     <Offices
                       invert
@@ -263,7 +295,7 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
                   </div>
                   <div className="col-span-2 sm:col-span-1 sm:border-l sm:border-transparent sm:pl-16">
                     <h2 className="font-display text-sm sm:text-base font-semibold text-white">
-                      Redes Sociais
+                      {isEnglish ? 'Social Media' : 'Redes Sociais'}
                     </h2>
                     <SocialMedia className="mt-4 sm:mt-6" invert />
                   </div>
