@@ -30,6 +30,10 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
         currentRotation: 0,
     })
 
+    // Track current rotation in ref for stable event handlers
+    const rotationRef = useRef(rotation)
+    rotationRef.current = rotation
+
     // Check for mobile
     useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 768)
@@ -49,16 +53,16 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
         return () => clearInterval(interval)
     }, [isDragging])
 
-    // Performance: Direct DOM-style drag handlers using refs
+    // Performance: Direct DOM-style drag handlers using refs (no state dependencies)
     const handleDragStart = useCallback((clientX: number) => {
         dragStateRef.current = {
             isDragging: true,
             startX: clientX,
-            startRotation: rotation,
-            currentRotation: rotation,
+            startRotation: rotationRef.current, // Use ref instead of state
+            currentRotation: rotationRef.current,
         }
         setIsDragging(true)
-    }, [rotation])
+    }, []) // No dependencies - uses refs only
 
     const handleDragMove = useCallback((clientX: number) => {
         if (!dragStateRef.current.isDragging) return
