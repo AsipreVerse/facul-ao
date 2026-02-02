@@ -18,8 +18,9 @@ interface DraggableMarqueeProps {
  * DraggableMarquee - Auto-scrolling marquee with touch/mouse drag support
  * 
  * - Auto-scrolls continuously when not being dragged
- * - Pauses on hover/touch and allows manual drag
+ * - Pauses on touch and allows manual drag
  * - Resumes auto-scroll after interaction ends
+ * - Uses setInterval for consistent speed across devices
  */
 export function DraggableMarquee({ partners, className }: DraggableMarqueeProps) {
     const containerRef = useRef<HTMLDivElement>(null)
@@ -43,15 +44,16 @@ export function DraggableMarquee({ partners, className }: DraggableMarqueeProps)
         return () => window.removeEventListener('resize', checkMobile)
     }, [])
 
-    // Auto-scroll animation
+    // Auto-scroll animation using setInterval for consistent speed
     useEffect(() => {
         const scrollContainer = scrollRef.current
         if (!scrollContainer || isDragging || isPaused) return
 
-        const scrollSpeed = 0.5 // pixels per frame
-        let animationId: number
+        // Faster speed on mobile since cards are smaller
+        const scrollSpeed = isMobile ? 1.5 : 1
+        const intervalMs = 16 // ~60fps
 
-        const animate = () => {
+        const interval = setInterval(() => {
             if (scrollContainer) {
                 scrollContainer.scrollLeft += scrollSpeed
 
@@ -61,12 +63,10 @@ export function DraggableMarquee({ partners, className }: DraggableMarqueeProps)
                     scrollContainer.scrollLeft = 0
                 }
             }
-            animationId = requestAnimationFrame(animate)
-        }
+        }, intervalMs)
 
-        animationId = requestAnimationFrame(animate)
-        return () => cancelAnimationFrame(animationId)
-    }, [isDragging, isPaused])
+        return () => clearInterval(interval)
+    }, [isDragging, isPaused, isMobile])
 
     // Drag handlers
     const handleDragStart = useCallback((clientX: number) => {
@@ -88,7 +88,7 @@ export function DraggableMarquee({ partners, className }: DraggableMarqueeProps)
         if (!scrollContainer) return
 
         const deltaX = clientX - dragStateRef.current.startX
-        const sensitivity = isMobile ? 1.2 : 1
+        const sensitivity = isMobile ? 1.5 : 1
         scrollContainer.scrollLeft = dragStateRef.current.scrollLeft - deltaX * sensitivity
     }, [isMobile])
 
@@ -99,18 +99,25 @@ export function DraggableMarquee({ partners, className }: DraggableMarqueeProps)
         setTimeout(() => setIsPaused(false), 1500)
     }, [])
 
-    // Mouse events
+    // Mouse events (desktop only)
     const handleMouseDown = (e: React.MouseEvent) => {
+        if (isMobile) return
         e.preventDefault()
         handleDragStart(e.clientX)
     }
 
     const handleMouseMove = (e: React.MouseEvent) => {
+        if (isMobile) return
         handleDragMove(e.clientX)
     }
 
-    const handleMouseUp = () => handleDragEnd()
+    const handleMouseUp = () => {
+        if (isMobile) return
+        handleDragEnd()
+    }
+
     const handleMouseLeave = () => {
+        if (isMobile) return
         if (isDragging) handleDragEnd()
     }
 
@@ -124,7 +131,9 @@ export function DraggableMarquee({ partners, className }: DraggableMarqueeProps)
         }
 
         const onTouchMove = (e: TouchEvent) => {
-            handleDragMove(e.touches[0].clientX)
+            if (dragStateRef.current.isDragging) {
+                handleDragMove(e.touches[0].clientX)
+            }
         }
 
         const onTouchEnd = () => {
@@ -142,11 +151,20 @@ export function DraggableMarquee({ partners, className }: DraggableMarqueeProps)
         }
     }, [handleDragStart, handleDragMove, handleDragEnd])
 
-    // Pause on hover (desktop)
-    const handleMouseEnter = () => setIsPaused(true)
-    const handleMouseLeaveContainer = () => {
-        if (!isDragging) setIsPaused(false)
+    // Pause on hover (desktop only)
+    const handleMouseEnter = () => {
+        if (!isMobile) setIsPaused(true)
     }
+    const handleMouseLeaveContainer = () => {
+        if (!isMobile && !isDragging) setIsPaused(false)
+    }
+
+    // Card dimensions - smaller on mobile for better single-card visibility
+    const cardWidth = isMobile ? 'w-40' : 'w-48'
+    const cardHeight = isMobile ? 'h-20' : 'h-24'
+    const logoHeight = isMobile ? 'max-h-12' : 'max-h-16'
+    const cardPadding = isMobile ? 'p-4' : 'p-5'
+    const cardGap = isMobile ? 'gap-4' : 'gap-6'
 
     return (
         <div
@@ -155,9 +173,9 @@ export function DraggableMarquee({ partners, className }: DraggableMarqueeProps)
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeaveContainer}
         >
-            {/* Gradient overlays for smooth edges */}
-            <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-32 bg-gradient-to-r from-white to-transparent" />
-            <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-32 bg-gradient-to-l from-white to-transparent" />
+            {/* Gradient overlays for smooth edges - smaller on mobile */}
+            <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 sm:w-32 bg-gradient-to-r from-white to-transparent" />
+            <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 sm:w-32 bg-gradient-to-l from-white to-transparent" />
 
             {/* Scrollable container */}
             <div
@@ -175,16 +193,16 @@ export function DraggableMarquee({ partners, className }: DraggableMarqueeProps)
                 onMouseLeave={handleMouseLeave}
             >
                 {/* First set */}
-                <div className="flex shrink-0 items-center gap-6 px-4">
+                <div className={`flex shrink-0 items-center ${cardGap} px-4`}>
                     {partners.map((partner, idx) => (
                         <div
                             key={`a-${idx}`}
-                            className="flex h-24 w-48 shrink-0 items-center justify-center rounded-2xl border border-neutral-100 bg-white p-5 shadow-sm pointer-events-none"
+                            className={`flex ${cardHeight} ${cardWidth} shrink-0 items-center justify-center rounded-2xl border border-neutral-100 bg-white ${cardPadding} shadow-sm pointer-events-none`}
                         >
                             <Image
                                 src={partner.logo}
                                 alt={partner.name}
-                                className="max-h-16 w-auto object-contain"
+                                className={`${logoHeight} w-auto object-contain`}
                                 unoptimized
                                 draggable={false}
                             />
@@ -192,16 +210,16 @@ export function DraggableMarquee({ partners, className }: DraggableMarqueeProps)
                     ))}
                 </div>
                 {/* Duplicate for seamless loop */}
-                <div className="flex shrink-0 items-center gap-6 px-4">
+                <div className={`flex shrink-0 items-center ${cardGap} px-4`}>
                     {partners.map((partner, idx) => (
                         <div
                             key={`b-${idx}`}
-                            className="flex h-24 w-48 shrink-0 items-center justify-center rounded-2xl border border-neutral-100 bg-white p-5 shadow-sm pointer-events-none"
+                            className={`flex ${cardHeight} ${cardWidth} shrink-0 items-center justify-center rounded-2xl border border-neutral-100 bg-white ${cardPadding} shadow-sm pointer-events-none`}
                         >
                             <Image
                                 src={partner.logo}
                                 alt={partner.name}
-                                className="max-h-16 w-auto object-contain"
+                                className={`${logoHeight} w-auto object-contain`}
                                 unoptimized
                                 draggable={false}
                             />
@@ -212,3 +230,4 @@ export function DraggableMarquee({ partners, className }: DraggableMarqueeProps)
         </div>
     )
 }
+
