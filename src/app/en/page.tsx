@@ -10,6 +10,7 @@ import { SectionIntro } from '@/components/SectionIntro'
 import { StylizedImage } from '@/components/StylizedImage'
 import { RootLayout } from '@/components/RootLayout'
 import { DNAHelixShowcase } from '@/components/DNAHelixShowcase'
+import { DraggableMarquee } from '@/components/DraggableMarquee'
 
 import faculHeroLogo from '@/images/hero_option_a_mosaic.png'
 import imageStationery from '@/images/hero_option_c_blocks.png'
@@ -234,46 +235,8 @@ function Partners() {
                     </h2>
                 </FadeIn>
             </Container>
-            <div className="relative mt-8">
-                {/* Gradient overlays for smooth edges */}
-                <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-32 bg-gradient-to-r from-white to-transparent" />
-                <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-32 bg-gradient-to-l from-white to-transparent" />
-
-                {/* Marquee container */}
-                <div className="flex animate-marquee">
-                    {/* First set */}
-                    <div className="flex shrink-0 items-center gap-6 px-4">
-                        {partners.map((partner, idx) => (
-                            <div
-                                key={`a-${idx}`}
-                                className="flex h-24 w-48 shrink-0 items-center justify-center rounded-2xl border border-neutral-100 bg-white p-5 shadow-sm"
-                            >
-                                <Image
-                                    src={partner.logo}
-                                    alt={partner.name}
-                                    className="max-h-16 w-auto object-contain"
-                                    unoptimized
-                                />
-                            </div>
-                        ))}
-                    </div>
-                    {/* Duplicate for seamless loop */}
-                    <div className="flex shrink-0 items-center gap-6 px-4">
-                        {partners.map((partner, idx) => (
-                            <div
-                                key={`b-${idx}`}
-                                className="flex h-24 w-48 shrink-0 items-center justify-center rounded-2xl border border-neutral-100 bg-white p-5 shadow-sm"
-                            >
-                                <Image
-                                    src={partner.logo}
-                                    alt={partner.name}
-                                    className="max-h-16 w-auto object-contain"
-                                    unoptimized
-                                />
-                            </div>
-                        ))}
-                    </div>
-                </div>
+            <div className="mt-8">
+                <DraggableMarquee partners={partners} />
             </div>
         </div>
     )
