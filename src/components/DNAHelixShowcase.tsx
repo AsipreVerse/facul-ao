@@ -158,65 +158,29 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
     const containerWidth = isMobile ? 360 : 900
     const containerHeight = isMobile ? 260 : 300
 
-    // Logo tile component - wraps in link if URL provided
+    // Logo tile component - visual only (clicks handled via company name link below)
     const LogoTile = ({ company, isMobile }: { company: Company; isMobile: boolean }) => {
-        const tile = (
+        return (
             <div
-                className={`relative flex items-center justify-center rounded-2xl border border-neutral-200 bg-white shadow-lg transition-all duration-300 ${company.url ? 'hover:shadow-xl hover:scale-105 hover:border-neutral-300' : ''}`}
+                className="relative flex items-center justify-center rounded-2xl border border-neutral-200 bg-white shadow-lg"
                 style={{
-                    // Smaller tiles on mobile to prevent overlap in 3D space
                     width: isMobile ? 85 : 160,
                     height: isMobile ? 85 : 160,
                     padding: isMobile ? 12 : 28,
-                    // Allow touch drag through the tile
-                    touchAction: 'none',
+                    // Pointer events none - all touches pass to container for dragging
+                    pointerEvents: 'none',
                 }}
             >
                 <Image
                     src={company.logo}
                     alt={company.name}
-                    className="max-h-full w-auto object-contain pointer-events-none"
+                    className="max-h-full w-auto object-contain"
                     quality={100}
                     priority
                     draggable={false}
                 />
             </div>
         )
-
-        if (company.url) {
-            const isExternal = company.url.startsWith('http')
-            // During drag, disable pointer events on links so touches pass to container
-            const linkStyle = {
-                touchAction: 'none' as const,
-                pointerEvents: isDragging ? 'none' as const : 'auto' as const,
-            }
-            if (isExternal) {
-                return (
-                    <a
-                        href={company.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block"
-                        style={linkStyle}
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        {tile}
-                    </a>
-                )
-            }
-            return (
-                <Link
-                    href={company.url}
-                    className="block"
-                    style={linkStyle}
-                    onClick={(e) => e.stopPropagation()}
-                >
-                    {tile}
-                </Link>
-            )
-        }
-
-        return tile
     }
 
     return (
@@ -263,12 +227,13 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
                         WebkitPerspectiveOrigin: 'center center',
                     }}
                 >
-                    {/* 3D Scene */}
+                    {/* 3D Scene - pointer-events none so touches pass to container */}
                     <div
                         className="absolute inset-0 flex items-center justify-center"
                         style={{
                             transformStyle: 'preserve-3d',
                             WebkitTransformStyle: 'preserve-3d',
+                            pointerEvents: 'none', // Let touches through to container
                         }}
                     >
                         {/* Logo nodes in orbital positions */}
@@ -286,6 +251,7 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
                                         zIndex: pos.zIndex,
                                         opacity: pos.opacity,
                                         willChange: 'transform, opacity',
+                                        pointerEvents: 'none', // Let touches through to container
                                     }}
                                 >
                                     <LogoTile company={company} isMobile={isMobile} />
