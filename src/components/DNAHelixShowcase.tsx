@@ -87,8 +87,9 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
         const angleRad = (itemAngle * Math.PI) / 180
 
         // Elliptical orbit - wider than tall for depth effect
-        const radiusX = isMobile ? 140 : 350
-        const radiusZ = isMobile ? 90 : 200
+        // Mobile: increased radius for better spread, matches desktop proportions
+        const radiusX = isMobile ? 160 : 350
+        const radiusZ = isMobile ? 100 : 200
 
         const x = Math.sin(angleRad) * radiusX
         const z = Math.cos(angleRad) * radiusZ
@@ -116,8 +117,8 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
         return companies[frontIdx]
     }, [companies, getOrbitalPosition])
 
-    const containerWidth = isMobile ? 340 : 900
-    const containerHeight = isMobile ? 220 : 300
+    const containerWidth = isMobile ? 360 : 900
+    const containerHeight = isMobile ? 260 : 300
 
     // Logo tile component - wraps in link if URL provided
     const LogoTile = ({ company, isMobile }: { company: Company; isMobile: boolean }) => {
@@ -125,9 +126,10 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
             <div
                 className={`relative flex items-center justify-center rounded-2xl border border-neutral-200 bg-white shadow-lg transition-all duration-300 ${company.url ? 'hover:shadow-xl hover:scale-105 hover:border-neutral-300' : ''}`}
                 style={{
-                    width: isMobile ? 110 : 160,
-                    height: isMobile ? 110 : 160,
-                    padding: isMobile ? 16 : 28,
+                    // Smaller tiles on mobile to prevent overlap in 3D space
+                    width: isMobile ? 85 : 160,
+                    height: isMobile ? 85 : 160,
+                    padding: isMobile ? 12 : 28,
                 }}
             >
                 <Image
