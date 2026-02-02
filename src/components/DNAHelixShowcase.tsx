@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import Image, { StaticImageData } from 'next/image'
+import Link from 'next/link'
 
 interface Company {
     name: string
@@ -22,13 +23,6 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
     const [startX, setStartX] = useState(0)
     const [startRotation, setStartRotation] = useState(0)
     const [isMobile, setIsMobile] = useState(false)
-    const [showHint, setShowHint] = useState(true)
-
-    // Hide hint after 4 seconds
-    useEffect(() => {
-        const timer = setTimeout(() => setShowHint(false), 4000)
-        return () => clearTimeout(timer)
-    }, [])
 
     // Check for mobile
     useEffect(() => {
@@ -54,16 +48,14 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
         setIsDragging(true)
         setStartX(clientX)
         setStartRotation(rotation)
-        setShowHint(false) // Hide hint on first interaction
     }, [rotation])
 
     const handleDragMove = useCallback((clientX: number) => {
         if (!isDragging) return
         const deltaX = clientX - startX
-        // Increased sensitivity for better touch responsiveness
-        const sensitivity = isMobile ? 0.8 : 0.5
+        const sensitivity = 0.5
         setRotation(startRotation + deltaX * sensitivity)
-    }, [isDragging, startX, startRotation, isMobile])
+    }, [isDragging, startX, startRotation])
 
     const handleDragEnd = useCallback(() => {
         setIsDragging(false)
@@ -79,19 +71,13 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
         handleDragMove(e.clientX)
     }
 
-    // Touch events - ensure carousel resumes after any touch interaction
+    // Touch events
     const handleTouchStart = (e: React.TouchEvent) => {
-        e.preventDefault() // Prevent default to avoid scroll interference
         handleDragStart(e.touches[0].clientX)
     }
 
     const handleTouchMove = (e: React.TouchEvent) => {
-        e.preventDefault()
         handleDragMove(e.touches[0].clientX)
-    }
-
-    const handleTouchEnd = () => {
-        setIsDragging(false) // Ensure auto-rotation resumes
     }
 
     // 3D Orbital Carousel - logos orbit in a horizontal circle
@@ -100,21 +86,17 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
         const itemAngle = index * anglePerItem + rotation
         const angleRad = (itemAngle * Math.PI) / 180
 
-        // Elliptical orbit - increased mobile radius for proper spacing
-        const radiusX = isMobile ? 120 : 350
-        const radiusZ = isMobile ? 80 : 200
+        // Elliptical orbit - wider than tall for depth effect
+        const radiusX = isMobile ? 140 : 350
+        const radiusZ = isMobile ? 90 : 200
 
         const x = Math.sin(angleRad) * radiusX
         const z = Math.cos(angleRad) * radiusZ
 
         // Scale and opacity based on depth (items in back are smaller and dimmer)
-        // Mobile: more dramatic scale difference for clearer 3D effect
         const normalizedZ = (z + radiusZ) / (2 * radiusZ) // 0 (back) to 1 (front)
-        const scale = isMobile
-            ? 0.4 + normalizedZ * 0.6  // 0.4 at back, 1.0 at front (mobile: more dramatic)
-            : 0.5 + normalizedZ * 0.5  // 0.5 at back, 1.0 at front (desktop)
-        // Safari fix: increased minimum opacity from 0.3 to 0.45 for visibility
-        const opacity = 0.45 + normalizedZ * 0.55 // 0.45 at back, 1.0 at front
+        const scale = 0.5 + normalizedZ * 0.5 // 0.5 at back, 1.0 at front
+        const opacity = 0.4 + normalizedZ * 0.6 // 0.4 at back, 1.0 at front
         const zIndex = Math.round(normalizedZ * 100)
 
         return { x, z, scale, opacity, zIndex, normalizedZ }
@@ -137,19 +119,15 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
     const containerWidth = isMobile ? 340 : 900
     const containerHeight = isMobile ? 220 : 300
 
-    // Logo tile component - no links, just display
+    // Logo tile component - wraps in link if URL provided
     const LogoTile = ({ company, isMobile }: { company: Company; isMobile: boolean }) => {
-        return (
+        const tile = (
             <div
-                className="relative flex items-center justify-center rounded-2xl border border-neutral-200 bg-white shadow-lg transition-all duration-300"
+                className={`relative flex items-center justify-center rounded-2xl border border-neutral-200 bg-white shadow-lg transition-all duration-300 ${company.url ? 'hover:shadow-xl hover:scale-105 hover:border-neutral-300' : ''}`}
                 style={{
-                    // Smaller tiles on mobile to prevent overlap
-                    width: isMobile ? 80 : 160,
-                    height: isMobile ? 80 : 160,
-                    padding: isMobile ? 12 : 28,
-                    // Safari 3D compositing
-                    transform: 'translateZ(0)',
-                    WebkitTransform: 'translateZ(0)',
+                    width: isMobile ? 110 : 160,
+                    height: isMobile ? 110 : 160,
+                    padding: isMobile ? 16 : 28,
                 }}
             >
                 <Image
@@ -162,20 +140,28 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
                 />
             </div>
         )
+
+        if (company.url) {
+            const isExternal = company.url.startsWith('http')
+            if (isExternal) {
+                return (
+                    <a href={company.url} target="_blank" rel="noopener noreferrer" className="block" onClick={(e) => e.stopPropagation()}>
+                        {tile}
+                    </a>
+                )
+            }
+            return (
+                <Link href={company.url} className="block" onClick={(e) => e.stopPropagation()}>
+                    {tile}
+                </Link>
+            )
+        }
+
+        return tile
     }
 
     return (
-        // CRITICAL: Do NOT use overflow-hidden here - it breaks preserve-3d on Safari iOS
-        <div
-            className="relative py-16"
-            style={{
-                // Force hardware acceleration for Safari
-                transform: 'translateZ(0)',
-                WebkitTransform: 'translateZ(0)',
-                transformStyle: 'preserve-3d',
-                WebkitTransformStyle: 'preserve-3d',
-            }}
-        >
+        <div className="relative overflow-hidden py-16">
             {/* Background */}
             <div className="absolute inset-0 bg-gradient-to-b from-white via-neutral-50 to-white" />
 
@@ -195,96 +181,76 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
                 </div>
             )}
 
-            {/* Mobile: Simple grid of 8 logos */}
-            {isMobile ? (
-                <div className="relative z-10 mx-auto max-w-sm px-4">
-                    <div className="grid grid-cols-4 gap-3">
-                        {companies.map((company) => (
+            {/* 3D Orbital Carousel Container */}
+            <div
+                ref={containerRef}
+                className={`relative mx-auto select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+                style={{
+                    height: containerHeight,
+                    width: containerWidth,
+                    maxWidth: '100%',
+                    perspective: '1200px',
+                    WebkitPerspective: '1200px',
+                    perspectiveOrigin: 'center center',
+                    WebkitPerspectiveOrigin: 'center center',
+                }}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleDragEnd}
+                onMouseLeave={() => isDragging && handleDragEnd()}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleDragEnd}
+            >
+                {/* 3D Scene */}
+                <div
+                    className="absolute inset-0 flex items-center justify-center"
+                    style={{
+                        transformStyle: 'preserve-3d',
+                        WebkitTransformStyle: 'preserve-3d',
+                    }}
+                >
+                    {/* Logo nodes in orbital positions */}
+                    {companies.map((company, index) => {
+                        const pos = getOrbitalPosition(index, companies.length)
+
+                        return (
                             <div
                                 key={company.name}
-                                className="flex items-center justify-center rounded-xl border border-neutral-200 bg-white p-3 shadow-sm"
-                                style={{ aspectRatio: '1' }}
+                                className="absolute transition-all duration-150 ease-out"
+                                style={{
+                                    left: '50%',
+                                    top: '50%',
+                                    transform: `translate(-50%, -50%) translateX(${pos.x}px) translateZ(${pos.z}px) scale(${pos.scale})`,
+                                    zIndex: pos.zIndex,
+                                    opacity: pos.opacity,
+                                }}
                             >
-                                <Image
-                                    src={company.logo}
-                                    alt={company.name}
-                                    className="max-h-full w-auto object-contain"
-                                    quality={100}
-                                />
+                                <LogoTile company={company} isMobile={isMobile} />
                             </div>
-                        ))}
-                    </div>
+                        )
+                    })}
                 </div>
-            ) : (
-                /* Desktop: 3D Orbital Carousel */
-                <>
-                    <div
-                        ref={containerRef}
-                        className={`relative mx-auto select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
-                        style={{
-                            height: containerHeight,
-                            width: containerWidth,
-                            maxWidth: '100%',
-                            perspective: '1200px',
-                            WebkitPerspective: '1200px',
-                            perspectiveOrigin: 'center center',
-                            WebkitPerspectiveOrigin: 'center center',
-                            transformStyle: 'preserve-3d',
-                            WebkitTransformStyle: 'preserve-3d',
-                        }}
-                        onMouseDown={handleMouseDown}
-                        onMouseMove={handleMouseMove}
-                        onMouseUp={handleDragEnd}
-                        onMouseLeave={() => isDragging && handleDragEnd()}
-                    >
-                        {/* 3D Scene */}
-                        <div
-                            className="absolute inset-0 flex items-center justify-center"
-                            style={{
-                                transformStyle: 'preserve-3d',
-                                WebkitTransformStyle: 'preserve-3d',
-                            }}
-                        >
-                            {companies.map((company, index) => {
-                                const pos = getOrbitalPosition(index, companies.length)
-                                return (
-                                    <div
-                                        key={company.name}
-                                        className="absolute transition-all duration-150 ease-out"
-                                        style={{
-                                            left: '50%',
-                                            top: '50%',
-                                            transform: `translate(-50%, -50%) translate3d(${pos.x}px, 0, ${pos.z}px) scale(${pos.scale})`,
-                                            WebkitTransform: `translate(-50%, -50%) translate3d(${pos.x}px, 0, ${pos.z}px) scale(${pos.scale})`,
-                                            zIndex: pos.zIndex,
-                                            opacity: pos.opacity,
-                                            // Safari 3D rendering fixes
-                                            willChange: 'transform, opacity',
-                                            backfaceVisibility: 'hidden',
-                                            WebkitBackfaceVisibility: 'hidden',
-                                            visibility: 'visible',
-                                        }}
-                                    >
-                                        <LogoTile company={company} isMobile={isMobile} />
-                                    </div>
-                                )
-                            })}
-                        </div>
-                    </div>
+            </div>
 
-                    {/* Desktop: Show front company name */}
-                    <div className="relative z-10 mt-8 text-center">
-                        <p className="text-lg font-semibold text-neutral-950 transition-opacity duration-300">
-                            {frontCompany?.name}
-                        </p>
-                        {showHint && (
-                            <p className="mt-3 text-sm text-neutral-400 animate-pulse">
-                                Arraste para explorar
-                            </p>
-                        )}
-                    </div>
-                </>
-            )}
+            {/* Elegant placeholder showing current front company name */}
+            <div className="relative z-10 mt-8 text-center">
+                {frontCompany?.url ? (
+                    frontCompany.url.startsWith('http') ? (
+                        <a href={frontCompany.url} target="_blank" rel="noopener noreferrer" className="text-lg font-semibold text-neutral-950 transition-colors duration-300 hover:text-neutral-700">
+                            {frontCompany.name}
+                        </a>
+                    ) : (
+                        <Link href={frontCompany.url} className="text-lg font-semibold text-neutral-950 transition-colors duration-300 hover:text-neutral-700">
+                            {frontCompany.name}
+                        </Link>
+                    )
+                ) : (
+                    <p className="text-lg font-semibold text-neutral-950 transition-opacity duration-300">
+                        {frontCompany?.name}
+                    </p>
+                )}
+            </div>
         </div>
     )
 }
