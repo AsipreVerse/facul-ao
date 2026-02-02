@@ -113,7 +113,8 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
         const scale = isMobile
             ? 0.4 + normalizedZ * 0.6  // 0.4 at back, 1.0 at front (mobile: more dramatic)
             : 0.5 + normalizedZ * 0.5  // 0.5 at back, 1.0 at front (desktop)
-        const opacity = 0.3 + normalizedZ * 0.7 // 0.3 at back, 1.0 at front
+        // Safari fix: increased minimum opacity from 0.3 to 0.45 for visibility
+        const opacity = 0.45 + normalizedZ * 0.55 // 0.45 at back, 1.0 at front
         const zIndex = Math.round(normalizedZ * 100)
 
         return { x, z, scale, opacity, zIndex, normalizedZ }
@@ -146,6 +147,9 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
                     width: isMobile ? 80 : 160,
                     height: isMobile ? 80 : 160,
                     padding: isMobile ? 12 : 28,
+                    // Safari 3D compositing
+                    transform: 'translateZ(0)',
+                    WebkitTransform: 'translateZ(0)',
                 }}
             >
                 <Image
@@ -254,6 +258,11 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
                                             WebkitTransform: `translate(-50%, -50%) translate3d(${pos.x}px, 0, ${pos.z}px) scale(${pos.scale})`,
                                             zIndex: pos.zIndex,
                                             opacity: pos.opacity,
+                                            // Safari 3D rendering fixes
+                                            willChange: 'transform, opacity',
+                                            backfaceVisibility: 'hidden',
+                                            WebkitBackfaceVisibility: 'hidden',
+                                            visibility: 'visible',
                                         }}
                                     >
                                         <LogoTile company={company} isMobile={isMobile} />
