@@ -164,6 +164,8 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
                     width: isMobile ? 85 : 160,
                     height: isMobile ? 85 : 160,
                     padding: isMobile ? 12 : 28,
+                    // Allow touch drag through the tile
+                    touchAction: 'none',
                 }}
             >
                 <Image
@@ -179,15 +181,32 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
 
         if (company.url) {
             const isExternal = company.url.startsWith('http')
+            // During drag, disable pointer events on links so touches pass to container
+            const linkStyle = {
+                touchAction: 'none' as const,
+                pointerEvents: isDragging ? 'none' as const : 'auto' as const,
+            }
             if (isExternal) {
                 return (
-                    <a href={company.url} target="_blank" rel="noopener noreferrer" className="block" onClick={(e) => e.stopPropagation()}>
+                    <a
+                        href={company.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block"
+                        style={linkStyle}
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         {tile}
                     </a>
                 )
             }
             return (
-                <Link href={company.url} className="block" onClick={(e) => e.stopPropagation()}>
+                <Link
+                    href={company.url}
+                    className="block"
+                    style={linkStyle}
+                    onClick={(e) => e.stopPropagation()}
+                >
                     {tile}
                 </Link>
             )
