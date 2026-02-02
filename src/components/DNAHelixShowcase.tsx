@@ -261,16 +261,26 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
                     </div>
                 </div>
 
-                {/* Company name - now inside the touch wrapper */}
+                {/* Company name link - Jony Ive style: subtle arrow affordance */}
                 <div className="relative z-10 mt-8 text-center">
                     {frontCompany?.url ? (
                         frontCompany.url.startsWith('http') ? (
-                            <a href={frontCompany.url} target="_blank" rel="noopener noreferrer" className="text-lg font-semibold text-neutral-950 transition-colors duration-300 hover:text-neutral-700">
+                            <a
+                                href={frontCompany.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group inline-flex items-center gap-1.5 text-lg font-semibold text-neutral-950 transition-all duration-300 hover:text-neutral-600"
+                            >
                                 {frontCompany.name}
+                                <span className="text-neutral-400 transition-all duration-300 group-hover:text-neutral-600 group-hover:translate-x-0.5">→</span>
                             </a>
                         ) : (
-                            <Link href={frontCompany.url} className="text-lg font-semibold text-neutral-950 transition-colors duration-300 hover:text-neutral-700">
+                            <Link
+                                href={frontCompany.url}
+                                className="group inline-flex items-center gap-1.5 text-lg font-semibold text-neutral-950 transition-all duration-300 hover:text-neutral-600"
+                            >
                                 {frontCompany.name}
+                                <span className="text-neutral-400 transition-all duration-300 group-hover:text-neutral-600 group-hover:translate-x-0.5">→</span>
                             </Link>
                         )
                     ) : (
