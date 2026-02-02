@@ -236,73 +236,79 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
                 </div>
             )}
 
-            {/* 3D Orbital Carousel Container */}
+            {/* Touch-enabled wrapper covering entire carousel + name area */}
             <div
                 ref={containerRef}
-                className={`relative mx-auto select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
-                style={{
-                    height: containerHeight,
-                    width: containerWidth,
-                    maxWidth: '100%',
-                    perspective: '1200px',
-                    WebkitPerspective: '1200px',
-                    perspectiveOrigin: 'center center',
-                    WebkitPerspectiveOrigin: 'center center',
-                }}
+                className={`relative select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+                style={{ touchAction: 'none' }}
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleDragEnd}
                 onMouseLeave={() => isDragging && handleDragEnd()}
             >
-                {/* 3D Scene */}
+                {/* 3D Orbital Carousel Container */}
                 <div
-                    className="absolute inset-0 flex items-center justify-center"
+                    className="relative mx-auto"
                     style={{
-                        transformStyle: 'preserve-3d',
-                        WebkitTransformStyle: 'preserve-3d',
+                        height: containerHeight,
+                        width: containerWidth,
+                        maxWidth: '100%',
+                        perspective: '1200px',
+                        WebkitPerspective: '1200px',
+                        perspectiveOrigin: 'center center',
+                        WebkitPerspectiveOrigin: 'center center',
                     }}
                 >
-                    {/* Logo nodes in orbital positions */}
-                    {companies.map((company, index) => {
-                        const pos = getOrbitalPosition(index, companies.length)
+                    {/* 3D Scene */}
+                    <div
+                        className="absolute inset-0 flex items-center justify-center"
+                        style={{
+                            transformStyle: 'preserve-3d',
+                            WebkitTransformStyle: 'preserve-3d',
+                        }}
+                    >
+                        {/* Logo nodes in orbital positions */}
+                        {companies.map((company, index) => {
+                            const pos = getOrbitalPosition(index, companies.length)
 
-                        return (
-                            <div
-                                key={company.name}
-                                className={`absolute ease-out ${isDragging ? '' : 'transition-all duration-150'}`}
-                                style={{
-                                    left: '50%',
-                                    top: '50%',
-                                    transform: `translate(-50%, -50%) translateX(${pos.x}px) translateZ(${pos.z}px) scale(${pos.scale})`,
-                                    zIndex: pos.zIndex,
-                                    opacity: pos.opacity,
-                                    willChange: 'transform, opacity',
-                                }}
-                            >
-                                <LogoTile company={company} isMobile={isMobile} />
-                            </div>
-                        )
-                    })}
+                            return (
+                                <div
+                                    key={company.name}
+                                    className={`absolute ease-out ${isDragging ? '' : 'transition-all duration-150'}`}
+                                    style={{
+                                        left: '50%',
+                                        top: '50%',
+                                        transform: `translate(-50%, -50%) translateX(${pos.x}px) translateZ(${pos.z}px) scale(${pos.scale})`,
+                                        zIndex: pos.zIndex,
+                                        opacity: pos.opacity,
+                                        willChange: 'transform, opacity',
+                                    }}
+                                >
+                                    <LogoTile company={company} isMobile={isMobile} />
+                                </div>
+                            )
+                        })}
+                    </div>
                 </div>
-            </div>
 
-            {/* Elegant placeholder showing current front company name */}
-            <div className="relative z-10 mt-8 text-center">
-                {frontCompany?.url ? (
-                    frontCompany.url.startsWith('http') ? (
-                        <a href={frontCompany.url} target="_blank" rel="noopener noreferrer" className="text-lg font-semibold text-neutral-950 transition-colors duration-300 hover:text-neutral-700">
-                            {frontCompany.name}
-                        </a>
+                {/* Company name - now inside the touch wrapper */}
+                <div className="relative z-10 mt-8 text-center">
+                    {frontCompany?.url ? (
+                        frontCompany.url.startsWith('http') ? (
+                            <a href={frontCompany.url} target="_blank" rel="noopener noreferrer" className="text-lg font-semibold text-neutral-950 transition-colors duration-300 hover:text-neutral-700">
+                                {frontCompany.name}
+                            </a>
+                        ) : (
+                            <Link href={frontCompany.url} className="text-lg font-semibold text-neutral-950 transition-colors duration-300 hover:text-neutral-700">
+                                {frontCompany.name}
+                            </Link>
+                        )
                     ) : (
-                        <Link href={frontCompany.url} className="text-lg font-semibold text-neutral-950 transition-colors duration-300 hover:text-neutral-700">
-                            {frontCompany.name}
-                        </Link>
-                    )
-                ) : (
-                    <p className="text-lg font-semibold text-neutral-950 transition-opacity duration-300">
-                        {frontCompany?.name}
-                    </p>
-                )}
+                        <p className="text-lg font-semibold text-neutral-950 transition-opacity duration-300">
+                            {frontCompany?.name}
+                        </p>
+                    )}
+                </div>
             </div>
         </div>
     )
