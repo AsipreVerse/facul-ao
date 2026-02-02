@@ -20,9 +20,15 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
     const containerRef = useRef<HTMLDivElement>(null)
     const [rotation, setRotation] = useState(0)
     const [isDragging, setIsDragging] = useState(false)
-    const [startX, setStartX] = useState(0)
-    const [startRotation, setStartRotation] = useState(0)
     const [isMobile, setIsMobile] = useState(false)
+
+    // Performance: Use refs for drag state to avoid re-renders during drag
+    const dragStateRef = useRef({
+        isDragging: false,
+        startX: 0,
+        startRotation: 0,
+        currentRotation: 0,
+    })
 
     // Check for mobile
     useEffect(() => {
@@ -32,32 +38,49 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
         return () => window.removeEventListener('resize', checkMobile)
     }, [])
 
-    // Slow auto-rotation animation
+    // Performance: requestAnimationFrame for smooth 60fps auto-rotation
     useEffect(() => {
         if (isDragging) return
 
-        const interval = setInterval(() => {
-            setRotation(prev => prev + 0.15)
-        }, 50)
+        let animationId: number
+        let lastTime = performance.now()
 
-        return () => clearInterval(interval)
+        const animate = (currentTime: number) => {
+            const deltaTime = currentTime - lastTime
+            // Target ~3 degrees per second (0.15 per 50ms = 3 per 1000ms)
+            const rotationSpeed = 0.003 // degrees per ms
+            setRotation(prev => prev + rotationSpeed * deltaTime)
+            lastTime = currentTime
+            animationId = requestAnimationFrame(animate)
+        }
+
+        animationId = requestAnimationFrame(animate)
+        return () => cancelAnimationFrame(animationId)
     }, [isDragging])
 
-    // Drag handlers
+    // Performance: Direct DOM-style drag handlers using refs
     const handleDragStart = useCallback((clientX: number) => {
+        dragStateRef.current = {
+            isDragging: true,
+            startX: clientX,
+            startRotation: rotation,
+            currentRotation: rotation,
+        }
         setIsDragging(true)
-        setStartX(clientX)
-        setStartRotation(rotation)
     }, [rotation])
 
     const handleDragMove = useCallback((clientX: number) => {
-        if (!isDragging) return
-        const deltaX = clientX - startX
-        const sensitivity = 0.5
-        setRotation(startRotation + deltaX * sensitivity)
-    }, [isDragging, startX, startRotation])
+        if (!dragStateRef.current.isDragging) return
+        const deltaX = clientX - dragStateRef.current.startX
+        // Mobile: higher sensitivity for touch
+        const sensitivity = isMobile ? 0.8 : 0.5
+        const newRotation = dragStateRef.current.startRotation + deltaX * sensitivity
+        dragStateRef.current.currentRotation = newRotation
+        setRotation(newRotation)
+    }, [isMobile])
 
     const handleDragEnd = useCallback(() => {
+        dragStateRef.current.isDragging = false
         setIsDragging(false)
     }, [])
 
@@ -71,14 +94,34 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
         handleDragMove(e.clientX)
     }
 
-    // Touch events
-    const handleTouchStart = (e: React.TouchEvent) => {
-        handleDragStart(e.touches[0].clientX)
-    }
+    // Performance: Touch events with native passive listeners
+    useEffect(() => {
+        const container = containerRef.current
+        if (!container) return
 
-    const handleTouchMove = (e: React.TouchEvent) => {
-        handleDragMove(e.touches[0].clientX)
-    }
+        const onTouchStart = (e: TouchEvent) => {
+            handleDragStart(e.touches[0].clientX)
+        }
+
+        const onTouchMove = (e: TouchEvent) => {
+            handleDragMove(e.touches[0].clientX)
+        }
+
+        const onTouchEnd = () => {
+            handleDragEnd()
+        }
+
+        // Passive listeners for better scroll performance
+        container.addEventListener('touchstart', onTouchStart, { passive: true })
+        container.addEventListener('touchmove', onTouchMove, { passive: true })
+        container.addEventListener('touchend', onTouchEnd, { passive: true })
+
+        return () => {
+            container.removeEventListener('touchstart', onTouchStart)
+            container.removeEventListener('touchmove', onTouchMove)
+            container.removeEventListener('touchend', onTouchEnd)
+        }
+    }, [handleDragStart, handleDragMove, handleDragEnd])
 
     // 3D Orbital Carousel - logos orbit in a horizontal circle
     const getOrbitalPosition = useCallback((index: number, totalItems: number) => {
@@ -200,9 +243,6 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleDragEnd}
                 onMouseLeave={() => isDragging && handleDragEnd()}
-                onTouchStart={handleTouchStart}
-                onTouchMove={handleTouchMove}
-                onTouchEnd={handleDragEnd}
             >
                 {/* 3D Scene */}
                 <div
@@ -219,13 +259,14 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
                         return (
                             <div
                                 key={company.name}
-                                className="absolute transition-all duration-150 ease-out"
+                                className={`absolute ease-out ${isDragging ? '' : 'transition-all duration-150'}`}
                                 style={{
                                     left: '50%',
                                     top: '50%',
                                     transform: `translate(-50%, -50%) translateX(${pos.x}px) translateZ(${pos.z}px) scale(${pos.scale})`,
                                     zIndex: pos.zIndex,
                                     opacity: pos.opacity,
+                                    willChange: 'transform, opacity',
                                 }}
                             >
                                 <LogoTile company={company} isMobile={isMobile} />
