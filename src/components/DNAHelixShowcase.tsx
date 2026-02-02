@@ -38,24 +38,15 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
         return () => window.removeEventListener('resize', checkMobile)
     }, [])
 
-    // Performance: requestAnimationFrame for smooth 60fps auto-rotation
+    // Slow auto-rotation animation (stable setInterval - works reliably on all devices)
     useEffect(() => {
         if (isDragging) return
 
-        let animationId: number
-        let lastTime = performance.now()
+        const interval = setInterval(() => {
+            setRotation(prev => prev + 0.15)
+        }, 50)
 
-        const animate = (currentTime: number) => {
-            const deltaTime = currentTime - lastTime
-            // Target ~3 degrees per second (0.15 per 50ms = 3 per 1000ms)
-            const rotationSpeed = 0.003 // degrees per ms
-            setRotation(prev => prev + rotationSpeed * deltaTime)
-            lastTime = currentTime
-            animationId = requestAnimationFrame(animate)
-        }
-
-        animationId = requestAnimationFrame(animate)
-        return () => cancelAnimationFrame(animationId)
+        return () => clearInterval(interval)
     }, [isDragging])
 
     // Performance: Direct DOM-style drag handlers using refs
