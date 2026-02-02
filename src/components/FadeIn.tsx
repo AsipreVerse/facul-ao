@@ -1,50 +1,43 @@
 'use client'
 
 import { createContext, useContext } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
 
 const FadeInStaggerContext = createContext(false)
 
-const viewport = { once: true, margin: '0px 0px -200px' }
-
-export function FadeIn(
-  props: React.ComponentPropsWithoutRef<typeof motion.div>,
-) {
-  let shouldReduceMotion = useReducedMotion()
-  let isInStaggerGroup = useContext(FadeInStaggerContext)
-
+/**
+ * FadeIn - Immediate Rendering (No Animation)
+ * 
+ * Previously used framer-motion whileInView for scroll-triggered animations.
+ * Now renders content immediately for:
+ * - Better mobile performance (no animation lag)
+ * - Better Core Web Vitals (no CLS/LCP delay)
+ * - Jony Ive principle: "Content should be revealed, not performed"
+ */
+export function FadeIn({
+  className,
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & { children?: React.ReactNode }) {
+  // Immediate rendering - no animation
   return (
-    <motion.div
-      variants={{
-        hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 24 },
-        visible: { opacity: 1, y: 0 },
-      }}
-      transition={{ duration: 0.5 }}
-      {...(isInStaggerGroup
-        ? {}
-        : {
-            initial: 'hidden',
-            whileInView: 'visible',
-            viewport,
-          })}
-      {...props}
-    />
+    <div className={className} {...props}>
+      {children}
+    </div>
   )
 }
 
 export function FadeInStagger({
   faster = false,
+  className,
+  children,
   ...props
-}: React.ComponentPropsWithoutRef<typeof motion.div> & { faster?: boolean }) {
+}: React.HTMLAttributes<HTMLDivElement> & { faster?: boolean; children?: React.ReactNode }) {
+  // Immediate rendering - no stagger animation
   return (
     <FadeInStaggerContext.Provider value={true}>
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewport}
-        transition={{ staggerChildren: faster ? 0.12 : 0.2 }}
-        {...props}
-      />
+      <div className={className} {...props}>
+        {children}
+      </div>
     </FadeInStaggerContext.Provider>
   )
 }
