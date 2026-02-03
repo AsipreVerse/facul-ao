@@ -10,9 +10,15 @@ import { PageIntro } from '@/components/PageIntro'
 import { SectionIntro } from '@/components/SectionIntro'
 import { StatList, StatListItem } from '@/components/StatList'
 import { RootLayout } from '@/components/RootLayout'
-import imageVenceslau from '@/images/venceslau-profile.png'
-import imageMauroPaim from '@/images/team/mauro-paim.png'
-import imageEvaristoTone from '@/images/team/evaristo-tone.png'
+
+// Leadership images
+import imageVenceslau from '@/images/team/venceslau-andrade.png'
+import imageMauroPaim from '@/images/team/mauro-paim-new.png'
+import imageEvaristoTone from '@/images/team/evaristo-tone-new.png'
+import imageTomeCardoso from '@/images/team/tome-cardoso.png'
+import imageProsperidade from '@/images/team/prosperidade-sunguente.png'
+import imageAlcione from '@/images/team/alcione-bonfim.png'
+import imageIolanda from '@/images/team/iolanda-mangueira.png'
 
 function MissionVision() {
     return (
@@ -90,7 +96,7 @@ function Values() {
 
 // President - Featured separately
 const presidente = {
-    name: 'Venceslau Andrade',
+    name: 'Dr. Venceslau Andrade',
     role: 'Fundador e Presidente do Conselho de Administração',
     bio: 'Empresário, jurista e docente universitário angolano. Fundador do FACUL e Presidente do LIDE Angola.',
     image: { src: imageVenceslau },
@@ -102,39 +108,39 @@ const board = [
         title: 'Conselho de Administração',
         people: [
             {
-                name: 'Mauro Daniel Pedro de Sousa Paim',
-                role: 'Administrador Executivo',
-                image: { src: imageMauroPaim },
-            },
-            {
-                name: 'Evaristo Toné',
+                name: 'Eng. Evaristo Toné',
                 role: 'Administrador Executivo',
                 image: { src: imageEvaristoTone },
             },
             {
-                name: 'Tomé Batista Cardoso',
-                role: 'Administrador',
+                name: 'Dr. Mauro Paim',
+                role: 'Administrador Executivo',
+                image: { src: imageMauroPaim },
+            },
+            {
+                name: 'Dr. Tomé Baptista Cardoso',
+                role: 'Assessor Estratégico',
+                image: { src: imageTomeCardoso },
             },
         ],
     },
     {
-        title: 'Direcções',
+        title: 'Direcção',
         people: [
             {
-                name: 'Director Financeiro',
-                role: 'Direcção de Finanças',
+                name: 'Eng. Prosperidade Sunguente',
+                role: 'Directora da Sidon – Tecnologia de Informação',
+                image: { src: imageProsperidade },
             },
             {
-                name: 'Director de Recursos Humanos',
-                role: 'Direcção de RH',
+                name: 'Dra. Alcione Bonfim',
+                role: 'Directora da Facul – Centro Académico Digital',
+                image: { src: imageAlcione },
             },
             {
-                name: 'Director Comercial',
-                role: 'Direcção Comercial',
-            },
-            {
-                name: 'Director de Operações',
-                role: 'Direcção de Operações',
+                name: 'Dra. Iolanda Mangueira',
+                role: 'Directora do Departamento Financeiro do Grupo Facul',
+                image: { src: imageIolanda },
             },
         ],
     },

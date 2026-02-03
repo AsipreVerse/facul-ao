@@ -11,9 +11,14 @@ import { StatList, StatListItem } from '@/components/StatList'
 import { RootLayout } from '@/components/RootLayout'
 import { Border } from '@/components/Border'
 
-import imageVenceslau from '@/images/venceslau-profile.png'
-import imageMauroPaim from '@/images/team/mauro-paim.png'
-import imageEvaristoTone from '@/images/team/evaristo-tone.png'
+// Leadership images
+import imageVenceslau from '@/images/team/venceslau-andrade.png'
+import imageMauroPaim from '@/images/team/mauro-paim-new.png'
+import imageEvaristoTone from '@/images/team/evaristo-tone-new.png'
+import imageTomeCardoso from '@/images/team/tome-cardoso.png'
+import imageProsperidade from '@/images/team/prosperidade-sunguente.png'
+import imageAlcione from '@/images/team/alcione-bonfim.png'
+import imageIolanda from '@/images/team/iolanda-mangueira.png'
 
 export const metadata: Metadata = {
     title: 'About Us | Grupo Facul',
@@ -137,7 +142,7 @@ function Values() {
 
 // President - Featured separately
 const presidente = {
-    name: 'Venceslau Andrade',
+    name: 'Dr. Venceslau Andrade',
     role: 'Founder & Chairman of the Board',
     bio: 'Angolan entrepreneur, jurist, and university lecturer. Founder of FACUL and President of LIDE Angola.',
     image: { src: imageVenceslau },
@@ -148,18 +153,17 @@ const board = [
     {
         title: 'Board of Directors',
         people: [
-            { name: 'Mauro Daniel Pedro de Sousa Paim', role: 'Executive Director', image: { src: imageMauroPaim } },
-            { name: 'Evaristo Toné', role: 'Executive Director', image: { src: imageEvaristoTone } },
-            { name: 'Tomé Batista Cardoso', role: 'Director' },
+            { name: 'Eng. Evaristo Toné', role: 'Executive Director', image: { src: imageEvaristoTone } },
+            { name: 'Dr. Mauro Paim', role: 'Executive Director', image: { src: imageMauroPaim } },
+            { name: 'Dr. Tomé Baptista Cardoso', role: 'Strategic Advisor', image: { src: imageTomeCardoso } },
         ],
     },
     {
-        title: 'Directorates',
+        title: 'Management',
         people: [
-            { name: 'Chief Financial Officer', role: 'Finance Directorate' },
-            { name: 'Human Resources Director', role: 'HR Directorate' },
-            { name: 'Commercial Director', role: 'Commercial Directorate' },
-            { name: 'Operations Director', role: 'Operations Directorate' },
+            { name: 'Eng. Prosperidade Sunguente', role: 'Director of Sidon – Information Technology', image: { src: imageProsperidade } },
+            { name: 'Dra. Alcione Bonfim', role: 'Director of Facul – Digital Academic Centre', image: { src: imageAlcione } },
+            { name: 'Dra. Iolanda Mangueira', role: 'Director of Finance – Grupo Facul', image: { src: imageIolanda } },
         ],
     },
 ]
