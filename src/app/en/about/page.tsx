@@ -11,14 +11,14 @@ import { StatList, StatListItem } from '@/components/StatList'
 import { RootLayout } from '@/components/RootLayout'
 import { Border } from '@/components/Border'
 
-// Leadership images
-import imageVenceslau from '@/images/team/venceslau-andrade.png'
-import imageMauroPaim from '@/images/team/mauro-paim-new.png'
-import imageEvaristoTone from '@/images/team/evaristo-tone-new.png'
-import imageTomeCardoso from '@/images/team/tome-cardoso.png'
-import imageProsperidade from '@/images/team/prosperidade-sunguente.png'
-import imageAlcione from '@/images/team/alcione-bonfim.png'
-import imageIolanda from '@/images/team/iolanda-mangueira.png'
+// Leadership images (WebP for faster loading)
+import imageVenceslau from '@/images/team/venceslau-andrade.webp'
+import imageMauroPaim from '@/images/team/mauro-paim-new.webp'
+import imageEvaristoTone from '@/images/team/evaristo-tone-new.webp'
+import imageTomeCardoso from '@/images/team/tome-cardoso.webp'
+import imageProsperidade from '@/images/team/prosperidade-sunguente.webp'
+import imageAlcione from '@/images/team/alcione-bonfim.webp'
+import imageIolanda from '@/images/team/iolanda-mangueira.webp'
 
 export const metadata: Metadata = {
     title: 'About Us | Grupo Facul',
