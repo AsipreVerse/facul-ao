@@ -28,7 +28,7 @@ export default function Terms() {
                 <FadeIn>
                     <div className="prose prose-neutral max-w-3xl">
                         <p className="text-sm text-neutral-500">
-                            Last updated: 1 February 2026
+                            Last updated: 5 February 2026
                         </p>
 
                         <h2>1. Acceptance of Terms</h2>

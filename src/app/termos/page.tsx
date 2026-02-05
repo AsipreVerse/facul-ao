@@ -28,7 +28,7 @@ export default function Termos() {
                 <FadeIn>
                     <div className="prose prose-neutral max-w-3xl">
                         <p className="text-sm text-neutral-500">
-                            Última actualização: 1 de Fevereiro de 2026
+                            Última actualização: 5 de Fevereiro de 2026
                         </p>
 
                         <h2>1. Aceitação dos Termos</h2>
