@@ -200,3 +200,22 @@ export const allLegalPagesQuery = groq`
     titleEn
   }
 `
+
+// ============================================
+// BOOKS
+// ============================================
+export const booksQuery = groq`
+  *[_type == "book"] | order(year desc, order asc) {
+    _id,
+    title,
+    titleEn,
+    year,
+    category,
+    categoryEn,
+    description,
+    descriptionEn,
+    "cover": cover.asset->url,
+    author,
+    order
+  }
+`

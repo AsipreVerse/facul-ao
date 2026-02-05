@@ -13,6 +13,7 @@ import {
     featuredTeamMemberQuery,
     aboutPageQuery,
     legalPageQuery,
+    booksQuery,
 } from './queries'
 
 // ============================================
@@ -62,6 +63,20 @@ export interface Client {
 export interface NewsLink {
     _id: string
     url: string
+    order: number
+}
+
+export interface Book {
+    _id: string
+    title: string
+    titleEn?: string
+    year: string
+    category?: string
+    categoryEn?: string
+    description?: string
+    descriptionEn?: string
+    cover?: string
+    author: string
     order: number
 }
 
@@ -209,5 +224,12 @@ export async function getLegalPage(slug: string) {
         query: legalPageQuery,
         params: { slug },
         tags: ['legalPage'],
+    })
+}
+
+export async function getBooks(): Promise<Book[]> {
+    return sanityFetch({
+        query: booksQuery,
+        tags: ['book'],
     })
 }

@@ -9,6 +9,10 @@ import { SectionIntro } from '@/components/SectionIntro'
 import { StatList, StatListItem } from '@/components/StatList'
 import { RootLayout } from '@/components/RootLayout'
 import imageVenceslau from '@/images/venceslau-profile.png'
+import { getBooks, type Book } from '@/lib/sanity/fetchers'
+
+// Force dynamic rendering to fetch fresh Sanity data
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
     title: 'President | Grupo Facul',
@@ -16,26 +20,10 @@ export const metadata: Metadata = {
         'Venceslau Andrade - Angolan entrepreneur, jurist, author and university lecturer. President of LIDE Angola and founder of Code V Leadership School.',
 }
 
-// Verified book data from research
-const books = [
-    {
-        title: 'Change of Circumstances in Bank Credit Contracts',
-        year: '2023',
-        description: 'Legal work on banking law and credit contracts, published by Facul Editora.',
-    },
-    {
-        title: '4 Cycles for Building Global Businesses',
-        year: '2024',
-        description: 'Practical guide for entrepreneurs on building businesses with international reach.',
-    },
-    {
-        title: 'Code V – The Warm-Up',
-        year: '2025',
-        description: 'Personal development and leadership book, complementary to Code V Leadership School.',
-    },
-]
+export default async function President() {
+    // Fetch books from Sanity
+    const books = await getBooks()
 
-export default function President() {
     return (
         <RootLayout>
             <PageIntro
@@ -175,17 +163,29 @@ export default function President() {
 
                 <FadeInStagger className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
                     {books.map((book) => (
-                        <FadeIn key={book.title}>
+                        <FadeIn key={book._id}>
                             <div className="flex flex-col rounded-3xl bg-neutral-50 p-6">
-                                <div className="flex h-48 items-center justify-center rounded-2xl bg-gradient-to-br from-neutral-200 to-neutral-300">
-                                    <span className="font-display text-4xl">📖</span>
-                                </div>
-                                <p className="mt-4 text-sm text-neutral-500">{book.year}</p>
+                                {book.cover ? (
+                                    <div className="flex h-48 items-center justify-center overflow-hidden rounded-2xl bg-neutral-100">
+                                        <img
+                                            src={book.cover}
+                                            alt={book.titleEn || book.title}
+                                            className="h-full w-auto object-contain"
+                                        />
+                                    </div>
+                                ) : (
+                                    <div className="flex h-48 items-center justify-center rounded-2xl bg-gradient-to-br from-neutral-200 to-neutral-300">
+                                        <span className="font-display text-4xl">📖</span>
+                                    </div>
+                                )}
+                                <p className="mt-4 text-sm text-neutral-500">
+                                    {book.categoryEn || book.category} • {book.year}
+                                </p>
                                 <h3 className="mt-2 font-display text-lg font-semibold text-neutral-950">
-                                    {book.title}
+                                    {book.titleEn || book.title}
                                 </h3>
                                 <p className="mt-2 text-sm text-neutral-600">
-                                    {book.description}
+                                    {book.descriptionEn || book.description}
                                 </p>
                             </div>
                         </FadeIn>
