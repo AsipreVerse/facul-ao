@@ -7,9 +7,14 @@ export const teamGroup = defineType({
     fields: [
         defineField({
             name: 'title',
-            title: 'Título',
+            title: 'Título (PT)',
             type: 'string',
             validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+            name: 'titleEn',
+            title: 'Title (EN)',
+            type: 'string',
         }),
         defineField({
             name: 'order',
@@ -40,9 +45,14 @@ export const teamMember = defineType({
         }),
         defineField({
             name: 'role',
-            title: 'Cargo',
+            title: 'Cargo (PT)',
             type: 'string',
             validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+            name: 'roleEn',
+            title: 'Role (EN)',
+            type: 'string',
         }),
         defineField({
             name: 'photo',
@@ -52,7 +62,13 @@ export const teamMember = defineType({
         }),
         defineField({
             name: 'bio',
-            title: 'Biografia',
+            title: 'Biografia (PT)',
+            type: 'text',
+            rows: 3,
+        }),
+        defineField({
+            name: 'bioEn',
+            title: 'Biography (EN)',
             type: 'text',
             rows: 3,
         }),

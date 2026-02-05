@@ -13,12 +13,23 @@ export const company = defineType({
         }),
         defineField({
             name: 'sector',
-            title: 'Sector',
+            title: 'Sector (PT)',
+            type: 'string',
+        }),
+        defineField({
+            name: 'sectorEn',
+            title: 'Sector (EN)',
             type: 'string',
         }),
         defineField({
             name: 'description',
-            title: 'Descrição Curta',
+            title: 'Descrição Curta (PT)',
+            type: 'text',
+            rows: 3,
+        }),
+        defineField({
+            name: 'descriptionEn',
+            title: 'Short Description (EN)',
             type: 'text',
             rows: 3,
         }),

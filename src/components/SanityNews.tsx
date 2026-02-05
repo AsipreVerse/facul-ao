@@ -40,7 +40,11 @@ interface NewsArticle {
     image?: string
 }
 
-export async function SanityNews() {
+interface SanityNewsProps {
+    locale?: 'pt' | 'en'
+}
+
+export async function SanityNews({ locale = 'pt' }: SanityNewsProps) {
     let articles: NewsArticle[] = []
 
     try {
@@ -76,10 +80,12 @@ export async function SanityNews() {
                 <div className="pt-12 sm:pt-16">
                     <FadeIn>
                         <h2 className="font-display text-2xl font-semibold text-neutral-950">
-                            Na Imprensa
+                            {locale === 'en' ? 'In the Press' : 'Na Imprensa'}
                         </h2>
                         <p className="mt-4 max-w-2xl text-base text-neutral-600">
-                            Notícias e artigos sobre o Grupo FACUL.
+                            {locale === 'en'
+                                ? 'News and articles about Grupo FACUL in the press.'
+                                : 'Notícias e artigos sobre o Grupo FACUL na imprensa.'}
                         </p>
                     </FadeIn>
                     <ul role="list" className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -117,7 +123,7 @@ export async function SanityNews() {
                                                 {article.title}
                                             </p>
                                             <p className="mt-4 inline-flex items-center text-sm font-semibold text-neutral-950">
-                                                Ler artigo
+                                                {locale === 'en' ? 'Read article' : 'Ler artigo'}
                                                 <span className="ml-2 transition group-hover:translate-x-1" aria-hidden="true">→</span>
                                             </p>
                                         </div>

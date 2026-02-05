@@ -25,7 +25,9 @@ export const companiesQuery = groq`
     _id,
     name,
     sector,
+    sectorEn,
     description,
+    descriptionEn,
     "logo": logo.asset->url,
     url,
     isExternal,
@@ -116,6 +118,7 @@ export const teamGroupsQuery = groq`
   *[_type == "teamGroup"] | order(order asc) {
     _id,
     title,
+    titleEn,
     order
   }
 `
@@ -125,7 +128,9 @@ export const teamMembersQuery = groq`
     _id,
     name,
     role,
+    roleEn,
     bio,
+    bioEn,
     "photo": photo.asset->url,
     isFeatured,
     profileUrl,
@@ -133,6 +138,7 @@ export const teamMembersQuery = groq`
     "group": group->{
       _id,
       title,
+      titleEn,
       order
     }
   }
@@ -143,7 +149,9 @@ export const featuredTeamMemberQuery = groq`
     _id,
     name,
     role,
+    roleEn,
     bio,
+    bioEn,
     "photo": photo.asset->url,
     profileUrl
   }

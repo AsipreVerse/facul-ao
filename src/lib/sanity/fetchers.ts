@@ -34,7 +34,9 @@ export interface Company {
     _id: string
     name: string
     sector: string
+    sectorEn?: string
     description: string
+    descriptionEn?: string
     logo?: string
     url: string
     isExternal: boolean
@@ -83,6 +85,7 @@ export interface Value {
 export interface TeamGroup {
     _id: string
     title: string
+    titleEn?: string
     order: number
 }
 
@@ -90,7 +93,9 @@ export interface TeamMember {
     _id: string
     name: string
     role: string
+    roleEn?: string
     bio?: string
+    bioEn?: string
     photo?: string
     isFeatured: boolean
     profileUrl?: string
