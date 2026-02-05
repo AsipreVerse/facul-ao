@@ -104,7 +104,7 @@ export function Footer() {
             </p>
             <p className="mt-2 text-neutral-500">
               Desenvolvido por{' '}
-              <a href="https://aspireverse.co.uk" target="_blank" rel="noopener noreferrer" className="hover:text-neutral-950 transition">
+              <a href="https://aspireverse.co.uk" target="_blank" rel="noopener noreferrer" className="text-[#FFB606] hover:text-[#e5a405] transition">
                 AspireVerse™
               </a>
             </p>
