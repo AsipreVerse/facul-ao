@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 interface Company {
     name: string
-    logo: StaticImageData
+    logo: StaticImageData | string
     url?: string
 }
 

@@ -1,4 +1,4 @@
-import { client } from './client'
+import { client, sanityFetch } from './client'
 import {
     siteSettingsQuery,
     companiesQuery,
@@ -120,53 +120,94 @@ export interface AboutPage {
 // DATA FETCHING FUNCTIONS
 // ============================================
 export async function getSiteSettings(): Promise<SiteSettings | null> {
-    return client.fetch(siteSettingsQuery)
+    return sanityFetch({
+        query: siteSettingsQuery,
+        tags: ['siteSettings'],
+    })
 }
 
 export async function getCompanies(): Promise<Company[]> {
-    return client.fetch(companiesQuery)
+    return sanityFetch({
+        query: companiesQuery,
+        tags: ['company'],
+    })
 }
 
 export async function getCompanyBySlug(slug: string): Promise<Company | null> {
-    return client.fetch(companyBySlugQuery, { slug })
+    return sanityFetch({
+        query: companyBySlugQuery,
+        params: { slug },
+        tags: ['company'],
+    })
 }
 
 export async function getPartners(): Promise<Partner[]> {
-    return client.fetch(partnersQuery)
+    return sanityFetch({
+        query: partnersQuery,
+        tags: ['partner'],
+    })
 }
 
 export async function getClients(): Promise<Client[]> {
-    return client.fetch(clientsQuery)
+    return sanityFetch({
+        query: clientsQuery,
+        tags: ['client'],
+    })
 }
 
 export async function getNewsLinks(): Promise<NewsLink[]> {
-    return client.fetch(newsLinksQuery)
+    return sanityFetch({
+        query: newsLinksQuery,
+        tags: ['newsLink'],
+    })
 }
 
 export async function getStats(): Promise<Stat[]> {
-    return client.fetch(statsQuery)
+    return sanityFetch({
+        query: statsQuery,
+        tags: ['stat'],
+    })
 }
 
 export async function getValues(): Promise<Value[]> {
-    return client.fetch(valuesQuery)
+    return sanityFetch({
+        query: valuesQuery,
+        tags: ['value'],
+    })
 }
 
 export async function getTeamGroups(): Promise<TeamGroup[]> {
-    return client.fetch(teamGroupsQuery)
+    return sanityFetch({
+        query: teamGroupsQuery,
+        tags: ['teamGroup'],
+    })
 }
 
 export async function getTeamMembers(): Promise<TeamMember[]> {
-    return client.fetch(teamMembersQuery)
+    return sanityFetch({
+        query: teamMembersQuery,
+        tags: ['teamMember'],
+    })
 }
 
 export async function getFeaturedTeamMember(): Promise<TeamMember | null> {
-    return client.fetch(featuredTeamMemberQuery)
+    return sanityFetch({
+        query: featuredTeamMemberQuery,
+        tags: ['teamMember'],
+    })
 }
 
 export async function getAboutPage(): Promise<AboutPage | null> {
-    return client.fetch(aboutPageQuery)
+    return sanityFetch({
+        query: aboutPageQuery,
+        tags: ['aboutPage'],
+    })
 }
 
 export async function getLegalPage(slug: string) {
-    return client.fetch(legalPageQuery, { slug })
+    return sanityFetch({
+        query: legalPageQuery,
+        params: { slug },
+        tags: ['legalPage'],
+    })
 }

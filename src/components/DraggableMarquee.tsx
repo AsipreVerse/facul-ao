@@ -6,7 +6,7 @@ import type { StaticImageData } from 'next/image'
 
 interface Partner {
     name: string
-    logo: StaticImageData
+    logo: StaticImageData | string
 }
 
 interface DraggableMarqueeProps {

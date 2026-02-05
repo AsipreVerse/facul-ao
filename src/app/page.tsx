@@ -1,6 +1,7 @@
 import { type Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
+import { unstable_noStore as noStore } from 'next/cache'
 
 import { ContactSection } from '@/components/ContactSection'
 import { Container } from '@/components/Container'
@@ -13,6 +14,10 @@ import { Border } from '@/components/Border'
 import { DNAHelixShowcase } from '@/components/DNAHelixShowcase'
 import { DraggableMarquee } from '@/components/DraggableMarquee'
 import { SanityNews } from '@/components/SanityNews'
+import { getPartners, getClients, getCompanies, type Partner, type Client, type Company } from '@/lib/sanity/fetchers'
+
+// Force dynamic rendering to fetch fresh Sanity data
+export const dynamic = 'force-dynamic'
 
 import faculHeroLogo from '@/images/hero_option_a_mosaic.png'
 import imageStationery from '@/images/hero_option_c_blocks.png'
@@ -79,7 +84,7 @@ const clients = [
   { name: 'Bodiva', logo: logoBodiva },
 ]
 
-function Clients() {
+function Clients({ clients }: { clients: Client[] }) {
   return (
     <div className="mt-24 rounded-4xl bg-[#1B3044] py-16 sm:mt-32 sm:py-20 lg:mt-56">
       <Container>
@@ -97,15 +102,18 @@ function Clients() {
             className="mt-8 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4"
           >
             {clients.map((client) => (
-              <li key={client.name}>
+              <li key={client._id}>
                 <FadeIn>
                   <div className="flex h-20 items-center justify-center rounded-xl bg-white p-4 transition hover:scale-105">
-                    <Image
-                      src={client.logo}
-                      alt={client.name}
-                      className="max-h-12 w-auto object-contain"
-                      unoptimized
-                    />
+                    {client.logo ? (
+                      <img
+                        src={client.logo}
+                        alt={client.name}
+                        className="max-h-12 w-auto object-contain"
+                      />
+                    ) : (
+                      <span className="text-sm font-medium text-neutral-600">{client.name}</span>
+                    )}
                   </div>
                 </FadeIn>
               </li>
@@ -117,7 +125,13 @@ function Clients() {
   )
 }
 
-function Partners() {
+function Partners({ partners }: { partners: Partner[] }) {
+  // Transform Sanity partners to marquee format
+  const marqueePartners = partners.map(p => ({
+    name: p.name,
+    logo: p.logo || '',
+  }))
+
   return (
     <div className="mt-24 sm:mt-32 lg:mt-40 overflow-hidden">
       <Container>
@@ -131,7 +145,7 @@ function Partners() {
         </FadeIn>
       </Container>
       <div className="mt-8">
-        <DraggableMarquee partners={partners} />
+        <DraggableMarquee partners={marqueePartners} />
       </div>
     </div>
   )
@@ -159,11 +173,18 @@ const companies = [
   { name: 'Associação Ana Elisa', logo: logoAnaElisa, url: 'https://aae.ao' },
 ]
 
-function Subsidiaries() {
+function Subsidiaries({ companies }: { companies: Company[] }) {
+  // Transform Sanity companies to showcase format
+  const showcaseCompanies = companies.map(c => ({
+    name: c.name,
+    logo: c.logo || '',
+    url: c.isExternal ? c.url : `/${c.url}`,
+  }))
+
   return (
     <div className="mt-24 sm:mt-32 lg:mt-40">
       <DNAHelixShowcase
-        companies={companies}
+        companies={showcaseCompanies}
         title="Empresas do Grupo Facul"
         description="O Grupo Facul é composto por oito empresas que actuam em diferentes sectores da economia angolana, contribuindo para o desenvolvimento do país."
       />
@@ -335,6 +356,13 @@ export const metadata: Metadata = {
 }
 
 export default async function Home() {
+  // Fetch all data from Sanity in parallel
+  const [partners, clients, companies] = await Promise.all([
+    getPartners(),
+    getClients(),
+    getCompanies(),
+  ])
+
   return (
     <RootLayout>
       <Container className="mt-24 sm:mt-32 md:mt-56">
@@ -359,11 +387,11 @@ export default async function Home() {
         </div>
       </Container>
 
-      <Clients />
+      <Clients clients={clients} />
 
-      <Partners />
+      <Partners partners={partners} />
 
-      <Subsidiaries />
+      <Subsidiaries companies={companies} />
 
       <Services />
 
