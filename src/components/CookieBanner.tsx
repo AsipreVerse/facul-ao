@@ -3,12 +3,11 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import posthog from 'posthog-js'
 
 interface ConsentRecord {
-    status: 'accepted' | 'declined'
+    status: 'acknowledged'
     timestamp: string
-    version: '1.0'
+    version: '2.0'
 }
 
 export function CookieBanner() {
@@ -20,40 +19,16 @@ export function CookieBanner() {
         const consent = localStorage.getItem('cookie-consent')
         if (!consent) {
             setShowBanner(true)
-        } else {
-            // Re-apply consent state on page load
-            try {
-                const record: ConsentRecord = JSON.parse(consent)
-                if (record.status === 'accepted') {
-                    posthog.opt_in_capturing()
-                }
-            } catch {
-                // Invalid consent record, show banner
-                setShowBanner(true)
-            }
         }
     }, [])
 
-    const saveConsent = (status: 'accepted' | 'declined') => {
+    const acknowledgeCookies = () => {
         const record: ConsentRecord = {
-            status,
+            status: 'acknowledged',
             timestamp: new Date().toISOString(),
-            version: '1.0',
+            version: '2.0',
         }
         localStorage.setItem('cookie-consent', JSON.stringify(record))
-    }
-
-    const acceptCookies = () => {
-        saveConsent('accepted')
-        posthog.opt_in_capturing()
-        window.dispatchEvent(new Event('consent-changed'))
-        setShowBanner(false)
-    }
-
-    const declineCookies = () => {
-        saveConsent('declined')
-        posthog.opt_out_capturing()
-        window.dispatchEvent(new Event('consent-changed'))
         setShowBanner(false)
     }
 
@@ -62,42 +37,37 @@ export function CookieBanner() {
     // Bilingual content
     const content = isEnglish
         ? {
-            message: 'We use cookies for anonymised analytics only.',
-            learnMore: 'Learn more',
-            decline: 'Decline',
-            accept: 'Accept',
-            cookiesPath: '/en/cookies',
+            title: 'Cookie Notice',
+            message: 'This website uses only essential cookies (language preference). We use Vercel Analytics for anonymised, aggregated statistics that do not identify individual users.',
+            learnMore: 'Privacy Policy',
+            accept: 'Got it',
+            privacyPath: '/en/privacy',
         }
         : {
-            message: 'Utilizamos cookies apenas para análises anonimizadas.',
-            learnMore: 'Saiba mais',
-            decline: 'Recusar',
-            accept: 'Aceitar',
-            cookiesPath: '/cookies',
+            title: 'Aviso de Cookies',
+            message: 'Este website utiliza apenas cookies essenciais (preferência de idioma). Utilizamos o Vercel Analytics para estatísticas anonimizadas e agregadas que não identificam utilizadores individuais.',
+            learnMore: 'Política de Privacidade',
+            accept: 'Entendi',
+            privacyPath: '/privacidade',
         }
 
     return (
         <div className="fixed inset-x-0 bottom-0 z-50 px-4 pb-4">
-            <div className="mx-auto max-w-3xl rounded-2xl bg-[#1B3044] p-6 shadow-2xl">
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <div className="flex-1">
-                        <p className="text-sm text-white">
+            <div className="mx-auto max-w-2xl rounded-2xl bg-[#1B3044] p-6 shadow-2xl">
+                <div className="flex flex-col gap-4">
+                    <div>
+                        <p className="font-semibold text-white mb-2">{content.title}</p>
+                        <p className="text-sm text-white/80">
                             {content.message}{' '}
-                            <Link href={content.cookiesPath} className="text-[#FFB606] underline hover:no-underline">
+                            <Link href={content.privacyPath} className="text-[#FFB606] underline hover:no-underline">
                                 {content.learnMore}
                             </Link>
                         </p>
                     </div>
-                    <div className="flex gap-3">
+                    <div className="flex justify-end">
                         <button
-                            onClick={declineCookies}
-                            className="rounded-lg border border-white/20 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10"
-                        >
-                            {content.decline}
-                        </button>
-                        <button
-                            onClick={acceptCookies}
-                            className="rounded-lg bg-[#FFB606] px-4 py-2 text-sm font-medium text-[#1B3044] transition hover:bg-[#e5a405]"
+                            onClick={acknowledgeCookies}
+                            className="rounded-lg bg-[#FFB606] px-6 py-2 text-sm font-medium text-[#1B3044] transition hover:bg-[#e5a405]"
                         >
                             {content.accept}
                         </button>
@@ -108,7 +78,7 @@ export function CookieBanner() {
     )
 }
 
-// Consent management component for footer
+// Consent management component for footer (simplified)
 export function ManageCookies() {
     const pathname = usePathname()
     const isEnglish = pathname.startsWith('/en')
@@ -123,7 +93,7 @@ export function ManageCookies() {
             onClick={handleManage}
             className="text-sm text-neutral-500 hover:text-neutral-300 transition"
         >
-            {isEnglish ? 'Manage cookies' : 'Gerir cookies'}
+            {isEnglish ? 'Cookie preferences' : 'Preferências de cookies'}
         </button>
     )
 }

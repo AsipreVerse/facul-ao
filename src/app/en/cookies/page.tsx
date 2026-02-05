@@ -9,7 +9,7 @@ import { RootLayout } from '@/components/RootLayout'
 export const metadata: Metadata = {
     title: 'Cookie Policy | Grupo Facul',
     description:
-        'Grupo Facul Cookie Policy - How we use cookies on our website.',
+        'Cookie Policy of Grupo Facul - How we use cookies on our website.',
 }
 
 export default function Cookies() {
@@ -29,7 +29,7 @@ export default function Cookies() {
                 <FadeIn>
                     <div className="prose prose-neutral max-w-3xl">
                         <p className="text-sm text-neutral-500">
-                            Last updated: 1 February 2026
+                            Last updated: 5 February 2026
                         </p>
 
                         <h2>1. What Are Cookies</h2>
@@ -39,72 +39,67 @@ export default function Cookies() {
                             and improve your browsing experience.
                         </p>
 
-                        <h2>2. Essential Cookies</h2>
+                        <h2>2. Cookies We Use</h2>
+                        <p className="bg-neutral-100 p-4 rounded-lg">
+                            <strong>Important:</strong> This website uses <strong>only essential cookies</strong>.
+                            We do not use tracking, advertising or behavioural analytics cookies.
+                        </p>
+
+                        <h3>Essential Cookies</h3>
                         <p>
                             These cookies are necessary for the basic operation of the
-                            website. They include session cookies and language preferences.
-                            They do not require consent.
-                        </p>
-
-                        <h2>3. Analytics Cookies</h2>
-                        <p className="bg-neutral-100 p-4 rounded-lg">
-                            <strong>Important:</strong> We only collect <strong>anonymised, aggregated data</strong>.
-                            Analytics tracking is disabled by default and only activated after you explicitly consent.
-                        </p>
-                        <p>
-                            We use PostHog for website usage analytics. These cookies help
-                            us understand how visitors interact with the site, allowing us
-                            to improve the experience. Data collected includes:
+                            website:
                         </p>
                         <ul>
-                            <li>Pages visited</li>
-                            <li>Time spent on site</li>
-                            <li>Traffic source</li>
-                            <li>Interactions with page elements</li>
+                            <li><strong>Language preference</strong> — Saves your language choice (PT/EN)</li>
+                            <li><strong>Session</strong> — Maintains state during browsing</li>
                         </ul>
-
-                        <h2>4. Cookie Management</h2>
                         <p>
-                            You can manage your cookie preferences through the banner that
-                            appears when you visit our website. You can also use the
-                            &quot;Manage cookies&quot; link in the footer to change your preferences
-                            at any time.
-                        </p>
-                        <p>
-                            Additionally, you can configure your browser to block or delete
-                            cookies. Note that blocking essential cookies may affect website
-                            functionality.
+                            Essential cookies do not require consent as they are necessary
+                            for the technical operation of the website.
                         </p>
 
-                        <h2>5. Consent Record</h2>
+                        <h2>3. Usage Analytics</h2>
                         <p>
-                            When you accept or decline cookies, we record your choice with
-                            date and time for audit and legal compliance purposes. This allows
-                            us to demonstrate that valid consent was obtained.
-                        </p>
-
-                        <h2>6. Third-Party Cookies</h2>
-                        <p>
-                            Our analytics providers may place cookies on your device. We
-                            recommend consulting the privacy policies of these services:
+                            We use <strong>Vercel Analytics</strong> to understand how the
+                            website is used. This service:
                         </p>
                         <ul>
-                            <li>PostHog (usage analytics) — EU-based servers</li>
-                            <li>Vercel (hosting)</li>
+                            <li>Collects only <strong>anonymised and aggregated data</strong></li>
+                            <li>Does not use tracking cookies</li>
+                            <li>Does not collect IP addresses</li>
+                            <li>Does not identify individual users</li>
                         </ul>
-
-                        <h2>7. More Information</h2>
                         <p>
-                            For more information about how we handle your data, please see
-                            our{' '}
+                            Aggregated data includes: pages visited, time spent,
+                            device type and country of origin (approximate).
+                        </p>
+
+                        <h2>4. Managing Cookies</h2>
+                        <p>
+                            You can configure your browser to block or delete cookies.
+                            Note that blocking essential cookies may affect website
+                            functionality, particularly language preference.
+                        </p>
+
+                        <h2>5. Third-Party Cookies</h2>
+                        <p>
+                            We do not use third-party cookies for advertising or tracking.
+                            The only external service is Vercel (hosting and anonymised analytics).
+                        </p>
+
+                        <h2>6. More Information</h2>
+                        <p>
+                            For more information about how we handle your data,
+                            see our{' '}
                             <Link href="/en/privacy" className="text-[#FFB606] hover:underline">
                                 Privacy Policy
                             </Link>.
                         </p>
 
-                        <h2>8. Contact</h2>
+                        <h2>7. Contact</h2>
                         <p>
-                            For cookie-related enquiries:
+                            For cookie-related queries:
                         </p>
                         <p>
                             <strong>Grupo Facul</strong><br />

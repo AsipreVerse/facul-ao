@@ -29,7 +29,7 @@ export default function Cookies() {
                 <FadeIn>
                     <div className="prose prose-neutral max-w-3xl">
                         <p className="text-sm text-neutral-500">
-                            Última actualização: 1 de Fevereiro de 2026
+                            Última actualização: 5 de Fevereiro de 2026
                         </p>
 
                         <h2>1. O Que São Cookies</h2>
@@ -40,63 +40,56 @@ export default function Cookies() {
                             navegação.
                         </p>
 
-                        <h2>2. Cookies Essenciais</h2>
-                        <p>
-                            Estes cookies são necessários para o funcionamento básico do
-                            website. Incluem cookies de sessão e preferências de idioma.
-                            Não requerem consentimento.
+                        <h2>2. Cookies Que Utilizamos</h2>
+                        <p className="bg-neutral-100 p-4 rounded-lg">
+                            <strong>Importante:</strong> Este website utiliza <strong>apenas cookies essenciais</strong>.
+                            Não utilizamos cookies de rastreamento, publicidade ou análise comportamental.
                         </p>
 
-                        <h2>3. Cookies de Análise</h2>
-                        <p className="bg-neutral-100 p-4 rounded-lg">
-                            <strong>Importante:</strong> Recolhemos apenas dados <strong>anonimizados e agregados</strong>.
-                            O rastreamento de análises está desactivado por defeito e só é activado após o seu consentimento explícito.
-                        </p>
+                        <h3>Cookies Essenciais</h3>
                         <p>
-                            Utilizamos o PostHog para análise de utilização do website.
-                            Estes cookies ajudam-nos a compreender como os visitantes
-                            interagem com o site, permitindo-nos melhorar a experiência.
-                            Os dados recolhidos incluem:
+                            Estes cookies são necessários para o funcionamento básico do
+                            website:
                         </p>
                         <ul>
-                            <li>Páginas visitadas</li>
-                            <li>Tempo de permanência</li>
-                            <li>Origem do tráfego</li>
-                            <li>Interacções com elementos da página</li>
+                            <li><strong>Preferência de idioma</strong> — Guarda a sua escolha de idioma (PT/EN)</li>
+                            <li><strong>Sessão</strong> — Mantém o estado durante a navegação</li>
                         </ul>
+                        <p>
+                            Os cookies essenciais não requerem consentimento pois são necessários
+                            para o funcionamento técnico do website.
+                        </p>
+
+                        <h2>3. Análise de Utilização</h2>
+                        <p>
+                            Utilizamos o <strong>Vercel Analytics</strong> para compreender como o
+                            website é utilizado. Este serviço:
+                        </p>
+                        <ul>
+                            <li>Recolhe apenas dados <strong>anonimizados e agregados</strong></li>
+                            <li>Não utiliza cookies de rastreamento</li>
+                            <li>Não recolhe endereços IP</li>
+                            <li>Não identifica utilizadores individuais</li>
+                        </ul>
+                        <p>
+                            Os dados agregados incluem: páginas visitadas, tempo de permanência,
+                            tipo de dispositivo e país de origem (aproximado).
+                        </p>
 
                         <h2>4. Gestão de Cookies</h2>
                         <p>
-                            Pode gerir as suas preferências de cookies através do banner
-                            que aparece quando visita o nosso website. Pode também utilizar
-                            o link &quot;Gerir cookies&quot; no rodapé para alterar as suas preferências
-                            a qualquer momento.
-                        </p>
-                        <p>
-                            Adicionalmente, pode configurar o seu navegador para bloquear
-                            ou eliminar cookies. Note que bloquear cookies essenciais pode
-                            afectar o funcionamento do website.
+                            Pode configurar o seu navegador para bloquear ou eliminar cookies.
+                            Note que bloquear cookies essenciais pode afectar o funcionamento
+                            do website, nomeadamente a preferência de idioma.
                         </p>
 
-                        <h2>5. Registo de Consentimento</h2>
+                        <h2>5. Cookies de Terceiros</h2>
                         <p>
-                            Quando aceita ou recusa cookies, registamos a sua escolha com
-                            a data e hora para fins de auditoria e conformidade legal. Este
-                            registo permite-nos demonstrar que obtivemos consentimento válido.
+                            Não utilizamos cookies de terceiros para publicidade ou rastreamento.
+                            O único serviço externo é o Vercel (alojamento e análise anonimizada).
                         </p>
 
-                        <h2>6. Cookies de Terceiros</h2>
-                        <p>
-                            Os nossos fornecedores de análise podem colocar cookies no
-                            seu dispositivo. Recomendamos que consulte as políticas de
-                            privacidade destes serviços:
-                        </p>
-                        <ul>
-                            <li>PostHog (análise de utilização) — servidores na UE</li>
-                            <li>Vercel (alojamento)</li>
-                        </ul>
-
-                        <h2>7. Mais Informações</h2>
+                        <h2>6. Mais Informações</h2>
                         <p>
                             Para mais informações sobre como tratamos os seus dados,
                             consulte a nossa{' '}
@@ -105,7 +98,7 @@ export default function Cookies() {
                             </Link>.
                         </p>
 
-                        <h2>8. Contacto</h2>
+                        <h2>7. Contacto</h2>
                         <p>
                             Para questões relacionadas com cookies:
                         </p>
