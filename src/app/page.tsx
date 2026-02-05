@@ -12,6 +12,7 @@ import { RootLayout } from '@/components/RootLayout'
 import { Border } from '@/components/Border'
 import { DNAHelixShowcase } from '@/components/DNAHelixShowcase'
 import { DraggableMarquee } from '@/components/DraggableMarquee'
+import { SanityNews } from '@/components/SanityNews'
 
 import faculHeroLogo from '@/images/hero_option_a_mosaic.png'
 import imageStationery from '@/images/hero_option_c_blocks.png'
@@ -366,7 +367,7 @@ export default async function Home() {
 
       <Services />
 
-      <News />
+      <SanityNews />
 
       <ContactSection />
     </RootLayout>
