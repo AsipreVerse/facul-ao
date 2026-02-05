@@ -69,7 +69,7 @@ const companies = [
     },
     {
         name: 'BaySide Technology',
-        description: 'Trading, tecnologias da informação e negócios internacionais. Sede no Dubai.',
+        description: 'Trading e tecnologia. Sede no Dubai.',
         sector: 'Negócios Internacionais',
         href: '/bayside',
         logo: btLogo,

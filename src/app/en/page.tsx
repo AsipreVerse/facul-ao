@@ -208,7 +208,7 @@ function Services() {
                             <span className="mt-2 block text-sm text-[#FFB606]">Facul Editora</span>
                         </ListItem>
                         <ListItem title="International Business">
-                            Trading, IT and international business. Based in Dubai.
+                            Trading and technology. Based in Dubai.
                             <span className="mt-2 block text-sm text-[#FFB606]">BaySide Technology</span>
                         </ListItem>
                         <ListItem title="Social">
