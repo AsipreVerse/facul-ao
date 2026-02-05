@@ -8,7 +8,7 @@ import { PageIntro } from '@/components/PageIntro'
 import { SectionIntro } from '@/components/SectionIntro'
 import { StatList, StatListItem } from '@/components/StatList'
 import { RootLayout } from '@/components/RootLayout'
-import imageVenceslau from '@/images/venceslau-profile.png'
+import imageVenceslau from '@/images/team/venceslau-andrade.webp'
 import { getBooks, type Book } from '@/lib/sanity/fetchers'
 
 // Force dynamic rendering to fetch fresh Sanity data
