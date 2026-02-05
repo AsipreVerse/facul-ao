@@ -36,7 +36,7 @@ export default function Privacy() {
                         <p>
                             <strong>Grupo Facul, S.A.</strong><br />
                             Headquarters: Luanda, Angola<br />
-                            Email: privacy@facul.ao<br />
+                            Email: geral@facul.ao<br />
                             Website: facul.ao
                         </p>
 
@@ -117,7 +117,7 @@ export default function Privacy() {
                             <li><strong>Withdraw consent</strong> — At any time, without affecting the lawfulness of prior processing</li>
                         </ul>
                         <p>
-                            To exercise these rights, contact us at <strong>privacy@facul.ao</strong>.
+                            To exercise these rights, contact us at <strong>geral@facul.ao</strong>.
                         </p>
 
                         <h2>9. Data Security</h2>
@@ -154,7 +154,7 @@ export default function Privacy() {
                         </p>
                         <p>
                             <strong>Grupo Facul</strong><br />
-                            Email: privacy@facul.ao<br />
+                            Email: geral@facul.ao<br />
                             Luanda, Angola
                         </p>
                     </div>

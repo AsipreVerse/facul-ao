@@ -36,7 +36,7 @@ export default function Privacidade() {
                         <p>
                             <strong>Grupo Facul, S.A.</strong><br />
                             Sede: Luanda, Angola<br />
-                            Email: privacidade@facul.ao<br />
+                            Email: geral@facul.ao<br />
                             Website: facul.ao
                         </p>
 
@@ -117,7 +117,7 @@ export default function Privacidade() {
                             <li><strong>Retirar consentimento</strong> — A qualquer momento, sem afectar a licitude do tratamento anterior</li>
                         </ul>
                         <p>
-                            Para exercer estes direitos, contacte-nos através de <strong>privacidade@facul.ao</strong>.
+                            Para exercer estes direitos, contacte-nos através de <strong>geral@facul.ao</strong>.
                         </p>
 
                         <h2>9. Segurança dos Dados</h2>
@@ -154,7 +154,7 @@ export default function Privacidade() {
                         </p>
                         <p>
                             <strong>Grupo Facul</strong><br />
-                            Email: privacidade@facul.ao<br />
+                            Email: geral@facul.ao<br />
                             Luanda, Angola
                         </p>
                     </div>

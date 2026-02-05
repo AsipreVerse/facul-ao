@@ -111,7 +111,7 @@ export default function Cookies() {
                         </p>
                         <p>
                             <strong>Grupo Facul</strong><br />
-                            Email: privacidade@facul.ao<br />
+                            Email: geral@facul.ao<br />
                             Luanda, Angola
                         </p>
                     </div>
