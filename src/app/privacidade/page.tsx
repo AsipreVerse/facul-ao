@@ -39,7 +39,7 @@ export default function Privacidade() {
                             Sede: Luanda, Angola<br />
                             NIF: 5000514683<br />
                             Email: geral@facul.ao<br />
-                            Website: facul.ao
+                            Website: grupofacul.com
                         </p>
 
                         <h2>2. Lei Aplicável</h2>
