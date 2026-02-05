@@ -151,13 +151,8 @@ export function DraggableMarquee({ partners, className }: DraggableMarqueeProps)
         }
     }, [handleDragStart, handleDragMove, handleDragEnd])
 
-    // Pause on hover (desktop only)
-    const handleMouseEnter = () => {
-        if (!isMobile) setIsPaused(true)
-    }
-    const handleMouseLeaveContainer = () => {
-        if (!isMobile && !isDragging) setIsPaused(false)
-    }
+    // No hover pause - only pause when dragging
+    // This fixes the issue where the marquee would stay frozen
 
     // Card dimensions - smaller on mobile for better single-card visibility
     const cardWidth = isMobile ? 'w-40' : 'w-48'
@@ -170,8 +165,6 @@ export function DraggableMarquee({ partners, className }: DraggableMarqueeProps)
         <div
             ref={containerRef}
             className={`relative ${className || ''}`}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeaveContainer}
         >
             {/* Gradient overlays for smooth edges - smaller on mobile */}
             <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 sm:w-32 bg-gradient-to-r from-white to-transparent" />
