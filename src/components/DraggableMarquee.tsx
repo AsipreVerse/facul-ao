@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState, useCallback, useEffect } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import Image from 'next/image'
 import type { StaticImageData } from 'next/image'
 
@@ -15,29 +15,15 @@ interface DraggableMarqueeProps {
 }
 
 /**
- * DraggableMarquee - Auto-scrolling marquee with touch/mouse drag support
- * 
- * - Auto-scrolls continuously when not being dragged
- * - Pauses on touch and allows manual drag
- * - Resumes auto-scroll after interaction ends
- * - Uses setInterval for consistent speed across devices
+ * DraggableMarquee - CSS transform-based marquee for Safari compatibility
+ * Uses translateX instead of scrollLeft for reliable cross-browser animation
  */
 export function DraggableMarquee({ partners, className }: DraggableMarqueeProps) {
-    const containerRef = useRef<HTMLDivElement>(null)
-    const scrollRef = useRef<HTMLDivElement>(null)
-    const [isDragging, setIsDragging] = useState(false)
-    const [isPaused, setIsPaused] = useState(false)
-    const [isMobile, setIsMobile] = useState(false)
-
-    // Track drag state in refs to avoid re-renders
-    const dragStateRef = useRef({
-        isDragging: false,
-        startX: 0,
-        scrollLeft: 0,
-    })
-
-    // Track if component is mounted (Safari hydration fix)
+    const trackRef = useRef<HTMLDivElement>(null)
     const [isMounted, setIsMounted] = useState(false)
+    const [isMobile, setIsMobile] = useState(false)
+    const [isPaused, setIsPaused] = useState(false)
+    const positionRef = useRef(0)
 
     // Check for mobile and mark as mounted
     useEffect(() => {
@@ -48,13 +34,13 @@ export function DraggableMarquee({ partners, className }: DraggableMarqueeProps)
         return () => window.removeEventListener('resize', checkMobile)
     }, [])
 
-    // Auto-scroll animation using requestAnimationFrame for Safari compatibility
+    // CSS transform-based animation (Safari compatible)
     useEffect(() => {
-        const scrollContainer = scrollRef.current
-        if (!scrollContainer || !isMounted || isDragging || isPaused) return
+        if (!isMounted || isPaused) return
+        const track = trackRef.current
+        if (!track) return
 
-        // Same speed for both - smooth continuous scroll
-        const pixelsPerSecond = 40 // 40 pixels per second
+        const pixelsPerSecond = 40
         let animationId: number
         let lastTime = 0
 
@@ -63,110 +49,34 @@ export function DraggableMarquee({ partners, className }: DraggableMarqueeProps)
             const deltaTime = currentTime - lastTime
             lastTime = currentTime
 
-            // Smooth scroll based on elapsed time
-            const scrollAmount = (pixelsPerSecond * deltaTime) / 1000
-            scrollContainer.scrollLeft += scrollAmount
+            // Move position
+            positionRef.current -= (pixelsPerSecond * deltaTime) / 1000
 
-            // Reset to start for seamless loop
-            const halfWidth = scrollContainer.scrollWidth / 2
-            if (scrollContainer.scrollLeft >= halfWidth) {
-                scrollContainer.scrollLeft = 0
+            // Reset when half the track has scrolled
+            const trackWidth = track.scrollWidth / 2
+            if (Math.abs(positionRef.current) >= trackWidth) {
+                positionRef.current = 0
             }
+
+            // Apply transform (Safari-friendly)
+            track.style.transform = `translate3d(${positionRef.current}px, 0, 0)`
 
             animationId = requestAnimationFrame(animate)
         }
 
         animationId = requestAnimationFrame(animate)
         return () => cancelAnimationFrame(animationId)
-    }, [isMounted, isDragging, isPaused])
+    }, [isMounted, isPaused])
 
-    // Drag handlers
-    const handleDragStart = useCallback((clientX: number) => {
-        const scrollContainer = scrollRef.current
-        if (!scrollContainer) return
-
-        dragStateRef.current = {
-            isDragging: true,
-            startX: clientX,
-            scrollLeft: scrollContainer.scrollLeft,
-        }
-        setIsDragging(true)
-        setIsPaused(true)
-    }, [])
-
-    const handleDragMove = useCallback((clientX: number) => {
-        if (!dragStateRef.current.isDragging) return
-        const scrollContainer = scrollRef.current
-        if (!scrollContainer) return
-
-        const deltaX = clientX - dragStateRef.current.startX
-        const sensitivity = isMobile ? 1.5 : 1
-        scrollContainer.scrollLeft = dragStateRef.current.scrollLeft - deltaX * sensitivity
-    }, [isMobile])
-
-    const handleDragEnd = useCallback(() => {
-        dragStateRef.current.isDragging = false
-        setIsDragging(false)
-        // Resume auto-scroll after a short delay
-        setTimeout(() => setIsPaused(false), 1500)
-    }, [])
-
-    // Mouse events (desktop only)
-    const handleMouseDown = (e: React.MouseEvent) => {
-        if (isMobile) return
-        e.preventDefault()
-        handleDragStart(e.clientX)
+    // Pause on hover (desktop)
+    const handleMouseEnter = () => {
+        if (!isMobile) setIsPaused(true)
     }
-
-    const handleMouseMove = (e: React.MouseEvent) => {
-        if (isMobile) return
-        handleDragMove(e.clientX)
-    }
-
-    const handleMouseUp = () => {
-        if (isMobile) return
-        handleDragEnd()
-    }
-
     const handleMouseLeave = () => {
-        if (isMobile) return
-        if (isDragging) handleDragEnd()
+        if (!isMobile) setIsPaused(false)
     }
 
-    // Touch events via native listeners
-    useEffect(() => {
-        const container = containerRef.current
-        if (!container) return
-
-        const onTouchStart = (e: TouchEvent) => {
-            handleDragStart(e.touches[0].clientX)
-        }
-
-        const onTouchMove = (e: TouchEvent) => {
-            if (dragStateRef.current.isDragging) {
-                handleDragMove(e.touches[0].clientX)
-            }
-        }
-
-        const onTouchEnd = () => {
-            handleDragEnd()
-        }
-
-        container.addEventListener('touchstart', onTouchStart, { passive: true })
-        container.addEventListener('touchmove', onTouchMove, { passive: true })
-        container.addEventListener('touchend', onTouchEnd, { passive: true })
-
-        return () => {
-            container.removeEventListener('touchstart', onTouchStart)
-            container.removeEventListener('touchmove', onTouchMove)
-            container.removeEventListener('touchend', onTouchEnd)
-        }
-    }, [handleDragStart, handleDragMove, handleDragEnd])
-
-    // No hover pause - only pause when dragging
-    // This fixes the issue where the marquee would stay frozen
-
-    // Card dimensions - smaller on mobile for better single-card visibility
+    // Card dimensions
     const cardWidth = isMobile ? 'w-40' : 'w-48'
     const cardHeight = isMobile ? 'h-20' : 'h-24'
     const logoHeight = isMobile ? 'max-h-12' : 'max-h-16'
@@ -175,67 +85,53 @@ export function DraggableMarquee({ partners, className }: DraggableMarqueeProps)
 
     return (
         <div
-            ref={containerRef}
-            className={`relative ${className || ''}`}
+            className={`relative overflow-hidden ${className || ''}`}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
         >
-            {/* Gradient overlays for smooth edges - smaller on mobile */}
+            {/* Gradient overlays */}
             <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 sm:w-32 bg-gradient-to-r from-white to-transparent" />
             <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 sm:w-32 bg-gradient-to-l from-white to-transparent" />
 
-            {/* Scrollable container */}
+            {/* Animated track */}
             <div
-                ref={scrollRef}
-                className={`flex overflow-x-auto scrollbar-hide select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+                ref={trackRef}
+                className={`flex items-center ${cardGap}`}
                 style={{
-                    scrollbarWidth: 'none',
-                    msOverflowStyle: 'none',
-                    WebkitOverflowScrolling: 'touch',
-                    touchAction: 'pan-x',
-                    // Safari GPU acceleration fix
-                    willChange: 'scroll-position',
-                    transform: 'translateZ(0)',
+                    willChange: 'transform',
                 }}
-                onMouseDown={handleMouseDown}
-                onMouseMove={handleMouseMove}
-                onMouseUp={handleMouseUp}
-                onMouseLeave={handleMouseLeave}
             >
                 {/* First set */}
-                <div className={`flex shrink-0 items-center ${cardGap} px-4`}>
-                    {partners.map((partner, idx) => (
-                        <div
-                            key={`a-${idx}`}
-                            className={`flex ${cardHeight} ${cardWidth} shrink-0 items-center justify-center rounded-2xl border border-neutral-100 bg-white ${cardPadding} shadow-sm pointer-events-none`}
-                        >
-                            <Image
-                                src={partner.logo}
-                                alt={partner.name}
-                                className={`${logoHeight} w-auto object-contain`}
-                                unoptimized
-                                draggable={false}
-                            />
-                        </div>
-                    ))}
-                </div>
+                {partners.map((partner, idx) => (
+                    <div
+                        key={`a-${idx}`}
+                        className={`flex ${cardHeight} ${cardWidth} shrink-0 items-center justify-center rounded-2xl border border-neutral-100 bg-white ${cardPadding} shadow-sm`}
+                    >
+                        <Image
+                            src={partner.logo}
+                            alt={partner.name}
+                            className={`${logoHeight} w-auto object-contain`}
+                            unoptimized
+                            draggable={false}
+                        />
+                    </div>
+                ))}
                 {/* Duplicate for seamless loop */}
-                <div className={`flex shrink-0 items-center ${cardGap} px-4`}>
-                    {partners.map((partner, idx) => (
-                        <div
-                            key={`b-${idx}`}
-                            className={`flex ${cardHeight} ${cardWidth} shrink-0 items-center justify-center rounded-2xl border border-neutral-100 bg-white ${cardPadding} shadow-sm pointer-events-none`}
-                        >
-                            <Image
-                                src={partner.logo}
-                                alt={partner.name}
-                                className={`${logoHeight} w-auto object-contain`}
-                                unoptimized
-                                draggable={false}
-                            />
-                        </div>
-                    ))}
-                </div>
+                {partners.map((partner, idx) => (
+                    <div
+                        key={`b-${idx}`}
+                        className={`flex ${cardHeight} ${cardWidth} shrink-0 items-center justify-center rounded-2xl border border-neutral-100 bg-white ${cardPadding} shadow-sm`}
+                    >
+                        <Image
+                            src={partner.logo}
+                            alt={partner.name}
+                            className={`${logoHeight} w-auto object-contain`}
+                            unoptimized
+                            draggable={false}
+                        />
+                    </div>
+                ))}
             </div>
         </div>
     )
 }
-
