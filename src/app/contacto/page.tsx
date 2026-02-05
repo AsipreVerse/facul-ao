@@ -25,30 +25,6 @@ function ContactDetails() {
 
             <Border className="mt-16 pt-16">
                 <h2 className="font-display text-base font-semibold text-neutral-950">
-                    Email
-                </h2>
-                <dl className="mt-6 grid grid-cols-1 gap-8 text-sm sm:grid-cols-2">
-                    {[
-                        ['Geral', 'geral@facul.ao'],
-                        ['Formação', 'formacao@facul.ao'],
-                    ].map(([label, email]) => (
-                        <div key={email}>
-                            <dt className="font-semibold text-neutral-950">{label}</dt>
-                            <dd>
-                                <Link
-                                    href={`mailto:${email}`}
-                                    className="text-neutral-600 hover:text-neutral-950"
-                                >
-                                    {email}
-                                </Link>
-                            </dd>
-                        </div>
-                    ))}
-                </dl>
-            </Border>
-
-            <Border className="mt-16 pt-16">
-                <h2 className="font-display text-base font-semibold text-neutral-950">
                     Redes Sociais
                 </h2>
                 <SocialMedia className="mt-6" />
