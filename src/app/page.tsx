@@ -84,7 +84,8 @@ const clients = [
   { name: 'Bodiva', logo: logoBodiva },
 ]
 
-function Clients({ clients }: { clients: Client[] }) {
+function Clients() {
+  // Use local static clients array (logos not yet uploaded to Sanity)
   return (
     <div className="mt-24 rounded-4xl bg-[#1B3044] py-16 sm:mt-32 sm:py-20 lg:mt-56">
       <Container>
@@ -102,18 +103,15 @@ function Clients({ clients }: { clients: Client[] }) {
             className="mt-8 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4"
           >
             {clients.map((client) => (
-              <li key={client._id}>
+              <li key={client.name}>
                 <FadeIn>
                   <div className="flex h-20 items-center justify-center rounded-xl bg-white p-4 transition hover:scale-105">
-                    {client.logo ? (
-                      <img
-                        src={client.logo}
-                        alt={client.name}
-                        className="max-h-12 w-auto object-contain"
-                      />
-                    ) : (
-                      <span className="text-sm font-medium text-neutral-600">{client.name}</span>
-                    )}
+                    <Image
+                      src={client.logo}
+                      alt={client.name}
+                      className="max-h-12 w-auto object-contain"
+                      unoptimized
+                    />
                   </div>
                 </FadeIn>
               </li>
@@ -125,11 +123,11 @@ function Clients({ clients }: { clients: Client[] }) {
   )
 }
 
-function Partners({ partners }: { partners: Partner[] }) {
-  // Transform Sanity partners to marquee format
+function Partners() {
+  // Use local static partners array (logos not yet uploaded to Sanity)
   const marqueePartners = partners.map(p => ({
     name: p.name,
-    logo: p.logo || '',
+    logo: p.logo,
   }))
 
 
@@ -174,18 +172,12 @@ const companies = [
   { name: 'Associação Ana Elisa', logo: logoAnaElisa, url: 'https://aae.ao' },
 ]
 
-function Subsidiaries({ companies }: { companies: Company[] }) {
-  // Transform Sanity companies to showcase format
-  const showcaseCompanies = companies.map(c => ({
-    name: c.name,
-    logo: c.logo || '',
-    url: c.isExternal ? c.url : `/${c.url}`,
-  }))
-
+function Subsidiaries() {
+  // Use local static companies array (logos not working with Sanity remote URLs)
   return (
     <div className="mt-24 sm:mt-32 lg:mt-40">
       <DNAHelixShowcase
-        companies={showcaseCompanies}
+        companies={companies}
         title="Empresas do Grupo Facul"
         description="O Grupo Facul é composto por oito empresas que actuam em diferentes sectores da economia angolana, contribuindo para o desenvolvimento do país."
       />
@@ -201,6 +193,7 @@ function Subsidiaries({ companies }: { companies: Company[] }) {
     </div>
   )
 }
+
 
 function Services() {
   return (
@@ -358,11 +351,8 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   // Fetch all data from Sanity in parallel
-  const [partners, clients, companies] = await Promise.all([
-    getPartners(),
-    getClients(),
-    getCompanies(),
-  ])
+  // Fetch only companies from Sanity (partners/clients use local logos until uploaded)
+  const companies = await getCompanies()
 
   return (
     <RootLayout>
@@ -388,12 +378,12 @@ export default async function Home() {
         </div>
       </Container>
 
-      <Clients clients={clients} />
+      <Clients />
 
-      <Partners partners={partners} />
+      <Partners />
 
 
-      <Subsidiaries companies={companies} />
+      <Subsidiaries />
 
       <Services />
 

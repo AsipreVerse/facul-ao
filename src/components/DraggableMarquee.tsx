@@ -1,11 +1,12 @@
 'use client'
 
 import { useRef, useState, useEffect } from 'react'
-
+import Image from 'next/image'
+import type { StaticImageData } from 'next/image'
 
 interface Partner {
     name: string
-    logo: string
+    logo: StaticImageData | string
 }
 
 interface DraggableMarqueeProps {
@@ -106,10 +107,11 @@ export function DraggableMarquee({ partners, className }: DraggableMarqueeProps)
                         key={`a-${idx}`}
                         className={`flex ${cardHeight} ${cardWidth} shrink-0 items-center justify-center rounded-2xl border border-neutral-100 bg-white ${cardPadding} shadow-sm`}
                     >
-                        <img
-                            src={typeof partner.logo === 'string' ? partner.logo : ''}
+                        <Image
+                            src={partner.logo}
                             alt={partner.name}
                             className={`${logoHeight} w-auto object-contain`}
+                            unoptimized
                             draggable={false}
                         />
                     </div>
@@ -120,10 +122,11 @@ export function DraggableMarquee({ partners, className }: DraggableMarqueeProps)
                         key={`b-${idx}`}
                         className={`flex ${cardHeight} ${cardWidth} shrink-0 items-center justify-center rounded-2xl border border-neutral-100 bg-white ${cardPadding} shadow-sm`}
                     >
-                        <img
-                            src={typeof partner.logo === 'string' ? partner.logo : ''}
+                        <Image
+                            src={partner.logo}
                             alt={partner.name}
                             className={`${logoHeight} w-auto object-contain`}
+                            unoptimized
                             draggable={false}
                         />
                     </div>

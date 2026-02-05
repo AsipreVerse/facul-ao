@@ -96,9 +96,9 @@ export async function SanityNews({ locale = 'pt' }: SanityNewsProps) {
                                         href={article.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="group block h-[280px] overflow-hidden rounded-2xl border border-neutral-200 transition hover:border-neutral-950"
+                                        className="group block h-[380px] overflow-hidden rounded-2xl border border-neutral-200 transition hover:border-neutral-950"
                                     >
-                                        <div className="relative aspect-[16/9] w-full overflow-hidden bg-neutral-100">
+                                        <div className="relative h-[200px] w-full overflow-hidden bg-neutral-100">
                                             {article.image ? (
                                                 <Image
                                                     src={article.image}
