@@ -88,8 +88,7 @@ export function Footer() {
             </Link>
             <address className="not-italic text-xs leading-relaxed text-neutral-500">
               <strong className="font-medium text-neutral-700">FACUL — CENTRO ACADÉMICO DIGITAL, S.A.</strong><br />
-              Holding Empresarial Angolana<br />
-              Luanda, Angola · NIF: 5000514683
+              NIF: 5000514683
             </address>
           </div>
           <div className="text-sm text-neutral-700">
