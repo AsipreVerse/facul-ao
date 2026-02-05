@@ -36,26 +36,35 @@ export function DraggableMarquee({ partners, className }: DraggableMarqueeProps)
         scrollLeft: 0,
     })
 
-    // Check for mobile
+    // Track if component is mounted (Safari hydration fix)
+    const [isMounted, setIsMounted] = useState(false)
+
+    // Check for mobile and mark as mounted
     useEffect(() => {
+        setIsMounted(true)
         const checkMobile = () => setIsMobile(window.innerWidth < 768)
         checkMobile()
         window.addEventListener('resize', checkMobile)
         return () => window.removeEventListener('resize', checkMobile)
     }, [])
 
-    // Auto-scroll animation using setInterval for consistent speed
+    // Auto-scroll animation using requestAnimationFrame for Safari compatibility
     useEffect(() => {
         const scrollContainer = scrollRef.current
-        if (!scrollContainer || isDragging || isPaused) return
+        if (!scrollContainer || !isMounted || isDragging || isPaused) return
 
         // Faster speed on mobile since cards are smaller
         const scrollSpeed = isMobile ? 1.5 : 1
-        const intervalMs = 16 // ~60fps
+        let animationId: number
+        let lastTime = performance.now()
 
-        const interval = setInterval(() => {
-            if (scrollContainer) {
-                scrollContainer.scrollLeft += scrollSpeed
+        const animate = (currentTime: number) => {
+            const deltaTime = currentTime - lastTime
+
+            // Target 60fps, adjust scroll based on elapsed time
+            if (deltaTime >= 16) {
+                scrollContainer.scrollLeft += scrollSpeed * (deltaTime / 16)
+                lastTime = currentTime
 
                 // Reset to start for seamless loop
                 const halfWidth = scrollContainer.scrollWidth / 2
@@ -63,10 +72,13 @@ export function DraggableMarquee({ partners, className }: DraggableMarqueeProps)
                     scrollContainer.scrollLeft = 0
                 }
             }
-        }, intervalMs)
 
-        return () => clearInterval(interval)
-    }, [isDragging, isPaused, isMobile])
+            animationId = requestAnimationFrame(animate)
+        }
+
+        animationId = requestAnimationFrame(animate)
+        return () => cancelAnimationFrame(animationId)
+    }, [isMounted, isDragging, isPaused, isMobile])
 
     // Drag handlers
     const handleDragStart = useCallback((clientX: number) => {
