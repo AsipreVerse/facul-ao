@@ -34,8 +34,10 @@ export default function Privacidade() {
 
                         <h2>1. Responsável pelo Tratamento</h2>
                         <p>
-                            <strong>Grupo Facul, S.A.</strong><br />
+                            <strong>FACUL — CENTRO ACADÉMICO DIGITAL, S.A.</strong><br />
+                            Holding Empresarial Angolana<br />
                             Sede: Luanda, Angola<br />
+                            NIF: 5000514683<br />
                             Email: geral@facul.ao<br />
                             Website: facul.ao
                         </p>

@@ -40,12 +40,12 @@ export default function Terms() {
 
                         <h2>2. Services</h2>
                         <p>
-                            Grupo Facul is an Angolan business holding operating across
-                            multiple sectors through its subsidiaries, including digital
-                            education, technology, transport, events, publishing, cleaning
-                            and recycling, international business and social action.
-                            Specific service details are defined in separate agreements
-                            with the respective group companies.
+                            FACUL — CENTRO ACADÉMICO DIGITAL, S.A. (NIF: 5000514683) is an
+                            Angolan business holding operating across multiple sectors
+                            through its subsidiaries, including digital education, technology,
+                            transport, events, publishing, cleaning and recycling, international
+                            business and social action. Specific service details are defined
+                            in separate agreements with the respective group companies.
                         </p>
 
                         <h2>3. Intellectual Property</h2>

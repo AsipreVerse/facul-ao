@@ -34,8 +34,10 @@ export default function Privacy() {
 
                         <h2>1. Data Controller</h2>
                         <p>
-                            <strong>Grupo Facul, S.A.</strong><br />
+                            <strong>FACUL — CENTRO ACADÉMICO DIGITAL, S.A.</strong><br />
+                            Angolan Business Holding<br />
                             Headquarters: Luanda, Angola<br />
+                            NIF: 5000514683<br />
                             Email: geral@facul.ao<br />
                             Website: facul.ao
                         </p>

@@ -76,15 +76,22 @@ export function Footer() {
           <Navigation />
         </div>
         <div className="mt-24 mb-20 flex flex-wrap items-end justify-between gap-x-6 gap-y-4 border-t border-neutral-950/10 pt-12">
-          <Link href="/" aria-label="Início">
-            <Image
-              src={goldLogo}
-              alt="Grupo Facul"
-              className="h-12 w-auto"
-              quality={100}
-              priority
-            />
-          </Link>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:gap-8">
+            <Link href="/" aria-label="Início">
+              <Image
+                src={goldLogo}
+                alt="Grupo Facul"
+                className="h-12 w-auto"
+                quality={100}
+                priority
+              />
+            </Link>
+            <address className="not-italic text-xs leading-relaxed text-neutral-500">
+              <strong className="font-medium text-neutral-700">FACUL — CENTRO ACADÉMICO DIGITAL, S.A.</strong><br />
+              Holding Empresarial Angolana<br />
+              Luanda, Angola · NIF: 5000514683
+            </address>
+          </div>
           <div className="text-sm text-neutral-700">
             <p>© Grupo Facul {new Date().getFullYear()}. Todos os direitos reservados.</p>
             <p className="mt-1">

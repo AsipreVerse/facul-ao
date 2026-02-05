@@ -102,7 +102,8 @@ export default function Cookies() {
                             For cookie-related queries:
                         </p>
                         <p>
-                            <strong>Grupo Facul</strong><br />
+                            <strong>FACUL — CENTRO ACADÉMICO DIGITAL, S.A.</strong><br />
+                            NIF: 5000514683<br />
                             Email: geral@facul.ao<br />
                             Luanda, Angola
                         </p>

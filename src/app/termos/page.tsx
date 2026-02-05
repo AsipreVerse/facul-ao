@@ -41,12 +41,13 @@ export default function Termos() {
 
                         <h2>2. Serviços</h2>
                         <p>
-                            O Grupo Facul é uma holding empresarial angolana que opera
-                            em múltiplos sectores através das suas subsidiárias, incluindo
-                            educação digital, tecnologia, transportes, eventos, publicações,
-                            limpeza e reciclagem, negócios internacionais e acção social.
-                            Os detalhes específicos de cada serviço são definidos em acordos
-                            separados com as respectivas empresas do grupo.
+                            FACUL — CENTRO ACADÉMICO DIGITAL, S.A. (NIF: 5000514683) é uma
+                            holding empresarial angolana que opera em múltiplos sectores
+                            através das suas subsidiárias, incluindo educação digital,
+                            tecnologia, transportes, eventos, publicações, limpeza e
+                            reciclagem, negócios internacionais e acção social. Os detalhes
+                            específicos de cada serviço são definidos em acordos separados
+                            com as respectivas empresas do grupo.
                         </p>
 
                         <h2>3. Propriedade Intelectual</h2>
