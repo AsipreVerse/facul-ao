@@ -191,6 +191,9 @@ export function DraggableMarquee({ partners, className }: DraggableMarqueeProps)
                     msOverflowStyle: 'none',
                     WebkitOverflowScrolling: 'touch',
                     touchAction: 'pan-x',
+                    // Safari GPU acceleration fix
+                    willChange: 'scroll-position',
+                    transform: 'translateZ(0)',
                 }}
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
