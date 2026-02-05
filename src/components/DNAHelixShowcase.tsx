@@ -1,12 +1,11 @@
 'use client'
 
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react'
-import Image, { StaticImageData } from 'next/image'
 import Link from 'next/link'
 
 interface Company {
     name: string
-    logo: StaticImageData | string
+    logo: string
     url?: string
 }
 
@@ -171,12 +170,10 @@ export function DNAHelixShowcase({ companies, title, description }: DNAHelixShow
                     pointerEvents: 'none',
                 }}
             >
-                <Image
-                    src={company.logo}
+                <img
+                    src={typeof company.logo === 'string' ? company.logo : ''}
                     alt={company.name}
                     className="max-h-full w-auto object-contain"
-                    quality={100}
-                    priority
                     draggable={false}
                 />
             </div>
