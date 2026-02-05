@@ -47,23 +47,23 @@ export function Offices({
       <li>
         <Office name="Contacto" invert={invert}>
           <a
-            href="mailto:info@facul.ao"
+            href="mailto:geral@facul.ao"
             className={clsx(
               'transition hover:underline',
               invert ? 'hover:text-white' : 'hover:text-neutral-950'
             )}
           >
-            info@facul.ao
+            geral@facul.ao
           </a>
           <br />
           <a
-            href="tel:+244987654334"
+            href="tel:+244929048205"
             className={clsx(
               'transition hover:underline',
               invert ? 'hover:text-white' : 'hover:text-neutral-950'
             )}
           >
-            +244 987 654 334
+            +244 929 048 205
           </a>
         </Office>
       </li>

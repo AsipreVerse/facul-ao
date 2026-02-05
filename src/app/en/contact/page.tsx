@@ -25,12 +25,12 @@ function ContactDetails() {
                 <div>
                     <dt className="font-semibold text-neutral-950">Contact</dt>
                     <dd className="text-neutral-600">
-                        <a href="mailto:info@facul.ao" className="hover:text-neutral-950">
-                            info@facul.ao
+                        <a href="mailto:geral@facul.ao" className="hover:text-neutral-950">
+                            geral@facul.ao
                         </a>
                         <br />
-                        <a href="tel:+244987654334" className="hover:text-neutral-950">
-                            +244 987 654 334
+                        <a href="tel:+244929048205" className="hover:text-neutral-950">
+                            +244 929 048 205
                         </a>
                     </dd>
                 </div>

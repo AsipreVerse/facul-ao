@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
         // Send notification email to Grupo Facul
         await resend.emails.send({
             from: process.env.RESEND_FROM_EMAIL || 'hello@grupofacul.com',
-            to: 'info@facul.ao',
+            to: 'geral@facul.ao',
             replyTo: email,
             subject: `Nova mensagem de ${name} - ${interestLabels[interest] || 'Geral'}`,
             html: `
@@ -62,8 +62,8 @@ export async function POST(request: NextRequest) {
                     
                     <p>Caso tenha alguma questão urgente, pode contactar-nos directamente através de:</p>
                     <ul>
-                        <li>Email: <a href="mailto:info@facul.ao">info@facul.ao</a></li>
-                        <li>Telefone: +244 923 456 789</li>
+                        <li>Email: <a href="mailto:geral@facul.ao">geral@facul.ao</a></li>
+                        <li>Telefone: +244 929 048 205</li>
                     </ul>
                     
                     <p>Com os melhores cumprimentos,</p>

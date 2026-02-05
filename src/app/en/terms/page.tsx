@@ -120,7 +120,7 @@ export default function Terms() {
                         </p>
                         <p>
                             <strong>Grupo Facul</strong><br />
-                            Email: info@facul.ao<br />
+                            Email: geral@facul.ao<br />
                             Luanda, Angola
                         </p>
                     </div>
