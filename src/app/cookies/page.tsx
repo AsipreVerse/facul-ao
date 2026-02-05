@@ -106,7 +106,7 @@ export default function Cookies() {
                             <strong>FACUL — CENTRO ACADÉMICO DIGITAL, S.A.</strong><br />
                             NIF: 5000514683<br />
                             Email: geral@facul.ao<br />
-                            Luanda, Angola
+                            Cidade Financeira, Bloco 4, 1 andar, Talatona, Luanda
                         </p>
                     </div>
                 </FadeIn>

@@ -39,9 +39,9 @@ export function Offices({
     >
       <li>
         <Office name="Luanda" invert={invert}>
-          Rua Major Kanhangulo
+          Cidade Financeira, Bloco 4, 1 andar
           <br />
-          Luanda, Angola
+          Talatona, Luanda
         </Office>
       </li>
       <li>

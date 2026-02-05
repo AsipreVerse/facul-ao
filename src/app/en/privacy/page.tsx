@@ -36,7 +36,7 @@ export default function Privacy() {
                         <p>
                             <strong>FACUL — CENTRO ACADÉMICO DIGITAL, S.A.</strong><br />
                             Angolan Business Holding<br />
-                            Headquarters: Luanda, Angola<br />
+                            Headquarters: Cidade Financeira, Bloco 4, 1 andar, Talatona, Luanda<br />
                             NIF: 5000514683<br />
                             Email: geral@facul.ao<br />
                             Website: grupofacul.com
@@ -113,7 +113,7 @@ export default function Privacy() {
                         <p>
                             <strong>Agência de Protecção de Dados (APD)</strong><br />
                             Website: apd.ao<br />
-                            Luanda, Angola
+                            Talatona, Luanda
                         </p>
 
                         <h2>9. Updates to This Policy</h2>
@@ -128,7 +128,7 @@ export default function Privacy() {
                         <p>
                             <strong>Grupo Facul</strong><br />
                             Email: geral@facul.ao<br />
-                            Luanda, Angola
+                            Cidade Financeira, Bloco 4, 1 andar, Talatona, Luanda
                         </p>
                     </div>
                 </FadeIn>

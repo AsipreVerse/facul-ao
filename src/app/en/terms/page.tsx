@@ -121,7 +121,7 @@ export default function Terms() {
                         <p>
                             <strong>Grupo Facul</strong><br />
                             Email: geral@facul.ao<br />
-                            Luanda, Angola
+                            Cidade Financeira, Bloco 4, 1 andar, Talatona, Luanda
                         </p>
                     </div>
                 </FadeIn>

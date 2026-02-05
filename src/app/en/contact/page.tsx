@@ -18,8 +18,8 @@ function ContactDetails() {
                 <div>
                     <dt className="font-semibold text-neutral-950">Luanda</dt>
                     <dd className="text-neutral-600">
-                        Rua Major Kanhangulo<br />
-                        Luanda, Angola
+                        Cidade Financeira, Bloco 4, 1 andar<br />
+                        Talatona, Luanda
                     </dd>
                 </div>
                 <div>
