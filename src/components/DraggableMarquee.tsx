@@ -53,24 +53,24 @@ export function DraggableMarquee({ partners, className }: DraggableMarqueeProps)
         const scrollContainer = scrollRef.current
         if (!scrollContainer || !isMounted || isDragging || isPaused) return
 
-        // Faster speed on mobile since cards are smaller
-        const scrollSpeed = isMobile ? 1.5 : 1
+        // Same speed for both - smooth continuous scroll
+        const pixelsPerSecond = 40 // 40 pixels per second
         let animationId: number
-        let lastTime = performance.now()
+        let lastTime = 0
 
         const animate = (currentTime: number) => {
+            if (lastTime === 0) lastTime = currentTime
             const deltaTime = currentTime - lastTime
+            lastTime = currentTime
 
-            // Target 60fps, adjust scroll based on elapsed time
-            if (deltaTime >= 16) {
-                scrollContainer.scrollLeft += scrollSpeed * (deltaTime / 16)
-                lastTime = currentTime
+            // Smooth scroll based on elapsed time
+            const scrollAmount = (pixelsPerSecond * deltaTime) / 1000
+            scrollContainer.scrollLeft += scrollAmount
 
-                // Reset to start for seamless loop
-                const halfWidth = scrollContainer.scrollWidth / 2
-                if (scrollContainer.scrollLeft >= halfWidth) {
-                    scrollContainer.scrollLeft = 0
-                }
+            // Reset to start for seamless loop
+            const halfWidth = scrollContainer.scrollWidth / 2
+            if (scrollContainer.scrollLeft >= halfWidth) {
+                scrollContainer.scrollLeft = 0
             }
 
             animationId = requestAnimationFrame(animate)
@@ -78,7 +78,7 @@ export function DraggableMarquee({ partners, className }: DraggableMarqueeProps)
 
         animationId = requestAnimationFrame(animate)
         return () => cancelAnimationFrame(animationId)
-    }, [isMounted, isDragging, isPaused, isMobile])
+    }, [isMounted, isDragging, isPaused])
 
     // Drag handlers
     const handleDragStart = useCallback((clientX: number) => {
