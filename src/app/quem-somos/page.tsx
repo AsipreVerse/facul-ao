@@ -148,7 +148,34 @@ const board = [
     },
 ]
 
-function Board() {
+function Board({ cmsTeamMembers }: { cmsTeamMembers: TeamMember[] }) {
+    // Use CMS data if available, otherwise use local fallback
+    const hasCmsData = cmsTeamMembers.length > 0
+
+    // Get featured member (president) from CMS or use local
+    const cmsPresident = cmsTeamMembers.find(m => m.isFeatured)
+    const displayPresident = cmsPresident
+        ? { name: cmsPresident.name, role: cmsPresident.role, bio: cmsPresident.bio || '', photo: cmsPresident.photo, profileUrl: cmsPresident.profileUrl }
+        : presidente
+
+    // Group remaining members by their group title
+    const cmsGroups = hasCmsData ? (() => {
+        const nonFeatured = cmsTeamMembers.filter(m => !m.isFeatured)
+        const groupMap = new Map<string, TeamMember[]>()
+        nonFeatured.forEach(m => {
+            const groupTitle = m.group?.title || 'Equipa'
+            const existing = groupMap.get(groupTitle) || []
+            groupMap.set(groupTitle, [...existing, m])
+        })
+        return Array.from(groupMap.entries()).map(([title, people]) => ({
+            title,
+            people: people.map(p => ({ name: p.name, role: p.role, photo: p.photo }))
+        }))
+    })() : board.map(g => ({
+        title: g.title,
+        people: g.people.map(p => ({ name: p.name, role: p.role, image: p.image }))
+    }))
+
     return (
         <Container className="mt-24 sm:mt-32 lg:mt-40">
             {/* Featured President Section */}
@@ -164,28 +191,42 @@ function Board() {
                         <div className="grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-3">
                             {/* President Photo */}
                             <div className="group relative aspect-[3/4] sm:h-[28rem] lg:h-[32rem] overflow-hidden rounded-3xl bg-neutral-100">
-                                <Image
-                                    alt={presidente.name}
-                                    src={presidente.image.src}
-                                    fill
-                                    className="object-cover object-top transition duration-500 motion-safe:group-hover:scale-105"
-                                />
+                                {'photo' in displayPresident && displayPresident.photo ? (
+                                    <img
+                                        alt={displayPresident.name}
+                                        src={displayPresident.photo}
+                                        className="h-full w-full object-cover object-top transition duration-500 motion-safe:group-hover:scale-105"
+                                    />
+                                ) : 'image' in displayPresident ? (
+                                    <Image
+                                        alt={displayPresident.name}
+                                        src={(displayPresident as typeof presidente).image.src}
+                                        fill
+                                        className="object-cover object-top transition duration-500 motion-safe:group-hover:scale-105"
+                                    />
+                                ) : (
+                                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-neutral-200 to-neutral-300">
+                                        <span className="font-display text-6xl font-bold text-neutral-400">
+                                            {displayPresident.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+                                        </span>
+                                    </div>
+                                )}
                                 <div className="absolute inset-0 flex flex-col justify-end bg-linear-to-t from-black to-black/0 to-40% p-6">
                                     <p className="font-display text-xl font-semibold tracking-wide text-white">
-                                        {presidente.name}
+                                        {displayPresident.name}
                                     </p>
                                     <p className="mt-2 text-sm text-white">
-                                        {presidente.role}
+                                        {displayPresident.role}
                                     </p>
                                 </div>
                             </div>
                             {/* President Bio */}
                             <div className="lg:col-span-2 flex flex-col justify-center">
                                 <p className="text-lg text-neutral-600">
-                                    {presidente.bio}
+                                    {displayPresident.bio}
                                 </p>
                                 <a
-                                    href="/presidente"
+                                    href={'profileUrl' in displayPresident && displayPresident.profileUrl ? displayPresident.profileUrl : '/presidente'}
                                     className="mt-6 inline-flex items-center text-sm font-semibold text-neutral-950 hover:text-neutral-700"
                                 >
                                     Ver perfil completo
@@ -199,7 +240,7 @@ function Board() {
 
             {/* Rest of the Board */}
             <div className="mt-24 space-y-24">
-                {board.map((group) => (
+                {cmsGroups.map((group) => (
                     <FadeInStagger key={group.title}>
                         <Border as={FadeIn} />
                         <div className="grid grid-cols-1 gap-6 pt-12 sm:pt-16 lg:grid-cols-4 xl:gap-8">
@@ -217,7 +258,13 @@ function Board() {
                                         <li key={person.name}>
                                             <FadeIn>
                                                 <div className="group relative aspect-[3/4] sm:h-96 overflow-hidden rounded-3xl bg-neutral-100">
-                                                    {'image' in person && typeof (person as { image?: { src: typeof imageVenceslau } }).image?.src !== 'undefined' ? (
+                                                    {'photo' in person && person.photo ? (
+                                                        <img
+                                                            alt={person.name}
+                                                            src={person.photo}
+                                                            className="h-full w-full object-cover object-top transition duration-500 motion-safe:group-hover:scale-105"
+                                                        />
+                                                    ) : 'image' in person && (person as { image?: { src: typeof imageVenceslau } }).image?.src ? (
                                                         <Image
                                                             alt={person.name}
                                                             src={(person as { image: { src: typeof imageVenceslau } }).image.src}
@@ -309,9 +356,10 @@ const fallbackStats = [
 
 export default async function QuemSomos() {
     // Fetch data from CMS
-    const [cmsStats, cmsValues] = await Promise.all([
+    const [cmsStats, cmsValues, cmsTeamMembers] = await Promise.all([
         getStats(),
         getValues(),
+        getTeamMembers(),
     ])
 
     // Use CMS stats if available, otherwise fallback
@@ -355,7 +403,7 @@ export default async function QuemSomos() {
 
             <Values cmsValues={cmsValues} />
 
-            <Board />
+            <Board cmsTeamMembers={cmsTeamMembers} />
 
             <ContactSection />
         </RootLayout>

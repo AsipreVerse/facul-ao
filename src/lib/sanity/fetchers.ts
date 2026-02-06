@@ -135,6 +135,18 @@ export interface AboutPage {
     visionDescriptionEn?: string
 }
 
+export interface LegalPage {
+    _id: string
+    slug: { current: string }
+    titlePt: string
+    titleEn?: string
+    eyebrowPt?: string
+    eyebrowEn?: string
+    contentPt?: unknown[]
+    contentEn?: unknown[]
+    lastUpdated?: string
+}
+
 // ============================================
 // DATA FETCHING FUNCTIONS
 // ============================================
@@ -223,7 +235,7 @@ export async function getAboutPage(): Promise<AboutPage | null> {
     })
 }
 
-export async function getLegalPage(slug: string) {
+export async function getLegalPage(slug: string): Promise<LegalPage | null> {
     return sanityFetch({
         query: legalPageQuery,
         params: { slug },

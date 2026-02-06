@@ -9,7 +9,7 @@ import { SectionIntro } from '@/components/SectionIntro'
 import { StatList, StatListItem } from '@/components/StatList'
 import { RootLayout } from '@/components/RootLayout'
 import imageVenceslau from '@/images/team/venceslau-andrade.webp'
-import { getBooks, type Book } from '@/lib/sanity/fetchers'
+import { getBooks, getTeamMembers, type Book, type TeamMember } from '@/lib/sanity/fetchers'
 
 // Force dynamic rendering to fetch fresh Sanity data
 export const dynamic = 'force-dynamic'
@@ -21,8 +21,15 @@ export const metadata: Metadata = {
 }
 
 export default async function President() {
-    // Fetch books from Sanity
-    const books = await getBooks()
+    // Fetch books and team members from Sanity
+    const [books, teamMembers] = await Promise.all([
+        getBooks(),
+        getTeamMembers(),
+    ])
+
+    // Get featured president from CMS
+    const cmsPresident = teamMembers.find(m => m.isFeatured)
+    const presidentPhoto = cmsPresident?.photo || null
 
     return (
         <RootLayout>
@@ -42,12 +49,20 @@ export default async function President() {
                     <div className="grid grid-cols-1 gap-x-12 gap-y-8 lg:grid-cols-2">
                         {/* Profile Photo */}
                         <div className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-neutral-100 sm:aspect-[3/4] lg:aspect-[4/5]">
-                            <Image
-                                src={imageVenceslau}
-                                alt="Venceslau Andrade"
-                                className="h-full w-full object-cover"
-                                priority
-                            />
+                            {presidentPhoto ? (
+                                <img
+                                    src={presidentPhoto}
+                                    alt="Venceslau Andrade"
+                                    className="h-full w-full object-cover"
+                                />
+                            ) : (
+                                <Image
+                                    src={imageVenceslau}
+                                    alt="Venceslau Andrade"
+                                    className="h-full w-full object-cover"
+                                    priority
+                                />
+                            )}
                         </div>
 
                         {/* Bio */}
