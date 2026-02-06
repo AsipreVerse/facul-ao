@@ -9,8 +9,12 @@ import { PageIntro } from '@/components/PageIntro'
 import { SocialMedia } from '@/components/SocialMedia'
 import { RootLayout } from '@/components/RootLayout'
 import { ContactForm } from '@/components/ContactForm'
+import { getSiteSettings, type SiteSettings } from '@/lib/sanity/fetchers'
 
-function ContactDetails() {
+// Force dynamic rendering to fetch fresh Sanity data
+export const dynamic = 'force-dynamic'
+
+function ContactDetails({ siteSettings }: { siteSettings: SiteSettings | null }) {
     return (
         <FadeIn>
             <h2 className="font-display text-base font-semibold text-neutral-950">
@@ -21,7 +25,7 @@ function ContactDetails() {
                 através dos nossos canais digitais.
             </p>
 
-            <Offices className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2" />
+            <Offices siteSettings={siteSettings} className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2" />
 
             <Border className="mt-16 pt-16">
                 <h2 className="font-display text-base font-semibold text-neutral-950">
@@ -38,7 +42,9 @@ export const metadata: Metadata = {
     description: 'Entre em contacto com o Grupo Facul. Estamos prontos para ajudar.',
 }
 
-export default function Contacto() {
+export default async function Contacto() {
+    const siteSettings = await getSiteSettings()
+
     return (
         <RootLayout>
             <PageIntro eyebrow="Contacto" title="Vamos trabalhar juntos">
@@ -48,10 +54,11 @@ export default function Contacto() {
             <Container className="mt-24 sm:mt-32 lg:mt-40">
                 <div className="grid grid-cols-1 gap-x-8 gap-y-24 lg:grid-cols-2">
                     <ContactForm />
-                    <ContactDetails />
+                    <ContactDetails siteSettings={siteSettings} />
                 </div>
             </Container>
         </RootLayout>
     )
 }
+
 

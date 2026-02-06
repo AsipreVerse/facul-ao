@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { type SiteSettings } from '@/lib/sanity/fetchers'
 
 function Office({
   name,
@@ -27,12 +28,24 @@ function Office({
   )
 }
 
+// Default fallback values
+const DEFAULT_ADDRESS = 'Cidade Financeira, Bloco 4, 1 andar\nTalatona, Luanda'
+const DEFAULT_EMAIL = 'geral@facul.ao'
+const DEFAULT_PHONE = '+244 929 048 205'
+
 export function Offices({
   invert = false,
-  email = 'geral@facul.ao',
-  phone = '+244 929 048 205',
+  siteSettings,
   ...props
-}: React.ComponentPropsWithoutRef<'ul'> & { invert?: boolean; email?: string; phone?: string }) {
+}: React.ComponentPropsWithoutRef<'ul'> & {
+  invert?: boolean
+  siteSettings?: SiteSettings | null
+}) {
+  const email = siteSettings?.email || DEFAULT_EMAIL
+  const phone = siteSettings?.phone || DEFAULT_PHONE
+  const address = siteSettings?.address || DEFAULT_ADDRESS
+  const [addressLine1, addressLine2] = address.split('\n')
+
   return (
     <ul
       role="list"
@@ -41,9 +54,9 @@ export function Offices({
     >
       <li>
         <Office name="Luanda" invert={invert}>
-          Cidade Financeira, Bloco 4, 1 andar
+          {addressLine1}
           <br />
-          Talatona, Luanda
+          {addressLine2}
         </Office>
       </li>
       <li>
@@ -72,3 +85,4 @@ export function Offices({
     </ul>
   )
 }
+

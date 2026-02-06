@@ -32,6 +32,19 @@ export interface SiteSettings {
     heroDescriptionEn?: string
 }
 
+export interface CompanyService {
+    title: string
+    titleEn?: string
+    description: string
+    descriptionEn?: string
+}
+
+export interface CompanyStat {
+    value: string
+    label: string
+    labelEn?: string
+}
+
 export interface Company {
     _id: string
     name: string
@@ -44,7 +57,9 @@ export interface Company {
     isExternal: boolean
     order: number
     fullDescription?: unknown[]
-    services?: string[]
+    fullDescriptionEn?: unknown[]
+    services?: CompanyService[]
+    stats?: CompanyStat[]
 }
 
 export interface Partner {

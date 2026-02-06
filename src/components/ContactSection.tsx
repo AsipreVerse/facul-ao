@@ -48,8 +48,7 @@ export async function ContactSection({ locale = 'pt' }: { locale?: 'pt' | 'en' }
             <div className="border-t border-white/10 pt-8 lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0">
               <Offices
                 invert
-                email={siteSettings?.email}
-                phone={siteSettings?.phone}
+                siteSettings={siteSettings}
               />
             </div>
           </div>

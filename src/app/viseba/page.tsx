@@ -5,13 +5,36 @@ import { FadeIn } from '@/components/FadeIn'
 import { PageIntro } from '@/components/PageIntro'
 import { RootLayout } from '@/components/RootLayout'
 import { List, ListItem } from '@/components/List'
+import { getCompanyBySlug, type Company, type CompanyService, type CompanyStat } from '@/lib/sanity/fetchers'
+
+// Force dynamic rendering to fetch fresh Sanity data
+export const dynamic = 'force-dynamic'
+
+// Local fallback data
+const localServices: CompanyService[] = [
+    { title: 'Transporte para Aeroportos', description: 'Serviço de transporte seguro e pontual para aeroportos em todo o país.' },
+    { title: 'TIROZA', description: 'Serviço de táxi acessível via telemóvel para maior conveniência.' },
+    { title: 'Tours Personalizados', description: 'Tours exclusivos e personalizados por Angola.' },
+    { title: 'Aluguer de Viaturas', description: 'Serviço de rent-a-car com veículos de qualidade.' },
+    { title: 'Transporte Empresarial', description: 'Serviços de transporte exclusivos e personalizados para empresas.' },
+]
+
+const localStats: CompanyStat[] = [
+    { value: '2M+', label: 'Passageiros Transportados' },
+    { value: '400', label: 'Profissionais' },
+    { value: '200', label: 'Táxis' },
+]
 
 export const metadata: Metadata = {
     title: 'Viseba Transportes | Grupo Facul',
     description: 'Uma das maiores frotas nacionais de táxis em Angola. Serviços de transporte, mobilidade urbana e soluções logísticas.',
 }
 
-export default function Viseba() {
+export default async function Viseba() {
+    const company = await getCompanyBySlug('viseba')
+    const services = company?.services?.length ? company.services : localServices
+    const stats = company?.stats?.length ? company.stats : localStats
+
     return (
         <RootLayout>
             <PageIntro
@@ -30,21 +53,11 @@ export default function Viseba() {
                         Serviços
                     </h2>
                     <List className="mt-8">
-                        <ListItem title="Transporte para Aeroportos">
-                            Serviço de transporte seguro e pontual para aeroportos em todo o país.
-                        </ListItem>
-                        <ListItem title="TIROZA">
-                            Serviço de táxi acessível via telemóvel para maior conveniência.
-                        </ListItem>
-                        <ListItem title="Tours Personalizados">
-                            Tours exclusivos e personalizados por Angola.
-                        </ListItem>
-                        <ListItem title="Aluguer de Viaturas">
-                            Serviço de rent-a-car com veículos de qualidade.
-                        </ListItem>
-                        <ListItem title="Transporte Empresarial">
-                            Serviços de transporte exclusivos e personalizados para empresas.
-                        </ListItem>
+                        {services.map((service) => (
+                            <ListItem key={service.title} title={service.title}>
+                                {service.description}
+                            </ListItem>
+                        ))}
                     </List>
                 </FadeIn>
             </Container>
@@ -60,18 +73,12 @@ export default function Viseba() {
                             veículos bem-mantidos e protocolos rigorosos para garantir a tranquilidade dos nossos passageiros.
                         </p>
                         <div className="mt-8 grid grid-cols-3 gap-8 text-center">
-                            <div>
-                                <p className="font-display text-4xl font-semibold text-[#FFB606]">2M+</p>
-                                <p className="mt-2 text-sm text-neutral-600">Passageiros Transportados</p>
-                            </div>
-                            <div>
-                                <p className="font-display text-4xl font-semibold text-[#FFB606]">400</p>
-                                <p className="mt-2 text-sm text-neutral-600">Profissionais</p>
-                            </div>
-                            <div>
-                                <p className="font-display text-4xl font-semibold text-[#FFB606]">200</p>
-                                <p className="mt-2 text-sm text-neutral-600">Táxis</p>
-                            </div>
+                            {stats.map((stat) => (
+                                <div key={stat.value}>
+                                    <p className="font-display text-4xl font-semibold text-[#FFB606]">{stat.value}</p>
+                                    <p className="mt-2 text-sm text-neutral-600">{stat.label}</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </FadeIn>
@@ -81,3 +88,4 @@ export default function Viseba() {
         </RootLayout>
     )
 }
+

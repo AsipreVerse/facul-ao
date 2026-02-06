@@ -47,7 +47,9 @@ export const companyBySlugQuery = groq`
     url,
     isExternal,
     fullDescription,
-    services
+    fullDescriptionEn,
+    services,
+    stats
   }
 `
 

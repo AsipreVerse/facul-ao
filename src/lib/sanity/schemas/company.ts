@@ -59,7 +59,13 @@ export const company = defineType({
         }),
         defineField({
             name: 'fullDescription',
-            title: 'Descrição Completa',
+            title: 'Descrição Completa (PT)',
+            type: 'array',
+            of: [{ type: 'block' }],
+        }),
+        defineField({
+            name: 'fullDescriptionEn',
+            title: 'Full Description (EN)',
             type: 'array',
             of: [{ type: 'block' }],
         }),
@@ -67,7 +73,34 @@ export const company = defineType({
             name: 'services',
             title: 'Serviços',
             type: 'array',
-            of: [{ type: 'string' }],
+            of: [{
+                type: 'object',
+                fields: [
+                    defineField({ name: 'title', title: 'Título (PT)', type: 'string' }),
+                    defineField({ name: 'titleEn', title: 'Title (EN)', type: 'string' }),
+                    defineField({ name: 'description', title: 'Descrição (PT)', type: 'text', rows: 2 }),
+                    defineField({ name: 'descriptionEn', title: 'Description (EN)', type: 'text', rows: 2 }),
+                ],
+                preview: {
+                    select: { title: 'title' },
+                },
+            }],
+        }),
+        defineField({
+            name: 'stats',
+            title: 'Estatísticas',
+            type: 'array',
+            of: [{
+                type: 'object',
+                fields: [
+                    defineField({ name: 'value', title: 'Valor', type: 'string' }),
+                    defineField({ name: 'label', title: 'Rótulo (PT)', type: 'string' }),
+                    defineField({ name: 'labelEn', title: 'Label (EN)', type: 'string' }),
+                ],
+                preview: {
+                    select: { title: 'value', subtitle: 'label' },
+                },
+            }],
         }),
     ],
     orderings: [
