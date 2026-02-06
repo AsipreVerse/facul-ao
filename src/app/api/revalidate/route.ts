@@ -25,29 +25,55 @@ export async function POST(req: NextRequest) {
             )
         }
 
-        // Revalidate based on document type
         const docType = body._type
+        const revalidatedTags: string[] = [docType]
+        const revalidatedPaths: string[] = []
 
-        // Revalidate the specific document type tag
+        // Revalidate the specific document type tag with 'max' profile (stale-while-revalidate)
         revalidateTag(docType, 'max')
 
-        // Revalidate all pages that might use this content
+        // Revalidate composite tags for related content
         switch (docType) {
             case 'siteSettings':
+                // Site settings affect entire layout
                 revalidatePath('/', 'layout')
+                revalidatedPaths.push('/ (layout)')
                 break
+
             case 'company':
+                // Company updates affect main listing and subsidiary pages
                 revalidatePath('/')
                 revalidatePath('/en')
                 revalidatePath('/empresas')
                 revalidatePath('/en/companies')
+                // Subsidiary detail pages
+                if (body.slug?.current) {
+                    revalidatePath(`/${body.slug.current}`)
+                    revalidatedPaths.push(`/${body.slug.current}`)
+                }
+                // Common subsidiary routes
+                revalidatePath('/viseba')
+                revalidatePath('/bayside')
+                revalidatePath('/sunburst')
+                revalidatePath('/imagem-do-futuro')
+                revalidatedPaths.push('/', '/en', '/empresas', '/en/companies', '/viseba', '/bayside', '/sunburst', '/imagem-do-futuro')
                 break
+
+            case 'service':
+                // Services appear on landing pages
+                revalidatePath('/')
+                revalidatePath('/en')
+                revalidatedPaths.push('/', '/en')
+                break
+
             case 'partner':
             case 'client':
             case 'newsLink':
                 revalidatePath('/')
                 revalidatePath('/en')
+                revalidatedPaths.push('/', '/en')
                 break
+
             case 'teamMember':
             case 'teamGroup':
             case 'stat':
@@ -55,7 +81,11 @@ export async function POST(req: NextRequest) {
             case 'aboutPage':
                 revalidatePath('/quem-somos')
                 revalidatePath('/en/about')
+                revalidatePath('/presidente')
+                revalidatePath('/en/president')
+                revalidatedPaths.push('/quem-somos', '/en/about', '/presidente', '/en/president')
                 break
+
             case 'legalPage':
                 revalidatePath('/privacidade')
                 revalidatePath('/termos')
@@ -63,15 +93,27 @@ export async function POST(req: NextRequest) {
                 revalidatePath('/en/privacy')
                 revalidatePath('/en/terms')
                 revalidatePath('/en/cookies')
+                revalidatedPaths.push('/privacidade', '/termos', '/cookies', '/en/privacy', '/en/terms', '/en/cookies')
                 break
+
+            case 'book':
+                // Books appear on editora page
+                revalidatePath('/editora')
+                revalidatedPaths.push('/editora')
+                break
+
             default:
+                // Unknown document type - revalidate root layout as fallback
                 revalidatePath('/', 'layout')
+                revalidatedPaths.push('/ (layout)')
         }
 
         return NextResponse.json({
             revalidated: true,
             type: docType,
-            now: Date.now(),
+            tags: revalidatedTags,
+            paths: revalidatedPaths,
+            timestamp: new Date().toISOString(),
         })
     } catch (err) {
         console.error('Sanity webhook error:', err)
