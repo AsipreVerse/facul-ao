@@ -10,7 +10,7 @@ import { PageIntro } from '@/components/PageIntro'
 import { SectionIntro } from '@/components/SectionIntro'
 import { StatList, StatListItem } from '@/components/StatList'
 import { RootLayout } from '@/components/RootLayout'
-import { getStats, getValues, getTeamMembers, getTeamGroups, type Stat, type Value, type TeamMember, type TeamGroup } from '@/lib/sanity/fetchers'
+import { getStats, getValues, getTeamMembers, getTeamGroups, getAboutPage, type Stat, type Value, type TeamMember, type TeamGroup, type AboutPage } from '@/lib/sanity/fetchers'
 
 // Leadership images (WebP for faster loading)
 import imageVenceslau from '@/images/team/venceslau-andrade.webp'
@@ -21,7 +21,20 @@ import imageProsperidade from '@/images/team/prosperidade-sunguente.webp'
 import imageAlcione from '@/images/team/alcione-bonfim.webp'
 import imageIolanda from '@/images/team/iolanda-mangueira.webp'
 
-function MissionVision() {
+// Default fallback for MissionVision
+const fallbackMissionVision = {
+    missionTitle: 'Contribuir para o desenvolvimento socioeconómico de Angola',
+    missionDescription: 'Actuamos através da formação profissional, inovação tecnológica e empreendedorismo, criando oportunidades que transformam vidas e impulsionam o progresso do país.',
+    visionTitle: 'Ser referência empresarial em Angola e na diáspora',
+    visionDescription: 'Aspiramos a consolidar-nos como uma holding diversificada e inovadora, com presença em sectores estratégicos que catalisam o desenvolvimento sustentável de Angola.',
+}
+
+function MissionVision({ aboutPage }: { aboutPage: AboutPage | null }) {
+    const missionTitle = aboutPage?.missionTitle || fallbackMissionVision.missionTitle
+    const missionDescription = aboutPage?.missionDescription || fallbackMissionVision.missionDescription
+    const visionTitle = aboutPage?.visionTitle || fallbackMissionVision.visionTitle
+    const visionDescription = aboutPage?.visionDescription || fallbackMissionVision.visionDescription
+
     return (
         <Container className="mt-24 sm:mt-32 lg:mt-40">
             <FadeInStagger>
@@ -30,12 +43,10 @@ function MissionVision() {
                         <div className="rounded-3xl border border-neutral-200 p-8 lg:p-12">
                             <p className="font-display text-sm font-semibold text-[#FFB606]">Missão</p>
                             <h3 className="mt-4 font-display text-2xl font-medium text-neutral-950">
-                                Contribuir para o desenvolvimento socioeconómico de Angola
+                                {missionTitle}
                             </h3>
                             <p className="mt-6 text-base text-neutral-600">
-                                Actuamos através da formação profissional, inovação tecnológica
-                                e empreendedorismo, criando oportunidades que transformam vidas
-                                e impulsionam o progresso do país.
+                                {missionDescription}
                             </p>
                         </div>
                     </FadeIn>
@@ -43,12 +54,10 @@ function MissionVision() {
                         <div className="rounded-3xl border border-neutral-200 p-8 lg:p-12">
                             <p className="font-display text-sm font-semibold text-[#FFB606]">Visão</p>
                             <h3 className="mt-4 font-display text-2xl font-medium text-neutral-950">
-                                Ser referência empresarial em Angola e na diáspora
+                                {visionTitle}
                             </h3>
                             <p className="mt-6 text-base text-neutral-600">
-                                Aspiramos a consolidar-nos como uma holding diversificada e
-                                inovadora, com presença em sectores estratégicos que catalisam
-                                o desenvolvimento sustentável de Angola.
+                                {visionDescription}
                             </p>
                         </div>
                     </FadeIn>
@@ -356,10 +365,11 @@ const fallbackStats = [
 
 export default async function QuemSomos() {
     // Fetch data from CMS
-    const [cmsStats, cmsValues, cmsTeamMembers] = await Promise.all([
+    const [cmsStats, cmsValues, cmsTeamMembers, aboutPage] = await Promise.all([
         getStats(),
         getValues(),
         getTeamMembers(),
+        getAboutPage(),
     ])
 
     // Use CMS stats if available, otherwise fallback
@@ -397,7 +407,7 @@ export default async function QuemSomos() {
                 </StatList>
             </Container>
 
-            <MissionVision />
+            <MissionVision aboutPage={aboutPage} />
 
             <Sectors />
 

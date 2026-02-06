@@ -6,6 +6,11 @@ import { SocialMedia } from '@/components/SocialMedia'
 import { ManageCookies } from '@/components/CookieBanner'
 import Image from 'next/image'
 import goldLogo from '@/images/facul/FACUL_GRUPO_from_dark_lockup_gold.png'
+import { type SiteSettings } from '@/lib/sanity/fetchers'
+
+// Default fallback values
+const DEFAULT_COMPANY_NAME = 'FACUL — CENTRO ACADÉMICO DIGITAL, S.A.'
+const DEFAULT_NIF = '5000514683'
 
 const navigation = [
   {
@@ -68,7 +73,10 @@ function Navigation() {
   )
 }
 
-export function Footer() {
+export function Footer({ siteSettings }: { siteSettings?: SiteSettings | null }) {
+  const companyName = siteSettings?.companyName || DEFAULT_COMPANY_NAME
+  const nif = siteSettings?.nif || DEFAULT_NIF
+
   return (
     <Container as="footer" className="mt-24 w-full sm:mt-32 lg:mt-40">
       <FadeIn>
@@ -87,8 +95,8 @@ export function Footer() {
               />
             </Link>
             <address className="not-italic text-xs leading-relaxed text-neutral-500">
-              <strong className="font-medium text-neutral-700">FACUL — CENTRO ACADÉMICO DIGITAL, S.A.</strong><br />
-              NIF: 5000514683
+              <strong className="font-medium text-neutral-700">{companyName}</strong><br />
+              NIF: {nif}
             </address>
           </div>
           <div className="text-sm text-neutral-700">
@@ -114,3 +122,4 @@ export function Footer() {
     </Container>
   )
 }
+

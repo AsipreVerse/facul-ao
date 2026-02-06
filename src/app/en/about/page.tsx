@@ -10,7 +10,7 @@ import { SectionIntro } from '@/components/SectionIntro'
 import { StatList, StatListItem } from '@/components/StatList'
 import { RootLayout } from '@/components/RootLayout'
 import { Border } from '@/components/Border'
-import { getStats, getValues, getTeamMembers, type Stat, type Value, type TeamMember } from '@/lib/sanity/fetchers'
+import { getStats, getValues, getTeamMembers, getAboutPage, type Stat, type Value, type TeamMember, type AboutPage } from '@/lib/sanity/fetchers'
 
 // Leadership images (WebP for faster loading)
 import imageVenceslau from '@/images/team/venceslau-andrade.webp'
@@ -27,7 +27,20 @@ export const metadata: Metadata = {
         'Learn about Grupo Facul, an Angolan holding with over 20 years of experience across 8 strategic sectors.',
 }
 
-function MissionVision() {
+// Default fallback for MissionVision (EN)
+const fallbackMissionVisionEn = {
+    missionTitle: 'Contribute to the socioeconomic development of Angola',
+    missionDescription: 'We act through professional training, technological innovation and entrepreneurship, creating opportunities that transform lives and drive the country\'s progress.',
+    visionTitle: 'Be a business reference in Angola and the diaspora',
+    visionDescription: 'We aspire to consolidate ourselves as a diversified and innovative holding, with a presence in strategic sectors that catalyse the sustainable development of Angola.',
+}
+
+function MissionVision({ aboutPage }: { aboutPage: AboutPage | null }) {
+    const missionTitle = aboutPage?.missionTitleEn || aboutPage?.missionTitle || fallbackMissionVisionEn.missionTitle
+    const missionDescription = aboutPage?.missionDescriptionEn || aboutPage?.missionDescription || fallbackMissionVisionEn.missionDescription
+    const visionTitle = aboutPage?.visionTitleEn || aboutPage?.visionTitle || fallbackMissionVisionEn.visionTitle
+    const visionDescription = aboutPage?.visionDescriptionEn || aboutPage?.visionDescription || fallbackMissionVisionEn.visionDescription
+
     return (
         <Container className="mt-24 sm:mt-32 lg:mt-40">
             <FadeInStagger>
@@ -36,12 +49,10 @@ function MissionVision() {
                         <div className="rounded-3xl border border-neutral-200 p-8 lg:p-12">
                             <p className="font-display text-sm font-semibold text-[#FFB606]">Mission</p>
                             <h3 className="mt-4 font-display text-2xl font-medium text-neutral-950">
-                                Contribute to the socioeconomic development of Angola
+                                {missionTitle}
                             </h3>
                             <p className="mt-6 text-base text-neutral-600">
-                                We act through professional training, technological innovation
-                                and entrepreneurship, creating opportunities that transform lives
-                                and drive the country&apos;s progress.
+                                {missionDescription}
                             </p>
                         </div>
                     </FadeIn>
@@ -49,12 +60,10 @@ function MissionVision() {
                         <div className="rounded-3xl border border-neutral-200 p-8 lg:p-12">
                             <p className="font-display text-sm font-semibold text-[#FFB606]">Vision</p>
                             <h3 className="mt-4 font-display text-2xl font-medium text-neutral-950">
-                                Be a business reference in Angola and the diaspora
+                                {visionTitle}
                             </h3>
                             <p className="mt-6 text-base text-neutral-600">
-                                We aspire to consolidate ourselves as a diversified and
-                                innovative holding, with a presence in strategic sectors that
-                                catalyse the sustainable development of Angola.
+                                {visionDescription}
                             </p>
                         </div>
                     </FadeIn>
@@ -332,10 +341,11 @@ const fallbackStatsEn = [
 
 export default async function About() {
     // Fetch data from CMS
-    const [cmsStats, cmsValues, cmsTeamMembers] = await Promise.all([
+    const [cmsStats, cmsValues, cmsTeamMembers, aboutPage] = await Promise.all([
         getStats(),
         getValues(),
         getTeamMembers(),
+        getAboutPage(),
     ])
 
     // Use CMS stats (EN variant) if available, otherwise fallback
@@ -374,7 +384,7 @@ export default async function About() {
                 </StatList>
             </Container>
 
-            <MissionVision />
+            <MissionVision aboutPage={aboutPage} />
 
             <Sectors />
 
