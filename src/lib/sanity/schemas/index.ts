@@ -12,6 +12,7 @@ import { value } from './value'
 import { aboutPage } from './aboutPage'
 import { legalPage } from './legalPage'
 import { book } from './book'
+import { service } from './service'
 
 export const schemaTypes = [
     // Core content
@@ -20,6 +21,7 @@ export const schemaTypes = [
     client,
     newsLink,
     book,
+    service,
 
     // Team/Org Chart
     teamMember,

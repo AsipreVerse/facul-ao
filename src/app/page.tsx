@@ -14,7 +14,7 @@ import { Border } from '@/components/Border'
 import { DNAHelixShowcase } from '@/components/DNAHelixShowcase'
 import { DraggableMarquee } from '@/components/DraggableMarquee'
 import { SanityNews } from '@/components/SanityNews'
-import { getPartners, getClients, getCompanies, getSiteSettings, type Partner, type Client, type Company, type SiteSettings } from '@/lib/sanity/fetchers'
+import { getPartners, getClients, getCompanies, getSiteSettings, getServices, type Partner, type Client, type Company, type SiteSettings, type Service } from '@/lib/sanity/fetchers'
 
 // Force dynamic rendering to fetch fresh Sanity data
 export const dynamic = 'force-dynamic'
@@ -205,7 +205,26 @@ function Subsidiaries({ cmsCompanies }: { cmsCompanies: Company[] }) {
 }
 
 
-function Services() {
+function Services({ cmsServices }: { cmsServices: Service[] }) {
+  // Use CMS services if available, otherwise use local fallback
+  const hasCmsServices = cmsServices.length > 0
+
+  // Local fallback services
+  const localServices = [
+    { title: 'Educação', description: 'Transformação da sociedade através da educação digital.', companyName: 'Facul Academia Digital' },
+    { title: 'Tecnologia', description: 'Soluções tecnológicas disruptivas — a maior empresa do grupo.', companyName: 'Sidon Tecnologias' },
+    { title: 'Transportes', description: 'Transportes, logística e fornecimento de equipamentos.', companyName: 'Viseba' },
+    { title: 'Eventos', description: 'Organização de eventos desportivos, didácticos e de entretenimento.', companyName: 'Imagem do Futuro' },
+    { title: 'Limpeza e Reciclagem', description: 'Serviços de limpeza e reciclagem ambiental.', companyName: 'Sunburst' },
+    { title: 'Publicações', description: 'Produções científicas e culturais da lusofonia. Sede em Portugal.', companyName: 'Facul Editora' },
+    { title: 'Negócios Internacionais', description: 'Trading e tecnologia. Sede no Dubai.', companyName: 'BaySide Technology' },
+    { title: 'Social', description: 'Combate à pobreza extrema na comunidade Mayombe, Cacuaco.', companyName: 'Associação Ana Elisa' },
+  ]
+
+  const displayServices = hasCmsServices
+    ? cmsServices.map(s => ({ title: s.title, description: s.description, companyName: s.companyName || '' }))
+    : localServices
+
   return (
     <>
       <SectionIntro
@@ -230,38 +249,12 @@ function Services() {
             </FadeIn>
           </div>
           <List className="mt-16 lg:mt-0 lg:w-1/2 lg:min-w-132 lg:pl-4">
-            <ListItem title="Educação">
-              Transformação da sociedade através da educação digital.
-              <span className="mt-2 block text-sm text-[#FFB606]">Facul Academia Digital</span>
-            </ListItem>
-            <ListItem title="Tecnologia">
-              Soluções tecnológicas disruptivas — a maior empresa do grupo.
-              <span className="mt-2 block text-sm text-[#FFB606]">Sidon Tecnologias</span>
-            </ListItem>
-            <ListItem title="Transportes">
-              Transportes, logística e fornecimento de equipamentos.
-              <span className="mt-2 block text-sm text-[#FFB606]">Viseba</span>
-            </ListItem>
-            <ListItem title="Eventos">
-              Organização de eventos desportivos, didácticos e de entretenimento.
-              <span className="mt-2 block text-sm text-[#FFB606]">Imagem do Futuro</span>
-            </ListItem>
-            <ListItem title="Limpeza e Reciclagem">
-              Serviços de limpeza e reciclagem ambiental.
-              <span className="mt-2 block text-sm text-[#FFB606]">Sunburst</span>
-            </ListItem>
-            <ListItem title="Publicações">
-              Produções científicas e culturais da lusofonia. Sede em Portugal.
-              <span className="mt-2 block text-sm text-[#FFB606]">Facul Editora</span>
-            </ListItem>
-            <ListItem title="Negócios Internacionais">
-              Trading e tecnologia. Sede no Dubai.
-              <span className="mt-2 block text-sm text-[#FFB606]">BaySide Technology</span>
-            </ListItem>
-            <ListItem title="Social">
-              Combate à pobreza extrema na comunidade Mayombe, Cacuaco.
-              <span className="mt-2 block text-sm text-[#FFB606]">Associação Ana Elisa</span>
-            </ListItem>
+            {displayServices.map((service) => (
+              <ListItem key={service.title} title={service.title}>
+                {service.description}
+                <span className="mt-2 block text-sm text-[#FFB606]">{service.companyName}</span>
+              </ListItem>
+            ))}
           </List>
         </div>
       </Container>
@@ -361,11 +354,12 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   // Fetch all data from Sanity in parallel
-  const [siteSettings, cmsCompanies, cmsPartners, cmsClients] = await Promise.all([
+  const [siteSettings, cmsCompanies, cmsPartners, cmsClients, cmsServices] = await Promise.all([
     getSiteSettings(),
     getCompanies(),
     getPartners(),
     getClients(),
+    getServices(),
   ])
 
   return (
@@ -397,7 +391,7 @@ export default async function Home() {
 
       <Subsidiaries cmsCompanies={cmsCompanies} />
 
-      <Services />
+      <Services cmsServices={cmsServices} />
 
       <SanityNews />
 

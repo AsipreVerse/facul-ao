@@ -87,6 +87,21 @@ export const newsLinksQuery = groq`
 `
 
 // ============================================
+// SERVICES
+// ============================================
+export const servicesQuery = groq`
+  *[_type == "service"] | order(order asc) {
+    _id,
+    title,
+    titleEn,
+    description,
+    descriptionEn,
+    companyName,
+    order
+  }
+`
+
+// ============================================
 // STATS
 // ============================================
 export const statsQuery = groq`

@@ -6,6 +6,7 @@ import {
     partnersQuery,
     clientsQuery,
     newsLinksQuery,
+    servicesQuery,
     statsQuery,
     valuesQuery,
     teamGroupsQuery,
@@ -63,6 +64,16 @@ export interface Client {
 export interface NewsLink {
     _id: string
     url: string
+    order: number
+}
+
+export interface Service {
+    _id: string
+    title: string
+    titleEn?: string
+    description: string
+    descriptionEn?: string
+    companyName?: string
     order: number
 }
 
@@ -190,6 +201,13 @@ export async function getNewsLinks(): Promise<NewsLink[]> {
     return sanityFetch({
         query: newsLinksQuery,
         tags: ['newsLink'],
+    })
+}
+
+export async function getServices(): Promise<Service[]> {
+    return sanityFetch({
+        query: servicesQuery,
+        tags: ['service'],
     })
 }
 
