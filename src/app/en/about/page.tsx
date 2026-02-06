@@ -334,7 +334,7 @@ export default async function About() {
 
             <Board />
 
-            <ContactSection />
+            <ContactSection locale="en" />
         </RootLayout>
     )
 }

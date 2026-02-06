@@ -397,7 +397,7 @@ export default async function Home() {
 
             <SanityNews locale="en" />
 
-            <ContactSection />
+            <ContactSection locale="en" />
         </RootLayout>
     )
 }

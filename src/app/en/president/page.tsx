@@ -193,7 +193,7 @@ export default async function President() {
                 </FadeInStagger>
             </Container>
 
-            <ContactSection />
+            <ContactSection locale="en" />
         </RootLayout>
     )
 }

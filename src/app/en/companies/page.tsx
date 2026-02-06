@@ -162,7 +162,7 @@ export default function Companies() {
                 </FadeInStagger>
             </Container>
 
-            <ContactSection />
+            <ContactSection locale="en" />
         </RootLayout>
     )
 }

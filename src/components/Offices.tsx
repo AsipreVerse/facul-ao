@@ -29,8 +29,10 @@ function Office({
 
 export function Offices({
   invert = false,
+  email = 'geral@facul.ao',
+  phone = '+244 929 048 205',
   ...props
-}: React.ComponentPropsWithoutRef<'ul'> & { invert?: boolean }) {
+}: React.ComponentPropsWithoutRef<'ul'> & { invert?: boolean; email?: string; phone?: string }) {
   return (
     <ul
       role="list"
@@ -47,23 +49,23 @@ export function Offices({
       <li>
         <Office name="Contacto" invert={invert}>
           <a
-            href="mailto:geral@facul.ao"
+            href={`mailto:${email}`}
             className={clsx(
               'transition hover:underline',
               invert ? 'hover:text-white' : 'hover:text-neutral-950'
             )}
           >
-            geral@facul.ao
+            {email}
           </a>
           <br />
           <a
-            href="tel:+244929048205"
+            href={`tel:${phone?.replace(/\s/g, '') ?? ''}`}
             className={clsx(
               'transition hover:underline',
               invert ? 'hover:text-white' : 'hover:text-neutral-950'
             )}
           >
-            +244 929 048 205
+            {phone}
           </a>
         </Office>
       </li>
