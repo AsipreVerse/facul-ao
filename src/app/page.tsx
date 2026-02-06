@@ -177,12 +177,17 @@ const companies = [
   { name: 'Associação Ana Elisa', logo: logoAnaElisa, url: 'https://aae.ao' },
 ]
 
-function Subsidiaries() {
-  // Use local static companies array (logos not working with Sanity remote URLs)
+function Subsidiaries({ cmsCompanies }: { cmsCompanies: Company[] }) {
+  // Use CMS companies if available and have logos, otherwise use local static array
+  const hasValidCmsCompanies = cmsCompanies.length > 0 && cmsCompanies.some(c => c.logo)
+  const displayCompanies = hasValidCmsCompanies
+    ? cmsCompanies.map(c => ({ name: c.name, logo: c.logo || '', url: c.url || '#' }))
+    : companies
+
   return (
     <div className="mt-24 sm:mt-32 lg:mt-40">
       <DNAHelixShowcase
-        companies={companies}
+        companies={displayCompanies}
         title="Empresas do Grupo Facul"
         description="O Grupo Facul é composto por oito empresas que actuam em diferentes sectores da economia angolana, contribuindo para o desenvolvimento do país."
       />
@@ -390,7 +395,7 @@ export default async function Home() {
       <Partners cmsPartners={cmsPartners} />
 
 
-      <Subsidiaries />
+      <Subsidiaries cmsCompanies={cmsCompanies} />
 
       <Services />
 

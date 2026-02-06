@@ -147,12 +147,17 @@ function Clients({ cmsClients }: { cmsClients: Client[] }) {
     )
 }
 
-function Subsidiaries() {
-    // Use local static companies array (logos not working with Sanity remote URLs)
+function Subsidiaries({ cmsCompanies }: { cmsCompanies: Company[] }) {
+    // Use CMS companies if available and have logos, otherwise use local static array
+    const hasValidCmsCompanies = cmsCompanies.length > 0 && cmsCompanies.some(c => c.logo)
+    const displayCompanies = hasValidCmsCompanies
+        ? cmsCompanies.map(c => ({ name: c.name, logo: c.logo || '', url: c.url || '#' }))
+        : companies
+
     return (
         <div className="mt-24 sm:mt-32 lg:mt-40">
             <DNAHelixShowcase
-                companies={companies}
+                companies={displayCompanies}
                 title="Grupo Facul Companies"
                 description="Grupo Facul comprises national heterogeneous and multifaceted companies, with over 20 years of market experience, offering innovative solutions of excellence."
             />
@@ -386,7 +391,7 @@ export default async function Home() {
             <Partners cmsPartners={cmsPartners} />
 
 
-            <Subsidiaries />
+            <Subsidiaries cmsCompanies={cmsCompanies} />
 
             <Services />
 
