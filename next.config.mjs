@@ -5,6 +5,10 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'cdn.sanity.io',
+      },
+      {
+        protocol: 'https',
         hostname: 'forbesafricalusofona.com',
         pathname: '/wp-content/uploads/**',
       },

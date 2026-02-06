@@ -14,7 +14,7 @@ import { Border } from '@/components/Border'
 import { DNAHelixShowcase } from '@/components/DNAHelixShowcase'
 import { DraggableMarquee } from '@/components/DraggableMarquee'
 import { SanityNews } from '@/components/SanityNews'
-import { getPartners, getClients, getCompanies, type Partner, type Client, type Company } from '@/lib/sanity/fetchers'
+import { getPartners, getClients, getCompanies, getSiteSettings, type Partner, type Client, type Company, type SiteSettings } from '@/lib/sanity/fetchers'
 
 // Force dynamic rendering to fetch fresh Sanity data
 export const dynamic = 'force-dynamic'
@@ -84,10 +84,15 @@ const clients = [
   { name: 'Bodiva', logo: logoBodiva },
 ]
 
-function Clients() {
-  // Use local static clients array (logos not yet uploaded to Sanity)
+function Clients({ cmsClients }: { cmsClients: Client[] }) {
+  // Use CMS clients if available, fallback to local static array
+  const displayClients = cmsClients.length > 0
+    ? cmsClients.map(c => ({ name: c.name, logo: c.logo || '' }))
+    : clients
+
   return (
     <div className="mt-24 rounded-4xl bg-[#1B3044] py-16 sm:mt-32 sm:py-20 lg:mt-56">
+
       <Container>
         <FadeIn className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-x-8">
           <p className="text-xs font-medium uppercase tracking-widest text-[#FFB606]">
@@ -102,7 +107,7 @@ function Clients() {
             role="list"
             className="mt-8 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4"
           >
-            {clients.map((client) => (
+            {displayClients.map((client) => (
               <li key={client.name}>
                 <FadeIn>
                   <div className="flex h-20 items-center justify-center rounded-xl bg-white p-4 transition hover:scale-105">
@@ -123,12 +128,12 @@ function Clients() {
   )
 }
 
-function Partners() {
-  // Use local static partners array (logos not yet uploaded to Sanity)
-  const marqueePartners = partners.map(p => ({
-    name: p.name,
-    logo: p.logo,
-  }))
+function Partners({ cmsPartners }: { cmsPartners: Partner[] }) {
+  // Use CMS partners if available and have logos, otherwise use local static array
+  const hasValidCmsPartners = cmsPartners.length > 0 && cmsPartners.some(p => p.logo)
+  const marqueePartners = hasValidCmsPartners
+    ? cmsPartners.map(p => ({ name: p.name, logo: p.logo || '' }))
+    : partners.map(p => ({ name: p.name, logo: p.logo }))
 
 
   return (
@@ -351,8 +356,12 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   // Fetch all data from Sanity in parallel
-  // Fetch only companies from Sanity (partners/clients use local logos until uploaded)
-  const companies = await getCompanies()
+  const [siteSettings, cmsCompanies, cmsPartners, cmsClients] = await Promise.all([
+    getSiteSettings(),
+    getCompanies(),
+    getPartners(),
+    getClients(),
+  ])
 
   return (
     <RootLayout>
@@ -360,12 +369,10 @@ export default async function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <FadeIn className="max-w-3xl">
             <h1 className="font-display text-5xl font-medium tracking-tight text-balance text-neutral-950 sm:text-7xl">
-              Grupo <span className="text-[#FFB606]">Facul</span>, liderando o desenvolvimento empresarial em Angola.
+              {siteSettings?.heroTitle || 'Grupo Facul, liderando o desenvolvimento empresarial em Angola.'}
             </h1>
             <p className="mt-6 text-xl text-neutral-600">
-              Uma holding empresarial angolana com mais de duas décadas de
-              experiência nos sectores de formação profissional, consultoria
-              estratégica e publicações editoriais.
+              {siteSettings?.heroDescription || 'Uma holding empresarial angolana com mais de duas décadas de experiência nos sectores de formação profissional, consultoria estratégica e publicações editoriais.'}
             </p>
           </FadeIn>
           <FadeIn className="relative aspect-square lg:aspect-auto lg:h-[40rem]">
@@ -378,9 +385,9 @@ export default async function Home() {
         </div>
       </Container>
 
-      <Clients />
+      <Clients cmsClients={cmsClients} />
 
-      <Partners />
+      <Partners cmsPartners={cmsPartners} />
 
 
       <Subsidiaries />
