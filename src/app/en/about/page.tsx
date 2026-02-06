@@ -10,6 +10,7 @@ import { SectionIntro } from '@/components/SectionIntro'
 import { StatList, StatListItem } from '@/components/StatList'
 import { RootLayout } from '@/components/RootLayout'
 import { Border } from '@/components/Border'
+import { getStats, getValues, type Stat, type Value } from '@/lib/sanity/fetchers'
 
 // Leadership images (WebP for faster loading)
 import imageVenceslau from '@/images/team/venceslau-andrade.webp'
@@ -103,7 +104,20 @@ function Sectors() {
     )
 }
 
-function Values() {
+// Local fallback values (EN)
+const fallbackValuesEn = [
+    { title: 'Integrity', description: 'Transparency and honesty in all commercial and institutional relationships, building lasting trust.' },
+    { title: 'Excellence', description: 'Commitment to the highest standards in everything we do, from professional training to editorial publications.' },
+    { title: 'Innovation', description: 'Digital transformation as a driver of progress, embracing new technologies and working methodologies.' },
+    { title: 'Social Responsibility', description: 'Active contribution to the development of the communities where we operate through impactful initiatives.' },
+]
+
+function Values({ cmsValues }: { cmsValues: Value[] }) {
+    // Use CMS values (EN variant) if available, otherwise fallback
+    const displayValues = cmsValues.length > 0
+        ? cmsValues.map(v => ({ title: v.titleEn || v.title, description: v.descriptionEn || v.description }))
+        : fallbackValuesEn
+
     return (
         <div className="mt-24 rounded-4xl bg-neutral-950 py-24 sm:mt-32 lg:mt-40 lg:py-32">
             <SectionIntro
@@ -118,22 +132,11 @@ function Values() {
             </SectionIntro>
             <Container className="mt-16">
                 <GridList>
-                    <GridListItem title="Integrity" invert>
-                        Transparency and honesty in all commercial and institutional
-                        relationships, building lasting trust.
-                    </GridListItem>
-                    <GridListItem title="Excellence" invert>
-                        Commitment to the highest standards in everything we do,
-                        from professional training to editorial publications.
-                    </GridListItem>
-                    <GridListItem title="Innovation" invert>
-                        Digital transformation as a driver of progress, embracing
-                        new technologies and working methodologies.
-                    </GridListItem>
-                    <GridListItem title="Social Responsibility" invert>
-                        Active contribution to the development of the communities
-                        where we operate through impactful initiatives.
-                    </GridListItem>
+                    {displayValues.map((value) => (
+                        <GridListItem key={value.title} title={value.title} invert>
+                            {value.description}
+                        </GridListItem>
+                    ))}
                 </GridList>
             </Container>
         </div>
@@ -273,7 +276,25 @@ function Board() {
     )
 }
 
+// Local fallback stats (EN)
+const fallbackStatsEn = [
+    { value: '20+', label: 'Years of experience' },
+    { value: '8', label: 'Strategic sectors' },
+    { value: '50+', label: 'Books published' },
+]
+
 export default async function About() {
+    // Fetch data from CMS
+    const [cmsStats, cmsValues] = await Promise.all([
+        getStats(),
+        getValues(),
+    ])
+
+    // Use CMS stats (EN variant) if available, otherwise fallback
+    const stats = cmsStats.length > 0
+        ? cmsStats.map(s => ({ value: s.value, label: s.labelEn || s.label }))
+        : fallbackStatsEn
+
     return (
         <RootLayout>
             <PageIntro eyebrow="About Us" title="A holding at the service of Angola">
@@ -299,9 +320,9 @@ export default async function About() {
 
             <Container className="mt-16">
                 <StatList>
-                    <StatListItem value="20+" label="Years of experience" />
-                    <StatListItem value="8" label="Strategic sectors" />
-                    <StatListItem value="50+" label="Books published" />
+                    {stats.map((stat, i) => (
+                        <StatListItem key={i} value={stat.value} label={stat.label} />
+                    ))}
                 </StatList>
             </Container>
 
@@ -309,7 +330,7 @@ export default async function About() {
 
             <Sectors />
 
-            <Values />
+            <Values cmsValues={cmsValues} />
 
             <Board />
 

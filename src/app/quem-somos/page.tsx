@@ -10,6 +10,7 @@ import { PageIntro } from '@/components/PageIntro'
 import { SectionIntro } from '@/components/SectionIntro'
 import { StatList, StatListItem } from '@/components/StatList'
 import { RootLayout } from '@/components/RootLayout'
+import { getStats, getValues, getTeamMembers, getTeamGroups, type Stat, type Value, type TeamMember, type TeamGroup } from '@/lib/sanity/fetchers'
 
 // Leadership images (WebP for faster loading)
 import imageVenceslau from '@/images/team/venceslau-andrade.webp'
@@ -56,8 +57,20 @@ function MissionVision() {
         </Container>
     )
 }
+// Local fallback values
+const fallbackValues = [
+    { title: 'Integridade', description: 'Transparência e honestidade em todas as relações comerciais e institucionais, construindo confiança duradoura.' },
+    { title: 'Excelência', description: 'Compromisso com os mais altos padrões em tudo o que fazemos, desde a formação profissional às publicações editoriais.' },
+    { title: 'Inovação', description: 'A transformação digital como motor do progresso, abraçando novas tecnologias e metodologias de trabalho.' },
+    { title: 'Responsabilidade Social', description: 'Contribuição activa para o desenvolvimento das comunidades onde operamos, através de iniciativas de impacto social.' },
+]
 
-function Values() {
+function Values({ cmsValues }: { cmsValues: Value[] }) {
+    // Use CMS values if available, otherwise fallback
+    const displayValues = cmsValues.length > 0
+        ? cmsValues.map(v => ({ title: v.title, description: v.description }))
+        : fallbackValues
+
     return (
         <div className="mt-24 rounded-4xl bg-neutral-950 py-24 sm:mt-32 lg:mt-40 lg:py-32">
             <SectionIntro
@@ -72,22 +85,11 @@ function Values() {
             </SectionIntro>
             <Container className="mt-16">
                 <GridList>
-                    <GridListItem title="Integridade" invert>
-                        Transparência e honestidade em todas as relações comerciais
-                        e institucionais, construindo confiança duradoura.
-                    </GridListItem>
-                    <GridListItem title="Excelência" invert>
-                        Compromisso com os mais altos padrões em tudo o que fazemos,
-                        desde a formação profissional às publicações editoriais.
-                    </GridListItem>
-                    <GridListItem title="Inovação" invert>
-                        A transformação digital como motor do progresso, abraçando
-                        novas tecnologias e metodologias de trabalho.
-                    </GridListItem>
-                    <GridListItem title="Responsabilidade Social" invert>
-                        Contribuição activa para o desenvolvimento das comunidades
-                        onde operamos, através de iniciativas de impacto social.
-                    </GridListItem>
+                    {displayValues.map((value) => (
+                        <GridListItem key={value.title} title={value.title} invert>
+                            {value.description}
+                        </GridListItem>
+                    ))}
                 </GridList>
             </Container>
         </div>
@@ -298,7 +300,25 @@ export const metadata: Metadata = {
         'Conheça o Grupo Facul, holding empresarial angolana com mais de 20 anos de experiência em 8 sectores estratégicos.',
 }
 
+// Local fallback stats
+const fallbackStats = [
+    { value: '20+', label: 'Anos de experiência' },
+    { value: '8', label: 'Sectores estratégicos' },
+    { value: '50+', label: 'Livros publicados' },
+]
+
 export default async function QuemSomos() {
+    // Fetch data from CMS
+    const [cmsStats, cmsValues] = await Promise.all([
+        getStats(),
+        getValues(),
+    ])
+
+    // Use CMS stats if available, otherwise fallback
+    const stats = cmsStats.length > 0
+        ? cmsStats.map(s => ({ value: s.value, label: s.label }))
+        : fallbackStats
+
     return (
         <RootLayout>
             <PageIntro eyebrow="Quem Somos" title="Uma holding ao serviço de Angola">
@@ -323,9 +343,9 @@ export default async function QuemSomos() {
             </PageIntro>
             <Container className="mt-16">
                 <StatList>
-                    <StatListItem value="20+" label="Anos de experiência" />
-                    <StatListItem value="8" label="Sectores estratégicos" />
-                    <StatListItem value="50+" label="Livros publicados" />
+                    {stats.map((stat, i) => (
+                        <StatListItem key={i} value={stat.value} label={stat.label} />
+                    ))}
                 </StatList>
             </Container>
 
@@ -333,7 +353,7 @@ export default async function QuemSomos() {
 
             <Sectors />
 
-            <Values />
+            <Values cmsValues={cmsValues} />
 
             <Board />
 
