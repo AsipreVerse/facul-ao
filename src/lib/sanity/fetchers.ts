@@ -126,9 +126,13 @@ export interface AboutPage {
     description?: unknown[]
     descriptionEn?: unknown[]
     missionTitle?: string
+    missionTitleEn?: string
     missionDescription?: string
+    missionDescriptionEn?: string
     visionTitle?: string
+    visionTitleEn?: string
     visionDescription?: string
+    visionDescriptionEn?: string
 }
 
 // ============================================

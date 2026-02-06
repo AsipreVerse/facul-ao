@@ -40,7 +40,9 @@ export const companyBySlugQuery = groq`
     _id,
     name,
     sector,
+    sectorEn,
     description,
+    descriptionEn,
     "logo": logo.asset->url,
     url,
     isExternal,
@@ -169,9 +171,13 @@ export const aboutPageQuery = groq`
     description,
     descriptionEn,
     missionTitle,
+    missionTitleEn,
     missionDescription,
+    missionDescriptionEn,
     visionTitle,
-    visionDescription
+    visionTitleEn,
+    visionDescription,
+    visionDescriptionEn
   }
 `
 

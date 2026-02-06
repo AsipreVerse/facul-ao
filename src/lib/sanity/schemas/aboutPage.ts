@@ -45,8 +45,18 @@ export const aboutPage = defineType({
             type: 'string',
         }),
         defineField({
+            name: 'missionTitleEn',
+            title: 'Missão - Título (EN)',
+            type: 'string',
+        }),
+        defineField({
             name: 'missionDescription',
             title: 'Missão - Descrição (PT)',
+            type: 'text',
+        }),
+        defineField({
+            name: 'missionDescriptionEn',
+            title: 'Missão - Descrição (EN)',
             type: 'text',
         }),
         defineField({
@@ -55,8 +65,18 @@ export const aboutPage = defineType({
             type: 'string',
         }),
         defineField({
+            name: 'visionTitleEn',
+            title: 'Visão - Título (EN)',
+            type: 'string',
+        }),
+        defineField({
             name: 'visionDescription',
             title: 'Visão - Descrição (PT)',
+            type: 'text',
+        }),
+        defineField({
+            name: 'visionDescriptionEn',
+            title: 'Visão - Descrição (EN)',
             type: 'text',
         }),
     ],
