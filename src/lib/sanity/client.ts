@@ -26,7 +26,7 @@ export async function sanityFetch<T>({
     query,
     params = {},
     tags = [],
-    revalidate = 3600, // 1 hour default
+    revalidate = 60, // 60 seconds default for faster CMS updates
 }: {
     query: string
     params?: Record<string, unknown>

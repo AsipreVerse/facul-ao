@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
         const docType = body._type
 
         // Revalidate the specific document type tag
-        revalidateTag(docType, 'max')
+        revalidateTag(docType)
 
         // Revalidate all pages that might use this content
         switch (docType) {
