@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
             {
                 userAgent: '*',
                 allow: '/',
-                disallow: ['/api/', '/_next/', '/private/'],
+                disallow: ['/api/', '/studio/', '/_next/', '/private/'],
             },
         ],
         sitemap: 'https://facul.ao/sitemap.xml',
