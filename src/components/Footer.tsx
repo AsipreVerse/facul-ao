@@ -5,7 +5,7 @@ import { FadeIn } from '@/components/FadeIn'
 import { SocialMedia } from '@/components/SocialMedia'
 import { ManageCookies } from '@/components/CookieBanner'
 import Image from 'next/image'
-import goldLogo from '@/images/facul/FACUL_GRUPO_from_dark_lockup_gold.png'
+import goldLogo from '@/images/facul/FACUL_CAD_from_dark_lockup_gold.png'
 import { type SiteSettings } from '@/lib/sanity/fetchers'
 
 // Default fallback values
@@ -88,7 +88,7 @@ export function Footer({ siteSettings }: { siteSettings?: SiteSettings | null })
             <Link href="/" aria-label="Início">
               <Image
                 src={goldLogo}
-                alt="Grupo Facul"
+                alt="FACUL Centro Académico Digital"
                 className="h-12 w-auto"
                 quality={100}
                 priority
