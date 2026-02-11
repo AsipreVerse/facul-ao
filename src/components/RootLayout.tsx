@@ -23,7 +23,7 @@ import { CookieBanner } from '@/components/CookieBanner'
 import { VercelAnalyticsWrapper } from '@/components/VercelAnalytics'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import Image from 'next/image'
-import goldLogo from '@/images/facul/FACUL_CAD_lockup_gold.png'
+import goldLogo from '@/images/facul/FACUL_GRUPO_lockup_gold.png'
 
 const RootLayoutContext = createContext<{
   logoHovered: boolean
@@ -78,7 +78,7 @@ function Header({
         >
           <Image
             src={goldLogo}
-            alt="FACUL Centro Académico Digital"
+            alt="Grupo Facul"
             className={`h-10 w-auto transition ${invert ? 'brightness-0 invert' : ''}`}
             quality={100}
             priority
