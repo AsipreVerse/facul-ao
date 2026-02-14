@@ -91,7 +91,7 @@ function Clients({ cmsClients }: { cmsClients: Client[] }) {
     : clients
 
   return (
-    <div className="mt-24 rounded-4xl bg-[#1B3044] py-16 sm:mt-32 sm:py-20 lg:mt-56">
+    <div className="mt-16 rounded-4xl bg-[#1B3044] py-16 sm:mt-20 sm:py-20 lg:mt-24">
 
       <Container>
         <FadeIn className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-x-8">
@@ -137,7 +137,7 @@ function Partners({ cmsPartners }: { cmsPartners: Partner[] }) {
 
 
   return (
-    <div className="mt-24 sm:mt-32 lg:mt-40 overflow-hidden">
+    <div className="mt-16 sm:mt-20 lg:mt-24 overflow-hidden">
       <Container>
         <FadeIn className="flex flex-col items-start gap-2">
           <p className="text-xs font-medium uppercase tracking-widest text-[#FFB606]">
@@ -364,7 +364,7 @@ export default async function Home() {
 
   return (
     <RootLayout>
-      <Container className="mt-24 sm:mt-32 md:mt-56">
+      <Container className="mt-24 sm:mt-32 md:mt-40">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <FadeIn className="max-w-3xl">
             <h1 className="font-display text-5xl font-medium tracking-tight text-balance text-neutral-950 sm:text-7xl">
