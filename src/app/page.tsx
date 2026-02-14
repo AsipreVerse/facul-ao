@@ -364,7 +364,7 @@ export default async function Home() {
 
   return (
     <RootLayout>
-      <Container className="mt-24 sm:mt-32 md:mt-40">
+      <Container className="mt-16 sm:mt-20 md:mt-28">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <FadeIn className="max-w-3xl">
             <h1 className="font-display text-5xl font-medium tracking-tight text-balance text-neutral-950 sm:text-7xl">
